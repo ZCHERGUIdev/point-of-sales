@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/lvMainMenuFull"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    tools:context=".dashboardFragment">
+
+
+    <LinearLayout
+        android:id="@+id/tv_User"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="4"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
+
+        <TextView
+            android:id="@+id/txtProject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hello,Zakaria "
+            android:padding="8dp"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/green"
+            android:layout_gravity="center"
+            />
+
+
+
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/swContent"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_User"
+        android:layout_marginTop="50dp"
+        android:layout_alignParentTop="true"
+        android:scrollbars="none">
+
+        <TableLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:shrinkColumns="*"
+            android:stretchColumns="*">
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/main_menu_button_height"
+                android:weightSum="1.0">
+
+                <LinearLayout
+                    android:id="@+id/llMenuTovars"
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_marginStart="@dimen/main_menu_margin"
+                    android:layout_marginTop="@dimen/main_menu_margin"
+                    android:layout_marginEnd="@dimen/main_menu_margin_small"
+                    android:layout_marginBottom="@dimen/main_menu_margin_small"
+                    android:background="@drawable/button_menu"
+                    android:gravity="center"
+                    android:minHeight="@dimen/main_menu_button_height"
+                    android:orientation="vertical"
+                    android:weightSum="1.0">
+
+                    <ImageView
+                        android:id="@+id/ivMenuTovars"
+                        android:layout_width="@dimen/main_menu_image_size"
+                        android:layout_height="@dimen/main_menu_image_size"
+                        android:contentDescription="content_description"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/ic_main_menu_goods" />
+
+                    <TextView
+                        android:id="@+id/tvMenuTovars"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:text="Products"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/main_menu_font_size" />
+
+                    <TextView
+                        android:id="@+id/tvMenuTovarsDesc"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:text="0/0.00"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/main_menu_small_font_size" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llMenuDocs"
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_marginStart="@dimen/main_menu_margin_small"
+                    android:layout_marginTop="@dimen/main_menu_margin"
+                    android:layout_marginEnd="@dimen/main_menu_margin"
+                    android:layout_marginBottom="@dimen/main_menu_margin_small"
+                    android:background="@drawable/button_menu"
+                    android:gravity="center"
+                    android:minHeight="@dimen/main_menu_button_height"
+                    android:orientation="vertical"
+                    android:weightSum="1.0">
+
+                    <ImageView
+                        android:id="@+id/ivMenuDocs"
+                        android:layout_width="@dimen/main_menu_image_size"
+                        android:layout_height="@dimen/main_menu_image_size"
+                        android:contentDescription="content_description"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/ic_main_menu_file" />
+
+                    <TextView
+                        android:id="@+id/tvMenuDocs"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:text="Documents"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/main_menu_font_size" />
+
+                    <TextView
+                        android:id="@+id/tvMenuDocsDesc"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:text="0"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/main_menu_small_font_size" />
+                </LinearLayout>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/main_menu_button_height"
+                android:weightSum="1.0">
+
+                <TableLayout
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_marginStart="@dimen/main_menu_margin"
+                    android:layout_marginTop="@dimen/main_menu_margin_small"
+                    android:layout_marginEnd="@dimen/main_menu_margin_small"
+                    android:layout_marginBottom="@dimen/main_menu_margin_small"
+                    android:minHeight="@dimen/main_menu_button_height"
+                    android:orientation="vertical"
+                    android:shrinkColumns="*"
+                    android:stretchColumns="*"
+                    android:weightSum="1.0">
+
+                    <TableRow
+                        android:layout_width="0.0dip"
+                        android:layout_height="wrap_content"
+                        android:weightSum="1.0">
+
+                        <LinearLayout
+                            android:id="@+id/llMenuPlusTovar"
+                            android:layout_width="0.0dip"
+                            android:layout_height="fill_parent"
+                            android:layout_marginEnd="@dimen/main_menu_margin_small"
+                            android:layout_marginBottom="@dimen/main_menu_margin_small"
+                            android:background="@drawable/button_menu"
+                            android:gravity="center"
+                            android:minHeight="@dimen/main_menu_small_button_height"
+                            android:orientation="vertical"
+                            android:weightSum="1.0">
+
+                            <ImageView
+                                android:id="@+id/ivMenuPlusTovar"
+                                android:layout_width="@dimen/main_menu_image_size_small"
+                                android:layout_height="@dimen/main_menu_image_size_small"
+                                android:contentDescription="content_description"
+                                android:scaleType="fitCenter"
+                                app:srcCompat="@drawable/ic_store" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/llMenuMinusTovar"
+                            android:layout_width="0.0dip"
+                            android:layout_height="fill_parent"
+                            android:layout_marginBottom="@dimen/main_menu_margin_small"
+                            android:background="@drawable/button_menu"
+                            android:gravity="center"
+                            android:minHeight="@dimen/main_menu_small_button_height"
+                            android:orientation="vertical"
+                            android:weightSum="1.0">
+
+                            <ImageView
+                                android:id="@+id/ivMenuMinusTovar"
+                                android:layout_width="@dimen/main_menu_image_size_small"
+                                android:layout_height="@dimen/main_menu_image_size_small"
+                                android:contentDescription="content_description"
+                                android:scaleType="fitCenter"
+                                app:srcCompat="@drawable/ic_store" />
+                        </LinearLayout>
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="0.0dip"
+                        android:layout_height="wrap_content"
+                        android:weightSum="1.0">
+
+                        <LinearLayout
+                            android:id="@+id/llMenuContractor"
+                            android:layout_width="0.0dip"
+                            android:layout_height="fill_parent"
+                            android:layout_marginEnd="@dimen/main_menu_margin_small"
+                            android:background="@drawable/button_menu"
+                            android:gravity="center"
+                            android:minHeight="@dimen/main_menu_small_button_height"
+                            android:orientation="vertical"
+                            android:weightSum="1.0">
+
+                            <ImageView
+                                android:id="@+id/ivMenuContractor"
+                                android:layout_width="@dimen/main_menu_image_size_small"
+                                android:layout_height="@dimen/main_menu_image_size_small"
+                                android:contentDescription="content_description"
+                                android:scaleType="fitCenter"
+                                app:srcCompat="@drawable/ic_note" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/llMenuCustomer"
+                            android:layout_width="0.0dip"
+                            android:layout_height="fill_parent"
+                            android:background="@drawable/button_menu"
+                            android:gravity="center"
+                            android:minHeight="@dimen/main_menu_small_button_height"
+                            android:orientation="vertical"
+                            android:weightSum="1.0">
+
+                            <ImageView
+                                android:id="@+id/ivMenuCustomer"
+                                android:layout_width="@dimen/main_menu_image_size_small"
+                                android:layout_height="@dimen/main_menu_image_size_small"
+                                android:contentDescription="content_description"
+                                android:scaleType="fitCenter"
+                                app:srcCompat="@drawable/ic_store" />
+                        </LinearLayout>
+                    </TableRow>
+                </TableLayout>
+
+                <LinearLayout
+                    android:id="@+id/llMenuExpenses"
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_marginStart="@dimen/main_menu_margin_small"
+                    android:layout_marginTop="@dimen/main_menu_margin_small"
+                    android:layout_marginEnd="@dimen/main_menu_margin"
+                    android:layout_marginBottom="@dimen/main_menu_margin_small"
+                    android:background="@drawable/button_menu"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:weightSum="1.0">
+
+                    <ImageView
+                        android:id="@+id/ivMenuExpenses"
+                        android:layout_width="@dimen/main_menu_image_size"
+                        android:layout_height="@dimen/main_menu_image_size"
+                        android:contentDescription="content_description"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/ic_main_menu_expenses" />
+
+                    <TextView
+                        android:id="@+id/tvMenuExpenses"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:text="Expenses"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/main_menu_font_size" />
+                </LinearLayout>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/main_menu_button_height"
+                android:weightSum="1.0">
+
+                <TableLayout
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_marginStart="@dimen/main_menu_margin"
+                    android:layout_marginTop="@dimen/main_menu_margin_small"
+                    android:layout_marginEnd="@dimen/main_menu_margin_small"
+                    android:layout_marginBottom="@dimen/main_menu_margin_small"
+                    android:orientation="vertical"
+                    android:shrinkColumns="*"
+                    android:stretchColumns="*"
+                    android:weightSum="1.0">
+
+                    <TableRow
+                        android:layout_width="0.0dip"
+                        android:layout_height="wrap_content"
+                        android:weightSum="1.0">
+
+                        <LinearLayout
+                            android:id="@+id/llMenuSettings"
+                            android:layout_width="0.0dip"
+                            android:layout_height="fill_parent"
+                            android:layout_marginEnd="@dimen/main_menu_margin_small"
+                            android:layout_marginBottom="@dimen/main_menu_margin_small"
+                            android:background="@drawable/button_menu"
+                            android:gravity="center"
+                            android:minHeight="@dimen/main_menu_small_button_height"
+                            android:orientation="vertical"
+                            android:weightSum="1.0">
+
+                            <ImageView
+                                android:id="@+id/ivMenuSettings"
+                                android:layout_width="@dimen/main_menu_image_size_small"
+                                android:layout_height="@dimen/main_menu_image_size_small"
+                                android:contentDescription="content_description"
+                                android:scaleType="fitCenter"
+                                app:srcCompat="@drawable/ic_note" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/llMenuFeedback"
+                            android:layout_width="0.0dip"
+                            android:layout_height="fill_parent"
+                            android:layout_marginBottom="@dimen/main_menu_margin_small"
+                            android:background="@drawable/button_menu"
+                            android:gravity="center"
+                            android:minHeight="@dimen/main_menu_small_button_height"
+                            android:orientation="vertical"
+                            android:weightSum="1.0">
+
+                            <ImageView
+                                android:id="@+id/ivMenuFeedback"
+                                android:layout_width="@dimen/main_menu_image_size_small"
+                                android:layout_height="@dimen/main_menu_image_size_small"
+                                android:contentDescription="content_description"
+                                android:scaleType="fitCenter"
+                                app:srcCompat="@drawable/ic_store" />
+                        </LinearLayout>
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="0.0dip"
+                        android:layout_height="wrap_content"
+                        android:weightSum="1.0">
+
+                        <LinearLayout
+                            android:id="@+id/llMenuHelp"
+                            android:layout_width="0.0dip"
+                            android:layout_height="fill_parent"
+                            android:layout_marginEnd="@dimen/main_menu_margin_small"
+                            android:background="@drawable/button_menu"
+                            android:gravity="center"
+                            android:minHeight="@dimen/main_menu_small_button_height"
+                            android:orientation="vertical"
+                            android:weightSum="1.0">
+
+                            <ImageView
+                                android:id="@+id/ivMenuHelp"
+                                android:layout_width="@dimen/main_menu_image_size_small"
+                                android:layout_height="@dimen/main_menu_image_size_small"
+                                android:contentDescription="content_description"
+                                android:scaleType="fitCenter"
+                                app:srcCompat="@drawable/ic_note" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/llMenuChangelog"
+                            android:layout_width="0.0dip"
+                            android:layout_height="fill_parent"
+                            android:background="@drawable/button_menu"
+                            android:gravity="center"
+                            android:minHeight="@dimen/main_menu_small_button_height"
+                            android:orientation="vertical"
+                            android:weightSum="1.0">
+
+                            <ImageView
+                                android:id="@+id/ivMenuChangelog"
+                                android:layout_width="@dimen/main_menu_image_size_small"
+                                android:layout_height="@dimen/main_menu_image_size_small"
+                                android:contentDescription="content_description"
+                                android:scaleType="fitCenter"
+                                app:srcCompat="@drawable/ic_store" />
+                        </LinearLayout>
+                    </TableRow>
+                </TableLayout>
+
+                <LinearLayout
+                    android:id="@+id/llMenuReports"
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_marginStart="@dimen/main_menu_margin_small"
+                    android:layout_marginTop="@dimen/main_menu_margin_small"
+                    android:layout_marginEnd="@dimen/main_menu_margin"
+                    android:layout_marginBottom="@dimen/main_menu_margin_small"
+                    android:background="@drawable/button_menu"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:weightSum="1.0">
+
+                    <ImageView
+                        android:id="@+id/ivMenuReports"
+                        android:layout_width="@dimen/main_menu_image_size"
+                        android:layout_height="@dimen/main_menu_image_size"
+                        android:contentDescription="content_description"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/ic_main_menu_report" />
+
+                    <TextView
+                        android:id="@+id/tvMenuReports"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:text="Reports"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/main_menu_font_size" />
+                </LinearLayout>
+            </TableRow>
+        </TableLayout>
+    </ScrollView>
+
+
+
+
+</RelativeLayout>
