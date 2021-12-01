@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.zcdev.pointofsale.data.models.Product
+import kotlinx.android.synthetic.main.fragment_dashboard.view.*
 
 
 class dashboardFragment : Fragment() {
@@ -16,11 +18,27 @@ class dashboardFragment : Fragment() {
         // Inflate the layout for this fragment
 
         var v= inflater.inflate(R.layout.fragment_dashboard, container, false)
-
+        v.llMenuDocs.setOnClickListener {
+            findNavController().navigate(R.id.action_dashboardFragment_to_documentsFragment)
+        }
+        v.llProducts.setOnClickListener {
+            findNavController().navigate(R.id.action_dashboardFragment_to_productsFragment)
+        }
+        v.llMenuReports.setOnClickListener {
+            findNavController().navigate(R.id.action_dashboardFragment_to_reportsFragment)
+        }
+        v.llMenuExpenses.setOnClickListener {
+            findNavController().navigate(R.id.action_dashboardFragment_to_expensesFragment)
+        }
 
 
         return v
     }
+
+
+
+
+
 
 
 }

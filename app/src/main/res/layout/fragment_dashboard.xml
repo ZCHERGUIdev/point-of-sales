@@ -61,7 +61,7 @@
                 android:weightSum="1.0">
 
                 <LinearLayout
-                    android:id="@+id/llMenuTovars"
+                    android:id="@+id/llProducts"
                     android:layout_width="0.0dip"
                     android:layout_height="fill_parent"
                     android:layout_marginStart="@dimen/main_menu_margin"
