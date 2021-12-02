@@ -7,8 +7,8 @@
 
     <fragment
         android:id="@+id/dashboardFragment"
-        android:name="com.zcdev.pointofsale.dashboardFragment"
-        android:label="fragment_dashboard"
+        android:name="com.zcdev.pointofsale.fragments.dashboard.dashboardFragment"
+        android:label="Dashboard"
         tools:layout="@layout/fragment_dashboard" >
         <action
             android:id="@+id/action_dashboardFragment_to_documentsFragment"
@@ -25,8 +25,8 @@
     </fragment>
     <fragment
         android:id="@+id/documentsFragment"
-        android:name="com.zcdev.pointofsale.DocumentsFragment"
-        android:label="fragment_documents"
+        android:name="com.zcdev.pointofsale.fragments.Documents.DocumentsFragment"
+        android:label="Documents"
         tools:layout="@layout/fragment_documents" >
         <action
             android:id="@+id/action_documentsFragment_to_dashboardFragment"
@@ -34,8 +34,8 @@
     </fragment>
     <fragment
         android:id="@+id/expensesFragment"
-        android:name="com.zcdev.pointofsale.ExpensesFragment"
-        android:label="fragment_expenses"
+        android:name="com.zcdev.pointofsale.fragments.Expenses.ExpensesFragment"
+        android:label="Expenses"
         tools:layout="@layout/fragment_expenses" >
         <action
             android:id="@+id/action_expensesFragment_to_dashboardFragment"
@@ -43,8 +43,8 @@
     </fragment>
     <fragment
         android:id="@+id/reportsFragment"
-        android:name="com.zcdev.pointofsale.ReportsFragment"
-        android:label="fragment_reports"
+        android:name="com.zcdev.pointofsale.fragments.Reports.ReportsFragment"
+        android:label="Reports"
         tools:layout="@layout/fragment_reports" >
         <action
             android:id="@+id/action_reportsFragment_to_dashboardFragment"
@@ -52,11 +52,23 @@
     </fragment>
     <fragment
         android:id="@+id/productsFragment"
-        android:name="com.zcdev.pointofsale.ProductsFragment"
-        android:label="fragment_products"
+        android:name="com.zcdev.pointofsale.fragments.Products.ProductsFragment"
+        android:label="Products"
         tools:layout="@layout/fragment_products" >
         <action
             android:id="@+id/action_productsFragment_to_dashboardFragment"
             app:destination="@id/dashboardFragment" />
+        <action
+            android:id="@+id/action_productsFragment_to_addFragment"
+            app:destination="@id/addFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addFragment"
+        android:name="com.zcdev.pointofsale.fragments.Products.AddFragment"
+        android:label="Add item"
+        tools:layout="@layout/fragment_add" >
+        <action
+            android:id="@+id/action_addFragment_to_productsFragment"
+            app:destination="@id/productsFragment" />
     </fragment>
 </navigation>

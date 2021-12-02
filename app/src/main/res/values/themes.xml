@@ -16,4 +16,23 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+    <style name="SingleLineText">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/edit_field_margin</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:inputType">textCapSentences</item>
+    </style>
+    <style name="SingleLineNumberDecimal">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/edit_field_margin</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:inputType">numberDecimal</item>
+    </style>
+    <style name="SingleLineNumber" parent="@style/SingleLineNumberDecimal">
+        <item name="android:numeric">integer</item>
+        <item name="android:digits">0123456789</item>
+        <item name="android:inputType">number</item>
+    </style>
 </resources>

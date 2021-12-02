@@ -1,10 +1,11 @@
-package com.zcdev.pointofsale
+package com.zcdev.pointofsale.fragments.Reports
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.zcdev.pointofsale.R
 
 
 class ReportsFragment : Fragment() {

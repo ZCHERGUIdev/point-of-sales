@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".fragments.Products.AddFragment">
+
+
+    <LinearLayout
+        android:layout_width="0.0px"
+        android:layout_height="0.0px"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical" />
+
+    <ScrollView
+        android:id="@id/scrollView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/edtName"
+                style="@style/SingleLineText"
+                android:hint="Name"
+                 />
+
+            <RelativeLayout
+                android:id="@+id/rlBarcode"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/ilBarcode"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toStartOf="@id/btnTovarBarcode"
+                    android:hint="Barcode"
+                    app:hintEnabled="true">
+
+                    <EditText
+                        android:id="@+id/edtBarcode"
+                        android:layout_width="fill_parent"
+                        style="@style/SingleLineNumber"
+                        android:layout_height="wrap_content"
+                        android:selectAllOnFocus="true" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <ImageButton
+                    android:id="@+id/btnTovarBarcode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="@dimen/text_margin"
+                    android:background="@drawable/button_transparent"
+                    android:contentDescription="content_description"
+                    app:srcCompat="@drawable/ic_qr_code" />
+            </RelativeLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/ilDesc"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@id/btnTovarBarcode"
+                android:hint="Desciption"
+                app:hintEnabled="true">
+
+                <EditText
+                    android:id="@+id/edDesc"
+                    style="@style/SingleLineNumber"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:selectAllOnFocus="true" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/rlQnt"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/ilQnt"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toStartOf="@id/btnqnt"
+                    android:hint="Quantité"
+                    app:hintEnabled="true">
+
+                    <EditText
+                        android:id="@+id/edtQnt"
+                        android:layout_width="fill_parent"
+                        style="@style/SingleLineNumber"
+                        android:layout_height="wrap_content"
+                        android:selectAllOnFocus="true" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <ImageButton
+                    android:id="@+id/btnqnt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="@dimen/text_margin"
+                    android:background="@drawable/button_transparent"
+                    android:contentDescription="content_description"
+                    app:srcCompat="@drawable/ic_qr_code" />
+
+
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+
+
+</RelativeLayout>
