@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import androidx.core.content.ContextCompat
 import com.zcdev.pointofsale.R
 
 class SplachActivity : AppCompatActivity() {
@@ -12,6 +13,7 @@ class SplachActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splach)
         supportActionBar!!.hide()
+        window.statusBarColor = ContextCompat.getColor(this, R.color.black)
         Handler(Looper.getMainLooper()).postDelayed({
             startActivity(Intent(this,MainActivity::class.java))
         },3000)

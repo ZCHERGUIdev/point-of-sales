@@ -6,10 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import com.example.clientapp.UsersActivity.CaptureAct
 import com.google.zxing.integration.android.IntentIntegrator
 import com.zcdev.pointofsale.R
-import kotlinx.android.synthetic.main.fragment_add.view.*
 import kotlinx.android.synthetic.main.fragment_products.view.*
 
 

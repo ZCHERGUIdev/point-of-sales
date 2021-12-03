@@ -3,6 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:padding="10dp"
+    android:layout_marginTop="10dp"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".fragments.Products.AddFragment">
 
@@ -17,6 +19,7 @@
     <ScrollView
         android:id="@id/scrollView"
         android:layout_width="fill_parent"
+        android:layout_centerHorizontal="true"
         android:layout_height="wrap_content"
         android:fillViewport="true">
 
@@ -25,12 +28,25 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <EditText
-                android:id="@+id/edtName"
-                style="@style/SingleLineText"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/ilName"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@id/btnTovarBarcode"
                 android:hint="Name"
-                 />
+                app:hintEnabled="true">
+                <EditText
+                    android:id="@+id/edtName"
+                    android:layout_width="fill_parent"
+                    android:background="@drawable/custom_input"
+                    android:maxLines="1"
+                    android:layout_height="wrap_content"
+                    android:selectAllOnFocus="true" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
 
             <RelativeLayout
                 android:id="@+id/rlBarcode"
@@ -50,7 +66,8 @@
                     <EditText
                         android:id="@+id/edtBarcode"
                         android:layout_width="fill_parent"
-                        style="@style/SingleLineNumber"
+                        android:inputType="number"
+                        android:background="@drawable/custom_input"
                         android:layout_height="wrap_content"
                         android:selectAllOnFocus="true" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -77,7 +94,7 @@
 
                 <EditText
                     android:id="@+id/edDesc"
-                    style="@style/SingleLineNumber"
+                   android:background="@drawable/custom_input"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:selectAllOnFocus="true" />
@@ -95,28 +112,20 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_toStartOf="@id/btnqnt"
                     android:hint="Quantité"
                     app:hintEnabled="true">
 
                     <EditText
                         android:id="@+id/edtQnt"
                         android:layout_width="fill_parent"
-                        style="@style/SingleLineNumber"
+                        android:background="@drawable/custom_input"
                         android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:layout_marginTop="5dp"
                         android:selectAllOnFocus="true" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <ImageButton
-                    android:id="@+id/btnqnt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_margin="@dimen/text_margin"
-                    android:background="@drawable/button_transparent"
-                    android:contentDescription="content_description"
-                    app:srcCompat="@drawable/ic_qr_code" />
+
 
 
             </RelativeLayout>

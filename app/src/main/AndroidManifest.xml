@@ -19,6 +19,12 @@
         <activity android:name=".activitys.MainActivity">
 
         </activity>
+
+        <activity
+            android:name=".activitys.CaptureAct"
+            android:screenOrientation="fullSensor"
+            android:stateNotNeeded="true"
+            android:windowSoftInputMode="stateAlwaysHidden" />
     </application>
 
 </manifest>

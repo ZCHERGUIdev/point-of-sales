@@ -1,4 +1,4 @@
-package com.example.clientapp.UsersActivity
+package com.zcdev.pointofsale.activitys
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
