@@ -5,6 +5,7 @@ plugins {
     id('kotlin-kapt')
     id('androidx.navigation.safeargs.kotlin')
     id 'com.google.gms.google-services'
+    id "org.jetbrains.kotlin.plugin.noarg"
 }
 
 android {
@@ -23,7 +24,14 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            // Enables code shrinking, obfuscation, and optimization for only
+            // your project's release build type.
+            minifyEnabled = false
+
+
+            // Includes the default ProGuard rules files that are packaged with
+            // the Android Gradle plugin. To learn more, go to the section about
+            // R8 configuration files.
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -34,6 +42,10 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+}
+noArg {
+    annotation("com.my.Annotation")
+    invokeInitializers = true
 }
 
 dependencies {

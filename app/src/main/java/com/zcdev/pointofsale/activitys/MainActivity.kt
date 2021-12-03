@@ -5,9 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupActionBarWithNavController
-import com.google.firebase.database.FirebaseDatabase
 import com.zcdev.pointofsale.R
-import com.zcdev.pointofsale.data.models.Product
 
 
 class MainActivity : AppCompatActivity() {
@@ -20,20 +18,6 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.navController
         setupActionBarWithNavController(navController)
 
-
-        // Write a message to the database
-        val database = FirebaseDatabase.getInstance()
-        val myRef = database.getReference("Products")
-        var id = "1";
-        myRef.child(id).setValue("lait soummam")
-        id = "2";
-        myRef.child(id).setValue("Lait candiat")
-        id = "3";
-        myRef.child(id).setValue("Yago")
-        id = "4";
-        myRef.child(id).setValue("fromage")
-        id = "5";
-        myRef.child(id).setValue("fromage rouge")
     }
 
 

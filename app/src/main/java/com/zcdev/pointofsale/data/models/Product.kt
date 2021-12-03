@@ -2,12 +2,13 @@ package com.zcdev.pointofsale.data.models
 
 class Product {
 
-    var productName:String?=null
-    var productCode:String?=null
-    var productDesc:String?=null
-    var productQnt:String?=null
+    // generate no-argument constructor by giving default values
+    var productName: String?=null
+    var productCode: String?=null
+    var productDesc: String?=null
+    var productQnt: String?=null
     //var productPrice:Float?=null
-    var productImg:Int?=null
+    var productImg: Int?=null
 
 
     constructor(name:String,code:String,desc:String,qnt:String,img:Int){
@@ -18,4 +19,6 @@ class Product {
         //this.productPrice=price
         this.productImg=img
     }
+    constructor()   // **Add this**
+
 }
