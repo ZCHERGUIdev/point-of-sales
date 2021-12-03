@@ -29,12 +29,6 @@ class ProductsFragment : Fragment() {
             findNavController().navigate(R.id.action_productsFragment_to_addFragment)
         }
 
-
-
-
-
-
-
         return view
     }
 

@@ -5,11 +5,16 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.*
+import android.widget.EditText
 import androidx.fragment.app.Fragment
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
+import com.google.firebase.database.FirebaseDatabase
 import com.google.zxing.integration.android.IntentIntegrator
 import com.zcdev.pointofsale.R
 import com.zcdev.pointofsale.activitys.CaptureAct
+import com.zcdev.pointofsale.data.models.Product
+import kotlinx.android.synthetic.main.fragment_add.*
 import kotlinx.android.synthetic.main.fragment_add.view.*
 
 class AddFragment : Fragment() {
@@ -38,6 +43,15 @@ class AddFragment : Fragment() {
                 .initiateScan()
         }
 
+        // get product attributs from xml
+        val edtName: EditText = v.findViewById(R.id.edtName)
+        val edtBarcode: EditText = v.findViewById(R.id.edtBarcode)
+        val edDesc: EditText = v.findViewById(R.id.edDesc)
+        val edtQnt: EditText = v.findViewById(R.id.edtQnt)
+
+
+
+
         return v
     }
 
@@ -59,7 +73,6 @@ class AddFragment : Fragment() {
         }
     }
 
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.add_product_menu, menu)
     }
@@ -67,6 +80,25 @@ class AddFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(item.itemId == R.id.menu_add){
             // to do
+
+            // get values
+            val name: String = edtName.text.toString()
+            val barcode: String = edtBarcode.text.toString()
+            val desc: String = edDesc.text.toString()
+            val qnt: String = edtQnt.text.toString()   // string to int --> Qte
+
+            // create new product
+            var prd: Product = Product(name,barcode,desc,qnt,1);
+
+            // get fireabse database instance
+            val database = FirebaseDatabase.getInstance()
+            val myRef = database.getReference("Products")
+
+            // add product to firebase
+            myRef.child(barcode).setValue(prd)
+
+            // return to products
+            findNavController().navigate(R.id.action_addFragment_to_productsFragment)
         }
         return super.onOptionsItemSelected(item)
     }
