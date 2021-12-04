@@ -6,4 +6,8 @@
 
     <padding android:bottom="0.0px" android:right="16.0px" android:top="0.0px" android:left="16.0px"/>
 
+
+    <corners android:radius="10dp" />
+
+
 </shape>

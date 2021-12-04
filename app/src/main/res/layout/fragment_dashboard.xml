@@ -9,30 +9,24 @@
 
 
     <LinearLayout
-        android:id="@+id/tv_User"
+        android:id="@+id/tv_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="4"
-        android:orientation="horizontal"
-        android:layout_marginTop="8dp">
+        android:weightSum="3"
+        android:gravity="center"
+        >
+
 
         <TextView
             android:id="@+id/txtProject"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hello,Zakaria "
             android:padding="8dp"
+            android:text="Entreprise Name"
             android:textColor="@color/black"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            />
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="@color/green"
-            android:layout_gravity="center"
-            />
 
 
 
@@ -42,9 +36,7 @@
         android:id="@+id/swContent"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_User"
-        android:layout_marginTop="50dp"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/tv_name"
         android:scrollbars="none">
 
         <TableLayout

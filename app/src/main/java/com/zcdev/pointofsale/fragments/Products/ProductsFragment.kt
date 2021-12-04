@@ -99,7 +99,7 @@ class ProductsFragment : Fragment() {
         // rendering each row
         override fun getView(p0: Int, p1: View?, p2: ViewGroup?): View {
             val layoutInflater = LayoutInflater.from(mContext)
-            val rowMain = layoutInflater.inflate(R.layout.product_row, p2, false)
+            val rowMain = layoutInflater.inflate(R.layout.prod_viewcell, p2, false)
 
             val productName = rowMain.findViewById<TextView>(R.id.prName);
             productName.text = mProducts.get(p0).productName
