@@ -66,6 +66,7 @@ class AddFragment : Fragment() {
                     Intent.ACTION_VIEW,
                     Uri.parse(result.contents)
                 )
+                edtBarcode.setText(result.contents.toString())
                 startActivity(intent)
             }
         } else {
@@ -98,6 +99,7 @@ class AddFragment : Fragment() {
             myRef.child(barcode).setValue(prd)
 
             // return to products
+            // navigate to product list
             findNavController().navigate(R.id.action_addFragment_to_productsFragment)
         }
         return super.onOptionsItemSelected(item)
