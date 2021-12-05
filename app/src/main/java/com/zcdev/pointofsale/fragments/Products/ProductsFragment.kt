@@ -23,6 +23,7 @@ import com.zcdev.pointofsale.data.models.Product
 import kotlinx.android.synthetic.main.fragment_products.*
 import kotlinx.android.synthetic.main.fragment_products.view.*
 import kotlinx.android.synthetic.main.prod_viewcell.*
+import kotlinx.android.synthetic.main.product_row.view.*
 import java.sql.DriverManager.println
 import java.util.*
 
@@ -42,7 +43,19 @@ class ProductsFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         var view= inflater.inflate(R.layout.fragment_products, container, false)
-        val lvProduct: ListView = view.findViewById(R.id.lvProduct);
+        val lvProduct: ListView = view.lvProduct
+
+        showProducts(view)
+
+        view.addProd.setOnClickListener{
+        findNavController().navigate(R.id.action_productsFragment_to_addFragment)
+        }
+
+        return view
+    }
+
+
+    private fun showProducts(v:View){
         var products = ArrayList<Product>()
 
         //get products from firebase
@@ -60,9 +73,9 @@ class ProductsFragment : Fragment() {
 
                 for (prosnap in dataSnapshot.children) {
                     val prod = prosnap.getValue(Product::class.java)
-                    list_pro.add(prod!!)
+                    list_pro.add(prod!! as Product)
                 }
-                checkData(list_pro,view)
+                checkData(list_pro,v)
 
                 if (container != null) {
                     lvProduct.adapter = MyCustomAdapter(container.getContext(), list_pro)
@@ -71,15 +84,7 @@ class ProductsFragment : Fragment() {
             override fun onCancelled(databaseError: DatabaseError) {}
         }
         myRef.addListenerForSingleValueEvent(eventListener)
-
-            view.addProd.setOnClickListener{
-            findNavController().navigate(R.id.action_productsFragment_to_addFragment)
-        }
-
-        return view
     }
-
-
 
     private fun checkData(list :MutableList<Product>,v:View) {
         if(list.isEmpty()){
@@ -118,10 +123,10 @@ class ProductsFragment : Fragment() {
             val layoutInflater = LayoutInflater.from(mContext)
             val rowMain = layoutInflater.inflate(R.layout.prod_viewcell, p2, false)
 
-            val productName = rowMain.findViewById<TextView>(R.id.prName);
+            val productName =  rowMain.prName
             productName.text = mProducts.get(p0).productName
 
-            val productDesc = rowMain.findViewById<TextView>(R.id.tvProd);
+            val productDesc = rowMain.tvProd
             productDesc.text = mProducts.get(p0).productDesc
 
             return rowMain;
