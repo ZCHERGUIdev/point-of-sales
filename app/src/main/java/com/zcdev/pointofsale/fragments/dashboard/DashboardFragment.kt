@@ -31,6 +31,17 @@ class dashboardFragment : Fragment() {
         v.llMenuExpenses.setOnClickListener {
             findNavController().navigate(R.id.action_dashboardFragment_to_expensesFragment)
         }
+        v.llMenuSettings.setOnClickListener {
+            findNavController().navigate(R.id.action_dashboardFragment_to_settingsFragment)
+        }
+        v.llMenuhelp.setOnClickListener {
+            findNavController().navigate(R.id.action_dashboardFragment_to_helpFragment)
+        }
+
+        v.llMenucontact.setOnClickListener {
+            findNavController().navigate(R.id.action_dashboardFragment_to_contactFragment)
+        }
+
 
 
         return v

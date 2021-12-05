@@ -330,7 +330,7 @@
                                 android:layout_height="@dimen/main_menu_image_size_small"
                                 android:contentDescription="content_description"
                                 android:scaleType="fitCenter"
-                                app:srcCompat="@drawable/ic_note" />
+                                app:srcCompat="@drawable/ic_settings" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -360,7 +360,7 @@
                         android:weightSum="1.0">
 
                         <LinearLayout
-                            android:id="@+id/llMenuHelp"
+                            android:id="@+id/llMenuhelp"
                             android:layout_width="0.0dip"
                             android:layout_height="fill_parent"
                             android:layout_marginEnd="@dimen/main_menu_margin_small"
@@ -376,11 +376,11 @@
                                 android:layout_height="@dimen/main_menu_image_size_small"
                                 android:contentDescription="content_description"
                                 android:scaleType="fitCenter"
-                                app:srcCompat="@drawable/ic_note" />
+                                app:srcCompat="@drawable/ic_help" />
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/llMenuChangelog"
+                            android:id="@+id/llMenucontact"
                             android:layout_width="0.0dip"
                             android:layout_height="fill_parent"
                             android:background="@drawable/button_menu"
@@ -390,12 +390,12 @@
                             android:weightSum="1.0">
 
                             <ImageView
-                                android:id="@+id/ivMenuChangelog"
+                                android:id="@+id/ivMenucontact"
                                 android:layout_width="@dimen/main_menu_image_size_small"
                                 android:layout_height="@dimen/main_menu_image_size_small"
                                 android:contentDescription="content_description"
                                 android:scaleType="fitCenter"
-                                app:srcCompat="@drawable/ic_store" />
+                                app:srcCompat="@drawable/ic_baseline_contact_phone_24" />
                         </LinearLayout>
                     </TableRow>
                 </TableLayout>
