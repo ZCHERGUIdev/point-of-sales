@@ -27,7 +27,7 @@
                     android:layout_height="wrap_content"
                     android:contentDescription="content_description"
                     android:scaleType="center"
-                    android:src="@drawable/ic_folder" />
+                    android:src="@drawable/ic_no_data" />
 
                 <TextView
                     android:id="@+id/tvEmptyDoc"

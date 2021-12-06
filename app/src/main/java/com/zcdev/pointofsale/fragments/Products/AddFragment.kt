@@ -1,11 +1,12 @@
 package com.zcdev.pointofsale.fragments.Products
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.*
-import androidx.fragment.app.Fragment
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.database.FirebaseDatabase
 import com.google.zxing.integration.android.IntentIntegrator
@@ -15,8 +16,13 @@ import com.zcdev.pointofsale.data.models.Product
 import kotlinx.android.synthetic.main.fragment_add.*
 import kotlinx.android.synthetic.main.fragment_add.view.*
 
+
+
 class AddFragment : Fragment() {
     var integrator:IntentIntegrator?=null
+    private val PICK_IMAGE = 100
+    var imageUri: Uri? = null
+     var postImage: ByteArray?=null
     var v:View?=null
 
     companion object{
@@ -41,6 +47,21 @@ class AddFragment : Fragment() {
             integrator!!.setPrompt("امسح الباركود الخاص بك !")
                 .initiateScan()
         }
+        //add image from galery
+        //add image
+        //add image
+      v!!.ivPickImage.setOnClickListener(object : View.OnClickListener {
+          override fun onClick(p0: View?) {
+              // PickImageDialog.build(new PickSetup()).show(AddPostActivity.this);
+              val intent = Intent()
+              intent.type = "image/*"
+              intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+              intent.action = Intent.ACTION_GET_CONTENT
+              startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE)
+          }
+
+      })
+
         return v
     }
 
@@ -62,6 +83,8 @@ class AddFragment : Fragment() {
             super.onActivityResult(requestCode, resultCode, data)
         }
     }
+
+
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.add_product_menu, menu)
