@@ -130,7 +130,18 @@
 
 
             </RelativeLayout>
+            <ImageView
+                android:id="@+id/ivPickImage"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/ic_image"
+                />
         </LinearLayout>
+
     </ScrollView>
 
 
