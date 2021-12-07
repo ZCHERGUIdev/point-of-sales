@@ -70,11 +70,14 @@
         <action
             android:id="@+id/action_productsFragment_to_addFragment"
             app:destination="@id/addFragment" />
+        <action
+            android:id="@+id/action_productsFragment_to_editFragment"
+            app:destination="@id/editFragment" />
     </fragment>
     <fragment
         android:id="@+id/addFragment"
         android:name="com.zcdev.pointofsale.fragments.Products.AddFragment"
-        android:label="Add item"
+        android:label="Add Product"
         tools:layout="@layout/fragment_add" >
         <action
             android:id="@+id/action_addFragment_to_productsFragment"
@@ -106,5 +109,14 @@
         <action
             android:id="@+id/action_contactFragment_to_dashboardFragment"
             app:destination="@id/dashboardFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editFragment"
+        android:name="com.zcdev.pointofsale.fragments.Products.EditProduct.EditFragment"
+        android:label="Edit Product"
+        tools:layout="@layout/fragment_edit" >
+        <action
+            android:id="@+id/action_editFragment_to_productsFragment"
+            app:destination="@id/productsFragment" />
     </fragment>
 </navigation>
