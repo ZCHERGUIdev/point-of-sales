@@ -3,6 +3,7 @@ package com.zcdev.pointofsale.fragments.Products
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -12,20 +13,23 @@ import com.google.zxing.integration.android.IntentIntegrator
 import com.zcdev.pointofsale.R
 import com.zcdev.pointofsale.activitys.CaptureAct
 import com.zcdev.pointofsale.data.models.Product
-import kotlinx.android.synthetic.main.fragment_add.*
 import kotlinx.android.synthetic.main.fragment_add.view.*
-
 
 
 class AddFragment : Fragment() {
     var integrator:IntentIntegrator?=null
     private val PICK_IMAGE = 100
-    var imageUri: Uri? = null
-     var postImage: ByteArray?=null
+    private val QR_CODE = 200
     var v:View?=null
 
     companion object{
         var INSTANCE=AddFragment()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+
     }
 
 
@@ -38,52 +42,34 @@ class AddFragment : Fragment() {
         // Set Menu
         setHasOptionsMenu(true)
         //qr code
-        (v as View).btnTovarBarcode.setOnClickListener {
-            integrator= IntentIntegrator(activity)
-            integrator!!.setCaptureActivity(CaptureAct::class.java)
-            integrator!!.setOrientationLocked(false)
-            integrator!!.setDesiredBarcodeFormats()
-            integrator!!.setPrompt("امسح الباركود الخاص بك !")
-                .initiateScan()
-        }
+         v!!.btnTovarBarcode.setOnClickListener {
+            initQrCode()
+         }
         //add image from galery
+        v!!.ivPickImage.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(p0: View?) {
+                // PickImageDialog.build(new PickSetup()).show(AddPostActivity.this);
+                val intent = Intent()
+                intent.type = "image/*"
+                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+                intent.action = Intent.ACTION_GET_CONTENT
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE)
+            }})
         //add image
         //add image
-      v!!.ivPickImage.setOnClickListener(object : View.OnClickListener {
-          override fun onClick(p0: View?) {
-              // PickImageDialog.build(new PickSetup()).show(AddPostActivity.this);
-              val intent = Intent()
-              intent.type = "image/*"
-              intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-              intent.action = Intent.ACTION_GET_CONTENT
-              startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE)
-          }
 
-      })
 
         return v
     }
 
-
-// qr code result value
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
-        if (result != null) {
-            if (result.contents != null) {
-                Toast.makeText(INSTANCE.requireContext(), "code :"+result.contents.toString(), Toast.LENGTH_SHORT).show()
-                var intent = Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse(result.contents)
-                )
-                edtBarcode.setText(result.contents.toString())
-                startActivity(intent)
-            }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data)
-        }
+    private fun initQrCode() {
+        integrator= IntentIntegrator(activity)
+        integrator!!.setCaptureActivity(CaptureAct::class.java)
+        integrator!!.setOrientationLocked(false)
+        integrator!!.setDesiredBarcodeFormats()
+        integrator!!.setPrompt("امسح الباركود الخاص بك !")
+            .initiateScan()
     }
-
-
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.add_product_menu, menu)
@@ -119,5 +105,29 @@ class AddFragment : Fragment() {
         myRef.child(barcode).setValue(prd)
     }
 
+     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+        if (result != null) {
+            if (result.contents != null) {
+                Toast.makeText(requireContext(), "code :"+result.contents.toString(), Toast.LENGTH_SHORT).show()
+                Log.d("this",result.contents.toString())
+                var intent = Intent(
+                    android.content.Intent.ACTION_VIEW,
+                    Uri.parse(result.contents)
+                )
+                startActivity(intent)
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data)
+        }
+    }
+
 
 }
+
+
+
+
+
+
+

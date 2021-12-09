@@ -1,8 +1,11 @@
 package com.zcdev.pointofsale.fragments.Products
 
 
+import android.app.ProgressDialog
 import android.os.Bundle
 import android.view.*
+import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,10 +28,28 @@ import java.util.*
 class ProductsFragment : Fragment() {
     var integrator:IntentIntegrator?=null
     var list_pro: MutableList<Product> = ArrayList<Product>()
+    //progressDialog
+     var progdialog: ProgressDialog? = null
+
+
 
     companion object{
         var INSTANCE=ProductsFragment()
     }
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        //progressDialog setUp
+        progdialog= ProgressDialog(requireContext())
+        progdialog?.setMessage("Pleaze Wait...")
+
+
+        showProducts()
+
+    }
+
 
 
 
@@ -43,10 +64,11 @@ class ProductsFragment : Fragment() {
         setHasOptionsMenu(true)
         val rvProduct: RecyclerView = view.rvProduct
 
-        showProducts(view)
+
+
         rvProduct.layoutManager = LinearLayoutManager(context)
         rvProduct.setHasFixedSize(true)
-
+        rvProduct.adapter = ProductAdapter(list_pro)
         view.addProd.setOnClickListener{
             findNavController().navigate(R.id.action_productsFragment_to_addFragment)
         }
@@ -55,14 +77,14 @@ class ProductsFragment : Fragment() {
     }
 
 
-    private fun showProducts(v:View){
+    private fun showProducts(){
         var products = ArrayList<Product>()
 
         //get products from firebase
         // read from db firebase ------------------------------------------------------------------
         val database = FirebaseDatabase.getInstance()
         val myRef = database.getReference("Products")
-
+         progdialog!!.show()
         //First retrieve your users datasnapshot.
         //Get datasnapshot at your "products" root node
 
@@ -72,10 +94,11 @@ class ProductsFragment : Fragment() {
 
                 for (prosnap in dataSnapshot.children) {
                     val prod = prosnap.getValue(Product::class.java)
-                    list_pro.add(prod!! as Product)
+                    list_pro.add(prod!!)
                 }
                 rvProduct.adapter = ProductAdapter(list_pro)
-                checkData(list_pro,v)
+                rvProduct.adapter!!.notifyDataSetChanged()
+                checkData(list_pro)
             }
             override fun onCancelled(databaseError: DatabaseError) {}
         }
@@ -84,14 +107,16 @@ class ProductsFragment : Fragment() {
 
     }
 
-    private fun checkData(list :MutableList<Product>,v:View) {
+    private fun checkData(list :MutableList<Product>) {
         if(list.isEmpty()){
-            v.ivEmptyDoc.visibility=View.VISIBLE
-            v.tvEmptyDoc.visibility=View.VISIBLE
+            ivEmptyDoc.visibility=View.VISIBLE
+            tvEmptyDoc.visibility=View.VISIBLE
+
 
         }else{
-            v.ivEmptyDoc.visibility=View.GONE
-            v.tvEmptyDoc.visibility=View.GONE
+            ivEmptyDoc.visibility=View.GONE
+            tvEmptyDoc.visibility=View.GONE
+            progdialog!!.hide()
         }
     }
 
