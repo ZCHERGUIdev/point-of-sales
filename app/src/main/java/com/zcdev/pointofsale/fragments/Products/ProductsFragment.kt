@@ -5,7 +5,9 @@ import android.app.ProgressDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.view.inputmethod.EditorInfo
 import android.widget.ProgressBar
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -26,16 +28,15 @@ import java.util.*
 class ProductsFragment : Fragment() {
     var integrator:IntentIntegrator?=null
     var list_pro: MutableList<Product> = ArrayList<Product>()
+    var display_list: MutableList<Product> = ArrayList<Product>()
+
     //progressDialog
      var progdialog: ProgressDialog? = null
-
 
 
     companion object{
         var INSTANCE=ProductsFragment()
     }
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -47,9 +48,6 @@ class ProductsFragment : Fragment() {
         showProducts()
 
     }
-
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,7 +64,7 @@ class ProductsFragment : Fragment() {
 
         rvProduct.layoutManager = LinearLayoutManager(context)
         rvProduct.setHasFixedSize(true)
-        rvProduct.adapter = ProductAdapter(list_pro)
+       // rvProduct.adapter = ProductAdapter(display_list)
         view.addProd.setOnClickListener{
             findNavController().navigate(R.id.action_productsFragment_to_addFragment)
         }
@@ -94,18 +92,18 @@ class ProductsFragment : Fragment() {
                     val prod = prosnap.getValue(Product::class.java)
                     list_pro.add(prod!!)
                 }
-                rvProduct.adapter = ProductAdapter(list_pro)
+                display_list.addAll(list_pro)
+                rvProduct.adapter = ProductAdapter(display_list)
                 rvProduct.adapter!!.notifyDataSetChanged()
 
-                checkData(list_pro)
+                checkData(display_list)
             }
             override fun onCancelled(databaseError: DatabaseError) {}
         }
         myRef.addListenerForSingleValueEvent(eventListener)
-
-
     }
-// remove prod
+
+    // remove prod
     fun removeProd(){
         val ref = FirebaseDatabase.getInstance().reference
         val applesQuery: Query = ref.child("Product").orderByChild("productName").equalTo(list_pro[0].productName)
@@ -141,7 +139,40 @@ class ProductsFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.product_list, menu)
+
+        inflater.inflate(R.menu.search_product, menu)
+        val menuItem: MenuItem = menu.findItem(R.id.menu_search)
+
+        if (menuItem != null){
+
+            var searchView: SearchView = menuItem.actionView as SearchView
+            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    return true
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    if (newText!!.isNotEmpty()){
+                        display_list.clear()
+                        val search = newText.toLowerCase(Locale.getDefault())
+                        list_pro.forEach {
+                            if (it.productName!!.toLowerCase(Locale.getDefault()).contains(search)){
+                                display_list.add(it)
+                            }
+                        }
+
+                        rvProduct.adapter!!.notifyDataSetChanged()
+                    }
+                    else{
+                        display_list.clear()
+                        display_list.addAll(list_pro)
+                        rvProduct.adapter!!.notifyDataSetChanged()
+                    }
+
+                    return true
+                }
+            })
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -4,9 +4,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.*
@@ -15,10 +13,12 @@ import com.zcdev.pointofsale.R
 import com.zcdev.pointofsale.data.models.Product
 import kotlinx.android.synthetic.main.prod_viewcell.view.*
 import kotlinx.coroutines.processNextEventInCurrentThread
+import java.util.*
 
 
 class ProductAdapter(val productList: MutableList<Product>) :
-    RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
+    RecyclerView.Adapter<ProductAdapter.ProductViewHolder>(){
+
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
