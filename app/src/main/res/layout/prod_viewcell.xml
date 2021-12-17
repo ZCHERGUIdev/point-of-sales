@@ -17,10 +17,9 @@
         >
 
         <ImageView
-            android:id="@+id/imgProfil"
+            android:id="@+id/imgProd"
             android:layout_width="80.0dip"
             android:layout_height="80.0dip"
-            android:src="@drawable/logoo"
             android:scaleType="centerCrop"
             android:adjustViewBounds="true"
             />

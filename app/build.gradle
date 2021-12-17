@@ -85,12 +85,19 @@ dependencies {
     implementation 'com.google.firebase:firebase-storage-ktx'
     implementation 'com.google.firebase:firebase-database-ktx'
 
+
     //recyclerView
     implementation("androidx.recyclerview:recyclerview:1.2.1")
     implementation("androidx.cardview:cardview:1.0.0")
 
     //img
     implementation 'com.github.jrvansuita:PickImage:2.5'
+
+    //picasso load img from url
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+
+
+
 
 
 }

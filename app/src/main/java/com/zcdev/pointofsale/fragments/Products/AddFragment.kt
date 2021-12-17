@@ -1,35 +1,55 @@
 package com.zcdev.pointofsale.fragments.Products
 
+import android.app.ProgressDialog
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
 import com.google.zxing.integration.android.IntentIntegrator
+import com.vansuita.pickimage.bean.PickResult
+import com.vansuita.pickimage.bundle.PickSetup
+import com.vansuita.pickimage.dialog.PickImageDialog
+import com.vansuita.pickimage.listeners.IPickCancel
+import com.vansuita.pickimage.listeners.IPickResult
 import com.zcdev.pointofsale.R
 import com.zcdev.pointofsale.activitys.CaptureAct
 import com.zcdev.pointofsale.data.models.Product
 import kotlinx.android.synthetic.main.fragment_add.view.*
+import java.io.ByteArrayOutputStream
+import java.io.FileNotFoundException
+import java.io.InputStream
 
 
-class AddFragment : Fragment() {
-    var integrator:IntentIntegrator?=null
-    private val PICK_IMAGE = 100
-    private val QR_CODE = 200
+class AddFragment : Fragment(){
+
+    var integrator: IntentIntegrator? = null
+    var inputStream: InputStream? = null
+    var imageUri:Uri?=null
+    var imageLink:String?=null
+    lateinit var postImage: ByteArray
+    var progdialog: ProgressDialog? = null
+
+
+
     var v:View?=null
 
     companion object{
         var INSTANCE=AddFragment()
     }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
+        //progressDialog setUp
+        progdialog= ProgressDialog(requireContext())
+        progdialog?.setMessage("Pleaze Wait...")
     }
 
 
@@ -43,26 +63,35 @@ class AddFragment : Fragment() {
         setHasOptionsMenu(true)
         //qr code
          v!!.btnTovarBarcode.setOnClickListener {
-            initQrCode()
+           initQrCode()
          }
-        //add image from galery
+        //Pick Image from galery
         v!!.ivPickImage.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
-                // PickImageDialog.build(new PickSetup()).show(AddPostActivity.this);
-                val intent = Intent()
-                intent.type = "image/*"
-                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-                intent.action = Intent.ACTION_GET_CONTENT
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE)
+               PickImageDialog.build(PickSetup()).setOnPickResult(object :IPickResult{
+                   override fun onPickResult(r: PickResult?) {
+
+                       v!!.ivPickImage.setImageURI(r!!.uri)
+                       imageUri=r!!.uri
+                       postImage= reduceImageSize(inputStream,r!!.uri)!!
+                       Toast.makeText(requireContext(), "data"+postImage, Toast.LENGTH_SHORT).show()
+                       if (imageUri!=null){
+                           pushPhoto(postImage)
+                       }
+
+                   }
+
+               }).setOnPickCancel(object :IPickCancel{
+                   override fun onCancelClick() {
+                       TODO("Not yet implemented")
+                   }
+
+               }).show(fragmentManager)
             }})
-        //add image
-        //add image
-
-
         return v
     }
 
-    private fun initQrCode() {
+   private fun initQrCode() {
         integrator= IntentIntegrator(activity)
         integrator!!.setCaptureActivity(CaptureAct::class.java)
         integrator!!.setOrientationLocked(false)
@@ -94,8 +123,10 @@ class AddFragment : Fragment() {
         val desc: String = v.edDesc.text.toString()
         val qnt: String = v.edtQnt.text.toString()   // string to int --> Qte
 
+
+
         // create new product
-        var prd: Product = Product(name,barcode,desc,qnt,1);
+        var prd: Product = Product(name,barcode,desc,qnt,imageLink!!)
 
         // get fireabse database instance
         val database = FirebaseDatabase.getInstance()
@@ -105,23 +136,58 @@ class AddFragment : Fragment() {
         myRef.child(barcode).setValue(prd)
     }
 
-     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
         if (result != null) {
             if (result.contents != null) {
-                Toast.makeText(requireContext(), "code :"+result.contents.toString(), Toast.LENGTH_SHORT).show()
-                Log.d("this",result.contents.toString())
-                var intent = Intent(
-                    android.content.Intent.ACTION_VIEW,
-                    Uri.parse(result.contents)
-                )
-                startActivity(intent)
+                Toast.makeText(requireContext(), "code :"+result.contents, Toast.LENGTH_SHORT).show()
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data)
         }
     }
 
+
+    fun reduceImageSize(inputStream: InputStream?, imageUri: Uri?): ByteArray? {
+        var inputStream = inputStream
+        try {
+            inputStream = requireContext().getContentResolver().openInputStream(imageUri!!)
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
+        }
+        val selectedImage = BitmapFactory.decodeStream(inputStream)
+
+        //----  to reduce image size  -----------------------
+        val baos = ByteArrayOutputStream()
+        selectedImage.compress(Bitmap.CompressFormat.JPEG, 75, baos)
+        return baos.toByteArray()
+        //----  to reduce image size  ---
+    }
+
+
+
+
+    //push photo and get link
+    fun pushPhoto(imageFile: ByteArray?) :String{
+       progdialog!!.show()
+        val storage = FirebaseStorage.getInstance()
+        val storageRef = storage.getReferenceFromUrl("gs://gstock-6e8e2.appspot.com/imagesprod")
+        val childRef = storageRef.child(System.currentTimeMillis().toString() + "_gstockprod.jpg")
+
+        //uploading the image
+        val uploadTask = childRef.putBytes(imageFile!!)
+        uploadTask.addOnSuccessListener { //to get  image path ;
+            val storageReference = FirebaseStorage.getInstance().getReference(childRef.path)
+            storageReference.downloadUrl.addOnSuccessListener { downloadUrl ->
+                 imageLink = downloadUrl.toString()
+               // Toast.makeText(requireContext(), "link"+imageLink.toString(), Toast.LENGTH_SHORT).show()
+                progdialog!!.hide()
+            }
+        }.addOnFailureListener {}
+        return imageLink.toString()
+    }
 
 }
 

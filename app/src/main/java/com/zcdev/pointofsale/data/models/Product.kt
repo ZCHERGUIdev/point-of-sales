@@ -8,10 +8,10 @@ class Product {
     var productDesc: String?=null
     var productQnt: String?=null
     //var productPrice:Float?=null
-    var productImg: Int?=null
+    var productImg: String?=null
 
 
-    constructor(name:String,code:String,desc:String,qnt:String,img:Int){
+    constructor(name:String,code:String,desc:String,qnt:String,img:String){
         this.productName=name
         this.productCode=code
         this.productDesc=desc

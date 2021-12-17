@@ -3,6 +3,7 @@ package com.zcdev.pointofsale.fragments.Products
 
 import android.app.ProgressDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.ProgressBar
 import android.widget.Toast
@@ -10,10 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.google.zxing.integration.android.IntentIntegrator
 import com.zcdev.pointofsale.R
 
@@ -84,10 +82,10 @@ class ProductsFragment : Fragment() {
         // read from db firebase ------------------------------------------------------------------
         val database = FirebaseDatabase.getInstance()
         val myRef = database.getReference("Products")
-         progdialog!!.show()
+
         //First retrieve your users datasnapshot.
         //Get datasnapshot at your "products" root node
-
+        progdialog!!.show()
         val eventListener: ValueEventListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 //Get map of users in datasnapshot
@@ -98,6 +96,7 @@ class ProductsFragment : Fragment() {
                 }
                 rvProduct.adapter = ProductAdapter(list_pro)
                 rvProduct.adapter!!.notifyDataSetChanged()
+
                 checkData(list_pro)
             }
             override fun onCancelled(databaseError: DatabaseError) {}
@@ -106,17 +105,38 @@ class ProductsFragment : Fragment() {
 
 
     }
+// remove prod
+    fun removeProd(){
+        val ref = FirebaseDatabase.getInstance().reference
+        val applesQuery: Query = ref.child("Product").orderByChild("productName").equalTo(list_pro[0].productName)
+
+        applesQuery.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (appleSnapshot in dataSnapshot.children) {
+                    appleSnapshot.ref.removeValue()
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.e("TAG", "onCancelled", databaseError.toException())
+            }
+        })
+
+    }
 
     private fun checkData(list :MutableList<Product>) {
+
         if(list.isEmpty()){
             ivEmptyDoc.visibility=View.VISIBLE
             tvEmptyDoc.visibility=View.VISIBLE
+            progdialog!!.hide()
 
 
         }else{
             ivEmptyDoc.visibility=View.GONE
             tvEmptyDoc.visibility=View.GONE
             progdialog!!.hide()
+
         }
     }
 
