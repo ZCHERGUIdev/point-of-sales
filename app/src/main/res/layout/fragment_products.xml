@@ -15,7 +15,8 @@
         android:clipToPadding="false"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        tools:listitem="@layout/prod_viewcell" />
+        tools:listitem="@layout/prod_viewcelll"
+        />
 
     <LinearLayout
         android:layout_width="fill_parent"
