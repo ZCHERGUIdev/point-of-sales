@@ -93,7 +93,7 @@ class ProductsFragment : Fragment() {
                     list_pro.add(prod!!)
                 }
                 display_list.addAll(list_pro)
-                rvProduct.adapter = ProductAdapter(display_list)
+                rvProduct.adapter = ProductAdapter(activity!!, display_list)
                 rvProduct.adapter!!.notifyDataSetChanged()
 
                 checkData(display_list)
@@ -101,25 +101,6 @@ class ProductsFragment : Fragment() {
             override fun onCancelled(databaseError: DatabaseError) {}
         }
         myRef.addListenerForSingleValueEvent(eventListener)
-    }
-
-    // remove prod
-    fun removeProd(){
-        val ref = FirebaseDatabase.getInstance().reference
-        val applesQuery: Query = ref.child("Product").orderByChild("productName").equalTo(list_pro[0].productName)
-
-        applesQuery.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                for (appleSnapshot in dataSnapshot.children) {
-                    appleSnapshot.ref.removeValue()
-                }
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                Log.e("TAG", "onCancelled", databaseError.toException())
-            }
-        })
-
     }
 
     private fun checkData(list :MutableList<Product>) {
