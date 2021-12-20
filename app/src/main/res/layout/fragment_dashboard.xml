@@ -226,7 +226,7 @@
                             android:weightSum="1.0">
 
                             <ImageView
-                                android:id="@+id/ivMenuContractor"
+                                android:id="@+id/ivMenuforni"
                                 android:layout_width="@dimen/main_menu_image_size_small"
                                 android:layout_height="@dimen/main_menu_image_size_small"
                                 android:contentDescription="content_description"

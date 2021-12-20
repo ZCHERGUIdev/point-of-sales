@@ -42,6 +42,14 @@ class dashboardFragment : Fragment() {
             findNavController().navigate(R.id.action_dashboardFragment_to_contactFragment)
         }
 
+        v.ivMenuforni.setOnClickListener {
+            findNavController().navigate(R.id.action_dashboardFragment_to_customersFragment)
+        }
+
+        v.ivMenuCustomer.setOnClickListener {
+            findNavController().navigate(R.id.action_dashboardFragment_to_clientFragment)
+        }
+
 
 
         return v

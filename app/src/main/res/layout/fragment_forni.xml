@@ -4,13 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.customers.CustomersFragment">
+    tools:context=".fragments.fornisair.ForniFragment">
 
 
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/addCustomers"
+        android:id="@+id/addFournisaire"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
