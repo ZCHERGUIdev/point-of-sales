@@ -231,7 +231,7 @@
                                 android:layout_height="@dimen/main_menu_image_size_small"
                                 android:contentDescription="content_description"
                                 android:scaleType="fitCenter"
-                                app:srcCompat="@drawable/ic_note" />
+                                app:srcCompat="@drawable/ic_menu_contractor" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -250,7 +250,7 @@
                                 android:layout_height="@dimen/main_menu_image_size_small"
                                 android:contentDescription="content_description"
                                 android:scaleType="fitCenter"
-                                app:srcCompat="@drawable/ic_store" />
+                                app:srcCompat="@drawable/ic_menu_contras" />
                         </LinearLayout>
                     </TableRow>
                 </TableLayout>
