@@ -36,7 +36,7 @@
             app:destination="@id/clientFragment" />
         <action
             android:id="@+id/action_dashboardFragment_to_customersFragment"
-            app:destination="@id/forniFragment" />
+            app:destination="@id/fournisseurFragment" />
     </fragment>
     <fragment
         android:id="@+id/documentsFragment"
@@ -118,7 +118,7 @@
     </fragment>
     <fragment
         android:id="@+id/editFragment"
-        android:name="com.zcdev.pointofsale.fragments.Products.EditProduct.EditFragment"
+        android:name="com.zcdev.pointofsale.fragments.Products.EditFragment"
         android:label="Edit Product"
         tools:layout="@layout/fragment_edit" >
         <action
@@ -135,12 +135,37 @@
             app:destination="@id/dashboardFragment" />
     </fragment>
     <fragment
-        android:id="@+id/forniFragment"
-        android:name="com.zcdev.pointofsale.fragments.fornisair.ForniFragment"
+        android:id="@+id/fournisseurFragment"
+        android:name="com.zcdev.pointofsale.fragments.Fournisseur.FournisseurFragment"
         android:label="fragment_forni"
-        tools:layout="@layout/fragment_forni">
+        tools:layout="@layout/fragment_fournisseur">
         <action
             android:id="@+id/action_customersFragment_to_dashboardFragment"
             app:destination="@id/dashboardFragment" />
+        <action
+            android:id="@+id/action_fournisseurFragment_to_addFragmentFr"
+            app:destination="@id/addFragmentFr" />
+        <action
+            android:id="@+id/action_fournisseurFragment_to_editFragmentFr"
+            app:destination="@id/editFragmentFr" />
     </fragment>
+    <fragment
+        android:id="@+id/editFragmentFr"
+        android:name="com.zcdev.pointofsale.fragments.Fournisseur.EditFrFragment"
+        android:label="editFr"
+        tools:layout="@layout/fragment_edit_fr" >
+        <action
+            android:id="@+id/action_editFragmentFr_to_fournisseurFragment"
+            app:destination="@id/fournisseurFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/addFragmentFr"
+        android:name="com.zcdev.pointofsale.fragments.Fournisseur.AddFrFragment"
+        android:label="AddFr"
+        tools:layout="@layout/fragment_add_fr" >
+        <action
+            android:id="@+id/action_addFragmentFr_to_fournisseurFragment"
+            app:destination="@id/fournisseurFragment" />
+    </fragment>
+
 </navigation>

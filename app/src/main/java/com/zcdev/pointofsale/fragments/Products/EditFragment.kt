@@ -1,4 +1,4 @@
-package com.zcdev.pointofsale.fragments.Products.EditProduct
+package com.zcdev.pointofsale.fragments.Products
 
 import android.app.ProgressDialog
 import android.graphics.Bitmap
@@ -7,11 +7,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
-import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso

@@ -60,8 +60,6 @@ class ProductsFragment : Fragment() {
         setHasOptionsMenu(true)
         val rvProduct: RecyclerView = view.rvProduct
 
-
-
         rvProduct.layoutManager = LinearLayoutManager(context)
         rvProduct.setHasFixedSize(true)
        // rvProduct.adapter = ProductAdapter(display_list)
@@ -121,7 +119,7 @@ class ProductsFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
 
-        inflater.inflate(R.menu.search_product, menu)
+        inflater.inflate(R.menu.search, menu)
         val menuItem: MenuItem = menu.findItem(R.id.menu_search)
 
         if (menuItem != null){

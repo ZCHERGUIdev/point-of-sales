@@ -3,14 +3,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="5dp"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.fornisair.ForniFragment">
+    tools:context=".fragments.Fournisseur.FournisseurFragment">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvFournisseur"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
 
+        tools:listitem="@layout/fr_viewcell"
+        />
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/addFournisaire"
+        android:id="@+id/addFournisseur"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
