@@ -66,6 +66,7 @@
                         app:hintEnabled="true">
 
                         <EditText
+                            android:enabled="false"
                             android:id="@+id/edtBarcodeUpdate"
                             android:layout_width="fill_parent"
                             android:inputType="number"
@@ -96,7 +97,7 @@
                     app:hintEnabled="true">
 
                     <EditText
-                        android:id="@+id/edDescUpdate"
+                        android:id="@+id/edtDescUpdate"
                         android:background="@drawable/custom_input"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"

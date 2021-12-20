@@ -19,6 +19,14 @@ class Product {
         //this.productPrice=price
         this.productImg=img
     }
+
+    constructor(name:String,code:String,desc:String,qnt:String){
+        this.productName=name
+        this.productCode=code
+        this.productDesc=desc
+        this.productQnt=qnt
+        //this.productPrice=price
+    }
     constructor()   // **Add this**
 
 }

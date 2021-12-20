@@ -7,12 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
 import com.zcdev.pointofsale.R
 import com.zcdev.pointofsale.data.models.Product
+import com.zcdev.pointofsale.fragments.Products.ProductsFragment
 import kotlinx.android.synthetic.main.prod_viewcell.view.*
 import java.util.*
 
@@ -56,37 +58,58 @@ class ProductAdapter(val c: Context, val productList: MutableList<Product>) :
       init {
           itemView.setOnClickListener(object : View.OnClickListener {
               override fun onClick(v: View?) {
-                  v!!.findNavController().navigate(R.id.action_productsFragment_to_editFragment)
+                  val position: Int = adapterPosition
+                    // update
+                  sendProductData(v!!, position)
               }
           })
           itemView.setOnLongClickListener(object : View.OnLongClickListener {
               override fun onLongClick(p0: View?): Boolean {
                   val position: Int = adapterPosition
-                  if (position != RecyclerView.NO_POSITION) {
-                      Toast.makeText(c, "item " + productList.get(position).productName, Toast.LENGTH_SHORT).show()
-
-                      if (itemView.getParent() != null) (itemView.getParent() as ViewGroup).removeView(itemView) // <- fix
-
-                      AlertDialog.Builder(c)
-                              .setView(p0)
-                              .setTitle("Delete")
-                              .setIcon(R.drawable.ic_warning)
-                              .setMessage("Are you sure you want to delete this Product")
-                              .setPositiveButton("Yes") { dialog, _ ->
-                                  removeProd(productList, position)
-                                  dialog.dismiss()
-                              }
-                              .setNegativeButton("No") { dialog, _ ->
-                                  dialog.dismiss()
-                              }
-                              .create()
-                              .show()
-                  }
+                    // remove
+                  removeAlert(p0!!, position)
                   return true
               }
 
           })
       }
+        private fun removeAlert(p0: View, position: Int, ) {
+            if (position != RecyclerView.NO_POSITION) {
+                Toast.makeText(c, "item " + productList.get(position).productName, Toast.LENGTH_SHORT).show()
+
+                if (itemView.getParent() != null) (itemView.getParent() as ViewGroup).removeView(itemView) // <- fix
+
+                AlertDialog.Builder(c)
+                        .setView(p0)
+                        .setTitle("Delete")
+                        .setIcon(R.drawable.ic_warning)
+                        .setMessage("Are you sure you want to delete this Product")
+                        .setPositiveButton("Yes") { dialog, _ ->
+                            // remove product
+                            removeProd(productList, position)
+                            dialog.dismiss()
+                        }
+                        .setNegativeButton("No") { dialog, _ ->
+                            dialog.dismiss()
+                        }
+                        .create()
+                        .show()
+            }
+        }
+
+        private fun sendProductData(v:View, position: Int) {
+            if (position != RecyclerView.NO_POSITION) {
+                val product = productList.get(position)
+                //send product data to edit fragment
+                val bundle = bundleOf(
+                        "name" to product.productName,
+                        "code" to product.productCode,
+                        "desc" to product.productDesc,
+                        "qte" to product.productQnt,
+                        "img" to product.productImg)
+                v!!.findNavController().navigate(R.id.action_productsFragment_to_editFragment, bundle)
+            }
+        }
 
        private fun removeProd(productList: MutableList<Product>, position: Int){
             val prdCode:String  = productList.get(position).productCode!!
@@ -110,4 +133,6 @@ class ProductAdapter(val c: Context, val productList: MutableList<Product>) :
             })
         }
     }
+
+
 }

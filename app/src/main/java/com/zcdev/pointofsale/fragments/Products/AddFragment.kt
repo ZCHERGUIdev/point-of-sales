@@ -138,6 +138,12 @@ class AddFragment : Fragment(){
 
 
 
+
+
+
+
+
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
         if (result != null) {
@@ -148,7 +154,6 @@ class AddFragment : Fragment(){
             super.onActivityResult(requestCode, resultCode, data)
         }
     }
-
 
     fun reduceImageSize(inputStream: InputStream?, imageUri: Uri?): ByteArray? {
         var inputStream = inputStream
@@ -165,9 +170,6 @@ class AddFragment : Fragment(){
         return baos.toByteArray()
         //----  to reduce image size  ---
     }
-
-
-
 
     //push photo and get link
     fun pushPhoto(imageFile: ByteArray?) :String{
