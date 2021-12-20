@@ -31,6 +31,12 @@
         <action
             android:id="@+id/action_dashboardFragment_to_contactFragment"
             app:destination="@id/contactFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_clientFragment"
+            app:destination="@id/clientFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_customersFragment"
+            app:destination="@id/customersFragment" />
     </fragment>
     <fragment
         android:id="@+id/documentsFragment"
@@ -118,5 +124,23 @@
         <action
             android:id="@+id/action_editFragment_to_productsFragment"
             app:destination="@id/productsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/clientFragment"
+        android:name="com.zcdev.pointofsale.ClientFragment"
+        android:label="fragment_client"
+        tools:layout="@layout/fragment_client" >
+        <action
+            android:id="@+id/action_clientFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/customersFragment"
+        android:name="com.zcdev.pointofsale.CustomersFragment"
+        android:label="fragment_customers"
+        tools:layout="@layout/fragment_customers" >
+        <action
+            android:id="@+id/action_customersFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment" />
     </fragment>
 </navigation>
