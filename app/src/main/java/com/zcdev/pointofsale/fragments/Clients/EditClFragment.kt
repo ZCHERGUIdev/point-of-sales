@@ -1,4 +1,4 @@
-package com.zcdev.pointofsale.fragments.Fournisseur
+package com.zcdev.pointofsale.fragments.Clients
 
 import android.app.ProgressDialog
 import android.os.Bundle
@@ -8,12 +8,17 @@ import android.widget.Toast
 import androidx.navigation.findNavController
 import com.google.firebase.database.FirebaseDatabase
 import com.zcdev.pointofsale.R
+import com.zcdev.pointofsale.data.models.Client
 import com.zcdev.pointofsale.data.models.Fournisseur
 import kotlinx.android.synthetic.main.fragment_edit.view.edtNameUpdate
+import kotlinx.android.synthetic.main.fragment_edit_cl.view.*
 import kotlinx.android.synthetic.main.fragment_edit_fr.view.*
+import kotlinx.android.synthetic.main.fragment_edit_fr.view.edtAddressUpdate
+import kotlinx.android.synthetic.main.fragment_edit_fr.view.edtEmlUpdate
+import kotlinx.android.synthetic.main.fragment_edit_fr.view.edtPhoneUpdate
 
 
-class EditFrFragment : Fragment() {
+class EditClFragment : Fragment() {
 
     var progdialog: ProgressDialog? = null
     var v:View?=null
@@ -25,7 +30,7 @@ class EditFrFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        v= inflater.inflate(R.layout.fragment_edit_fr, container, false)
+        v= inflater.inflate(R.layout.fragment_edit_cl, container, false)
 
 
         //receive data
@@ -34,7 +39,7 @@ class EditFrFragment : Fragment() {
         v!!.edtPhoneUpdate.setText(arguments?.getString("phone"))
         v!!.edtEmlUpdate.setText(arguments?.getString("eml"))
         v!!.edtAddressUpdate.setText(arguments?.getString("adr"))
-
+        v!!.edtRdcUpdate.setText(arguments?.getString("rdc"))
 
 
         return v
@@ -56,34 +61,35 @@ class EditFrFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(item.itemId == R.id.menu_add){
             // to do
-            editFournisseur(v!!)
+            editClient(v!!)
         }
         return super.onOptionsItemSelected(item)
     }
 
 
 
-    fun editFournisseur(v:View){
+    fun editClient(v:View){
         // get values
         val name: String =  v.edtNameUpdate.text.toString()
         val phone: String = v.edtPhoneUpdate.text.toString()
         val address: String = v.edtAddressUpdate.text.toString()
         val email: String = v.edtEmlUpdate.text.toString()
+        val reduction: String = v.edtRdcUpdate.text.toString()
 
 
 
-        // create new fournisseur
-        var fr = Fournisseur(id!!,name,phone,email,address)
+        // create new client
+        var cl = Client(id!!,name,phone,email,address,reduction)
 
         // get fireabse database instance
         val database = FirebaseDatabase.getInstance()
-        val myRef = database.getReference("Fournisseurs")
+        val myRef = database.getReference("Clients")
 
         // add fr to firebase
-        myRef.child(id!!).setValue(fr).addOnSuccessListener{
+        myRef.child(id!!).setValue(cl).addOnSuccessListener{
 
             // navigate to fr list
-            v!!.findNavController().navigate(R.id.action_editFragmentFr_to_fournisseurFragment)
+            v!!.findNavController().navigate(R.id.action_editFragmentCl_to_clientFragment)
 
             }.addOnFailureListener{
 

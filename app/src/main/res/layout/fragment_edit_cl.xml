@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:padding="10dp"
+        android:layout_marginTop="10dp"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context=".fragments.Clients.EditClFragment">
+
+
+
+<LinearLayout
+            android:layout_width="0.0px"
+            android:layout_height="0.0px"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical" />
+
+        <ScrollView
+            android:id="@id/scrollView"
+            android:layout_width="fill_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_height="wrap_content"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/ilEdtName"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:hint="Name"
+                    app:hintEnabled="true">
+                    <EditText
+                        android:id="@+id/edtNameUpdate"
+                        android:layout_width="fill_parent"
+                        android:background="@drawable/custom_input"
+                        android:maxLines="1"
+                        android:layout_height="wrap_content"
+                        android:selectAllOnFocus="true" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+
+                <RelativeLayout
+                    android:id="@+id/rlPhoneUpdate"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/phone"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:hint="Phone number"
+                        app:hintEnabled="true">
+
+                        <EditText
+                            android:id="@+id/edtPhoneUpdate"
+                            android:layout_width="fill_parent"
+                            android:inputType="phone"
+                            android:background="@drawable/custom_input"
+                            android:layout_height="wrap_content"
+                            android:selectAllOnFocus="true" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="@dimen/text_margin"
+                        android:src="@drawable/ic_phone">
+
+                    </ImageView>
+                </RelativeLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/ilAdr"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_centerVertical="true"
+                    android:hint="Address"
+                    app:hintEnabled="true">
+
+                    <EditText
+                        android:id="@+id/edtAddressUpdate"
+                        android:background="@drawable/custom_input"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:selectAllOnFocus="true" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/rlEmail"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/ilEmail"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:hint="Email Address"
+                        app:hintEnabled="true">
+
+                        <EditText
+                            android:id="@+id/edtEmlUpdate"
+                            android:layout_width="fill_parent"
+                            android:background="@drawable/custom_input"
+                            android:layout_height="wrap_content"
+                            android:inputType="textEmailAddress"
+                            android:layout_marginTop="5dp"
+                            android:selectAllOnFocus="true" />
+
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rlReduction"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/ilReduction"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:hint="Reduction %"
+                        app:hintEnabled="true">
+
+                        <EditText
+                            android:id="@+id/edtRdcUpdate"
+                            android:layout_width="fill_parent"
+                            android:background="@drawable/custom_input"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:layout_marginTop="5dp"
+                            android:selectAllOnFocus="true" />
+
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                </RelativeLayout>
+            </LinearLayout>
+
+        </ScrollView>
+
+
+    </RelativeLayout>

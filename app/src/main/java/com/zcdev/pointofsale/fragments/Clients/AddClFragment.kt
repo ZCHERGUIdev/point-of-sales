@@ -1,4 +1,4 @@
-package com.zcdev.pointofsale.fragments.Fournisseur
+package com.zcdev.pointofsale.fragments.Clients
 
 import android.app.ProgressDialog
 import android.os.Bundle
@@ -7,19 +7,24 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.database.FirebaseDatabase
 import com.zcdev.pointofsale.R
+import com.zcdev.pointofsale.data.models.Client
 import com.zcdev.pointofsale.data.models.Fournisseur
 import kotlinx.android.synthetic.main.fragment_add.view.edtName
+import kotlinx.android.synthetic.main.fragment_add_cl.view.*
 import kotlinx.android.synthetic.main.fragment_add_fr.view.*
+import kotlinx.android.synthetic.main.fragment_add_fr.view.edtAddress
+import kotlinx.android.synthetic.main.fragment_add_fr.view.edtEml
+import kotlinx.android.synthetic.main.fragment_add_fr.view.edtPhone
 
 
-class AddFrFragment : Fragment(){
+class AddClFragment : Fragment(){
 
     var progdialog: ProgressDialog? = null
     var v:View?=null
     var id:String?=null
 
     companion object{
-        var INSTANCE=AddFrFragment()
+        var INSTANCE=AddClFragment()
     }
 
 
@@ -36,7 +41,7 @@ class AddFrFragment : Fragment(){
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        v = inflater.inflate(R.layout.fragment_add_fr, container, false)
+        v = inflater.inflate(R.layout.fragment_add_cl, container, false)
         // Set Menu
         setHasOptionsMenu(true)
 
@@ -51,14 +56,14 @@ class AddFrFragment : Fragment(){
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(item.itemId == R.id.menu_add){
             // to do
-                addFournisseur(v!!)
-            // navigate to product list
-            findNavController().navigate(R.id.action_addFragmentFr_to_fournisseurFragment)
+                addClient(v!!)
+            // navigate to clients list
+            findNavController().navigate(R.id.action_addFragmentCl_to_clientsFragment)
         }
         return super.onOptionsItemSelected(item)
     }
 
-    private fun addFournisseur(v: View){
+    private fun addClient(v: View){
         // Inflate the layout for this fragment
 
         // get values
@@ -66,19 +71,20 @@ class AddFrFragment : Fragment(){
         val phone: String = v.edtPhone.text.toString()
         val address: String = v.edtAddress.text.toString()
         val email: String = v.edtEml.text.toString()
+        val reduction: String = v.edtReduction.text.toString()
 
 
 
         id=name+phone // id need to be hached !!!
-        // create new fournisseur
-        var fr = Fournisseur(id!!,name,phone,email,address)
+        // create new client
+        var cl = Client(id!!,name,phone,email,address,reduction!!)
 
         // get fireabse database instance
         val database = FirebaseDatabase.getInstance()
-        val myRef = database.getReference("Fournisseurs")
+        val myRef = database.getReference("Clients")
 
-        // add product to firebase
-        myRef.child(id!!).setValue(fr)
+        // add client to firebase
+        myRef.child(id!!).setValue(cl)
     }
 }
 

@@ -4,10 +4,8 @@ import android.app.ProgressDialog
 import android.os.Bundle
 import android.view.*
 import android.widget.SearchView
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.DataSnapshot
@@ -17,8 +15,6 @@ import com.google.firebase.database.ValueEventListener
 import com.zcdev.pointofsale.R
 import com.zcdev.pointofsale.data.models.Fournisseur
 import com.zcdev.pointofsale.fragments.Fournisseur.Adapters.FournisseurAdapter
-import com.zcdev.pointofsale.fragments.Products.Adapters.ProductAdapter
-import com.zcdev.pointofsale.fragments.Products.ProductsFragment
 import kotlinx.android.synthetic.main.fragment_fournisseur.*
 import kotlinx.android.synthetic.main.fragment_fournisseur.view.*
 import kotlinx.android.synthetic.main.fragment_products.*
@@ -122,7 +118,7 @@ class FournisseurFragment : Fragment() {
                         display_list.clear()
                         val search = newText.toLowerCase(Locale.getDefault())
                         list_fr.forEach {
-                            if (it.frName!!.toLowerCase(Locale.getDefault()).contains(search)){
+                            if (it.Name!!.toLowerCase(Locale.getDefault()).contains(search)){
                                 display_list.add(it)
                             }
                         }

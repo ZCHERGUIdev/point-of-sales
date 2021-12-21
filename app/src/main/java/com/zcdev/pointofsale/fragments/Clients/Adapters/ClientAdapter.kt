@@ -1,4 +1,4 @@
-package com.zcdev.pointofsale.fragments.Fournisseur.Adapters
+package com.zcdev.pointofsale.fragments.Clients.Adapters
 
 import android.app.AlertDialog
 import android.content.Context
@@ -12,29 +12,27 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.*
 import com.zcdev.pointofsale.R
-import com.zcdev.pointofsale.data.models.Fournisseur
-import kotlinx.android.synthetic.main.fr_viewcell.view.*
-import java.util.*
+import com.zcdev.pointofsale.data.models.Client
+import kotlinx.android.synthetic.main.cl_viewcell.view.*
 
 
-class FournisseurAdapter(val c: Context, val frList: MutableList<Fournisseur>) :
-    RecyclerView.Adapter<FournisseurAdapter.FournisseurViewHolder>(){
+class ClientAdapter(val c: Context, val clList: MutableList<Client>) :
+    RecyclerView.Adapter<ClientAdapter.ClientViewHolder>(){
 
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FournisseurViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClientViewHolder {
         //create inflater -> return viewholder()
         val itemView = LayoutInflater.from(parent.context).inflate(
-                R.layout.fr_viewcell, parent, false)
+                R.layout.cl_viewcell, parent, false)
 
-        return FournisseurViewHolder(itemView)
+        return ClientViewHolder(itemView)
     }
 
-    override fun onBindViewHolder(holder: FournisseurViewHolder, position: Int) {
-        val currentItem = frList[position]
+    override fun onBindViewHolder(holder: ClientViewHolder, position: Int) {
+        val currentItem = clList[position]
 
         //fetch data when update *use cached view ref !
-        //holder.imageView.setImageResource(currentItem.productImg!!)
         holder.textView1.text = currentItem.Name
         holder.textView2.text = currentItem.Phone
 
@@ -42,12 +40,12 @@ class FournisseurAdapter(val c: Context, val frList: MutableList<Fournisseur>) :
 
     }
 
-    override fun getItemCount() = frList.size
+    override fun getItemCount() = clList.size
 
-    inner class FournisseurViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ClientViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         //ref view attributes
-        val textView1: TextView = itemView.frName
-        val textView2: TextView = itemView.frPhone
+        val textView1: TextView = itemView.clName
+        val textView2: TextView = itemView.clPhone
 
 
       init {
@@ -55,7 +53,7 @@ class FournisseurAdapter(val c: Context, val frList: MutableList<Fournisseur>) :
               override fun onClick(v: View?) {
                   val position: Int = adapterPosition
                     // update
-                  sendFrData(v!!, position)
+                  sendClData(v!!, position)
               }
           })
           itemView.setOnLongClickListener(object : View.OnLongClickListener {
@@ -70,7 +68,7 @@ class FournisseurAdapter(val c: Context, val frList: MutableList<Fournisseur>) :
       }
         private fun removeAlert(p0: View, position: Int, ) {
             if (position != RecyclerView.NO_POSITION) {
-                Toast.makeText(c, "item " + frList.get(position).Name, Toast.LENGTH_SHORT).show()
+                Toast.makeText(c, "item " + clList.get(position).Name, Toast.LENGTH_SHORT).show()
 
                 if (itemView.getParent() != null) (itemView.getParent() as ViewGroup).removeView(itemView) // <- fix
 
@@ -78,10 +76,10 @@ class FournisseurAdapter(val c: Context, val frList: MutableList<Fournisseur>) :
                         .setView(p0)
                         .setTitle("Delete")
                         .setIcon(R.drawable.ic_warning)
-                        .setMessage("Are you sure you want to remove this Supplier")
+                        .setMessage("Are you sure you want to remove this Client")
                         .setPositiveButton("Yes") { dialog, _ ->
-                            // remove product
-                            removeFr(frList, position)
+                            // remove client
+                            removeCl(clList, position)
                             dialog.dismiss()
                         }
                         .setNegativeButton("No") { dialog, _ ->
@@ -92,30 +90,31 @@ class FournisseurAdapter(val c: Context, val frList: MutableList<Fournisseur>) :
             }
         }
 
-        private fun sendFrData(v:View, position: Int) {
+        private fun sendClData(v:View, position: Int) {
             if (position != RecyclerView.NO_POSITION) {
-                val fournisseur = frList.get(position)
-                //send product data to edit fragment
+                val client = clList.get(position)
+                //send cleint data to edit fragment
                 val bundle = bundleOf(
-                        "id" to fournisseur.Id,
-                        "name" to fournisseur.Name,
-                        "phone" to fournisseur.Phone,
-                        "adr" to fournisseur.Address,
-                        "eml" to fournisseur.Email)
-                v!!.findNavController().navigate(R.id.action_fournisseurFragment_to_editFragmentFr, bundle)
+                        "id" to client.Id,
+                        "name" to client.Name,
+                        "phone" to client.Phone,
+                        "adr" to client.Address,
+                        "eml" to client.Email,
+                        "rdc" to client.reduction)
+                v!!.findNavController().navigate(R.id.action_clientFragment_to_editFragmentCl, bundle)
             }
         }
 
-       private fun removeFr(frList: MutableList<Fournisseur>, position: Int){
-            val frName:String  = frList.get(position).Name!!
+       private fun removeCl(clList: MutableList<Client>, position: Int){
+            val clName:String  = clList.get(position).Name!!
             val ref = FirebaseDatabase.getInstance().reference
-            val applesQuery: Query = ref.child("Fournisseurs").orderByChild("frName").equalTo(frName)
+            val applesQuery: Query = ref.child("Clients").orderByChild("clName").equalTo(clName)
 
             applesQuery.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     for (appleSnapshot in dataSnapshot.children) {
                         appleSnapshot.ref.removeValue()
-                        frList.removeAt(position)
+                        clList.removeAt(position)
 
                         notifyDataSetChanged()
                         Toast.makeText(itemView.context, "item deleted", Toast.LENGTH_SHORT).show()

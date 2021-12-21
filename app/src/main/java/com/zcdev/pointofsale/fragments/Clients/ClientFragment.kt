@@ -1,38 +1,38 @@
-package com.zcdev.pointofsale.fragments.Products
-
+package com.zcdev.pointofsale.fragments.Clients
 
 import android.app.ProgressDialog
+import android.content.Context
 import android.os.Bundle
 import android.view.*
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.database.*
-import com.google.zxing.integration.android.IntentIntegrator
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.zcdev.pointofsale.R
-
-import com.zcdev.pointofsale.data.models.Product
-import com.zcdev.pointofsale.fragments.Products.Adapters.ProductAdapter
-import kotlinx.android.synthetic.main.fragment_products.*
-import kotlinx.android.synthetic.main.fragment_products.view.*
-
+import com.zcdev.pointofsale.data.models.Client
+import com.zcdev.pointofsale.fragments.Clients.Adapters.ClientAdapter
+import kotlinx.android.synthetic.main.fragment_client.*
+import kotlinx.android.synthetic.main.fragment_client.view.*
 import java.util.*
 
 
-class ProductsFragment : Fragment() {
-    var integrator:IntentIntegrator?=null
-    var list_pro: MutableList<Product> = ArrayList<Product>()
-    var display_list: MutableList<Product> = ArrayList<Product>()
+class ClientFragment : Fragment() {
 
+
+    var list_cl: MutableList<Client> = ArrayList<Client>()
+    var display_list: MutableList<Client> = ArrayList<Client>()
     //progressDialog
-     var progdialog: ProgressDialog? = null
-
+    var progdialog: ProgressDialog? = null
 
     companion object{
-        var INSTANCE=ProductsFragment()
+        var INSTANCE= ClientFragment()
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -41,76 +41,55 @@ class ProductsFragment : Fragment() {
         progdialog?.setMessage("Pleaze Wait...")
 
 
-        showProducts()
-
+        showClient()
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        var view= inflater.inflate(R.layout.fragment_products, container, false)
+        var view=  inflater.inflate(R.layout.fragment_client, container, false)
 
         // Set Menu
         setHasOptionsMenu(true)
-        val rvProduct: RecyclerView = view.rvProduct
 
-        rvProduct.layoutManager = LinearLayoutManager(context)
-        rvProduct.setHasFixedSize(true)
-       // rvProduct.adapter = ProductAdapter(display_list)
-        view.addProd.setOnClickListener{
-            findNavController().navigate(R.id.action_productsFragment_to_addFragment)
-        }
-
+        setRecyclerFr(view, requireContext())
         return view
     }
 
 
-    private fun showProducts(){
-        var products = ArrayList<Product>()
 
-        //get products from firebase
+
+
+    private fun showClient(){
+        var clients = ArrayList<Client>()
+
+        //get clinets from firebase
         // read from db firebase ------------------------------------------------------------------
         val database = FirebaseDatabase.getInstance()
-        val myRef = database.getReference("Products")
+        val myRef = database.getReference("Clients")
 
         //First retrieve your users datasnapshot.
-        //Get datasnapshot at your "products" root node
+        //Get datasnapshot at your "Clients" root node
         progdialog!!.show()
         val eventListener: ValueEventListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 //Get map of users in datasnapshot
 
-                for (prosnap in dataSnapshot.children) {
-                    val prod = prosnap.getValue(Product::class.java)
-                    list_pro.add(prod!!)
+                for (clsnap in dataSnapshot.children) {
+                    val cl = clsnap.getValue(Client::class.java)
+                    list_cl.add(cl!!)
                 }
-                display_list.addAll(list_pro)
-                rvProduct.adapter = ProductAdapter(activity!!, display_list)
-                rvProduct.adapter!!.notifyDataSetChanged()
+                display_list.addAll(list_cl)
+                rvClient.adapter = ClientAdapter(activity!!, display_list)
+                rvClient.adapter!!.notifyDataSetChanged()
 
-                checkData(display_list)
+                progdialog!!.hide()
             }
             override fun onCancelled(databaseError: DatabaseError) {}
         }
         myRef.addListenerForSingleValueEvent(eventListener)
-    }
-
-    private fun checkData(list :MutableList<Product>) {
-
-        if(list.isEmpty()){
-            ivEmptyDoc.visibility=View.VISIBLE
-            tvEmptyDoc.visibility=View.VISIBLE
-            progdialog!!.hide()
-
-
-        }else{
-            ivEmptyDoc.visibility=View.GONE
-            tvEmptyDoc.visibility=View.GONE
-            progdialog!!.hide()
-
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -130,18 +109,18 @@ class ProductsFragment : Fragment() {
                     if (newText!!.isNotEmpty()){
                         display_list.clear()
                         val search = newText.toLowerCase(Locale.getDefault())
-                        list_pro.forEach {
-                            if (it.productName!!.toLowerCase(Locale.getDefault()).contains(search)){
+                        list_cl.forEach {
+                            if (it.Name!!.toLowerCase(Locale.getDefault()).contains(search)){
                                 display_list.add(it)
                             }
                         }
 
-                        rvProduct.adapter!!.notifyDataSetChanged()
+                        rvClient.adapter!!.notifyDataSetChanged()
                     }
                     else{
                         display_list.clear()
-                        display_list.addAll(list_pro)
-                        rvProduct.adapter!!.notifyDataSetChanged()
+                        display_list.addAll(list_cl)
+                        rvClient.adapter!!.notifyDataSetChanged()
                     }
 
                     return true
@@ -156,4 +135,19 @@ class ProductsFragment : Fragment() {
         }
         return super.onOptionsItemSelected(item)
     }
+
+    fun setRecyclerFr(v:View, c: Context):RecyclerView{
+
+        val rvClient: RecyclerView = v.rvClient
+
+        rvClient.layoutManager = LinearLayoutManager(c)
+        rvClient.setHasFixedSize(true)
+        v.addClients.setOnClickListener{
+            v!!.findNavController().navigate(R.id.action_clientFragment_to_addFragmentCl)
+        }
+        return rvClient
+    }
+
+
+
 }
