@@ -21,14 +21,14 @@
             app:srcCompat="@drawable/logoo" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/ilUserName"
+        android:id="@+id/ilEmail"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:hint="Username"
+        android:hint="Email"
         android:layout_below="@+id/imageLoginLogo"
         app:hintEnabled="true">
         <EditText
-            android:id="@+id/textUsername"
+            android:id="@+id/textEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/imageLoginLogo"
@@ -44,14 +44,14 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:hint="Password"
-        android:layout_below="@+id/ilUserName"
+        android:layout_below="@+id/ilEmail"
         app:hintEnabled="true">
 
         <EditText
             android:id="@+id/textPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/ilUserName"
+            android:layout_below="@id/ilEmail"
             android:layout_centerVertical="true"
             android:layout_marginTop="10dp"
             android:background="@drawable/custom_input"
@@ -71,8 +71,8 @@
         android:layout_below="@id/ilPassword"
         android:layout_marginTop="10dp"
         android:background="@color/ColorBrand2"
-        android:onClick="goTohome"
-        android:text="Sign Up"
+        android:onClick="login"
+        android:text="LogIn"
         android:textSize="20sp" />
 
         <TextView
@@ -83,7 +83,8 @@
             android:layout_marginTop="20sp"
             android:gravity="center"
             android:textColor="@android:color/black"
-            android:text="LogIn"
+            android:text="Sign Up"
+            android:enabled="false"
             android:textAlignment="center"
              />
 
