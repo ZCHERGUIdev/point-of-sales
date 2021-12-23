@@ -180,7 +180,7 @@
                             android:weightSum="1.0">
 
                             <ImageView
-                                android:id="@+id/ivMenuPlusTovar"
+                                android:id="@+id/ivMenuEntree"
                                 android:layout_width="@dimen/main_menu_image_size_small"
                                 android:layout_height="@dimen/main_menu_image_size_small"
                                 android:contentDescription="content_description"
@@ -200,7 +200,7 @@
                             android:weightSum="1.0">
 
                             <ImageView
-                                android:id="@+id/ivMenuMinusTovar"
+                                android:id="@+id/ivMenuSorite"
                                 android:layout_width="@dimen/main_menu_image_size_small"
                                 android:layout_height="@dimen/main_menu_image_size_small"
                                 android:contentDescription="content_description"

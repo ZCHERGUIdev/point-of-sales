@@ -15,10 +15,9 @@ import com.google.firebase.database.ValueEventListener
 import com.zcdev.pointofsale.R
 import com.zcdev.pointofsale.data.models.Fournisseur
 import com.zcdev.pointofsale.fragments.Fournisseur.Adapters.FournisseurAdapter
+import com.zcdev.pointofsale.fragments.Fournisseur.Adapters.TransactionAdapter
 import kotlinx.android.synthetic.main.fragment_fournisseur.*
 import kotlinx.android.synthetic.main.fragment_fournisseur.view.*
-import kotlinx.android.synthetic.main.fragment_products.*
-import kotlinx.android.synthetic.main.fragment_products.view.*
 import java.util.*
 
 

@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import com.zcdev.pointofsale.R
 import com.zcdev.pointofsale.data.models.Product
@@ -48,6 +49,16 @@ class dashboardFragment : Fragment() {
 
         v.ivMenuCustomer.setOnClickListener {
             findNavController().navigate(R.id.action_dashboardFragment_to_clientFragment)
+        }
+        v.ivMenuEntree.setOnClickListener {
+            val bundle = bundleOf(
+                "tr" to "entree")
+            findNavController().navigate(R.id.action_dashboardFragment_to_transactionFragment, bundle)
+        }
+        v.ivMenuSorite.setOnClickListener {
+            val bundle = bundleOf(
+                "tr" to "sortie")
+            findNavController().navigate(R.id.action_dashboardFragment_to_transactionFragment, bundle)
         }
 
 

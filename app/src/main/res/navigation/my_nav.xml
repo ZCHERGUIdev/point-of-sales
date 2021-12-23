@@ -37,6 +37,9 @@
         <action
             android:id="@+id/action_dashboardFragment_to_customersFragment"
             app:destination="@id/fournisseurFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_transactionFragment"
+            app:destination="@id/transactionFragment" />
     </fragment>
     <fragment
         android:id="@+id/documentsFragment"
@@ -190,6 +193,15 @@
         <action
             android:id="@+id/action_addFragmentFr_to_fournisseurFragment"
             app:destination="@id/fournisseurFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/transactionFragment"
+        android:name="com.zcdev.pointofsale.fragments.Transaction.TransactionFragment"
+        android:label="fragment_transaction"
+        tools:layout="@layout/fragment_transaction">
+        <action
+            android:id="@+id/action_transactionFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment" />
     </fragment>
 
 </navigation>

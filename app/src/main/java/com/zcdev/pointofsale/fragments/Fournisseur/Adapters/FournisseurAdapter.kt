@@ -14,7 +14,6 @@ import com.google.firebase.database.*
 import com.zcdev.pointofsale.R
 import com.zcdev.pointofsale.data.models.Fournisseur
 import kotlinx.android.synthetic.main.fr_viewcell.view.*
-import java.util.*
 
 
 class FournisseurAdapter(val c: Context, val frList: MutableList<Fournisseur>) :
