@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.prod_viewcelll.view.*
 import java.util.*
 
 
-class ProductAdapter(val c: Context, val productList: MutableList<Product>) :
+class ProductAdapter(val c: Context, val productList: MutableList<Product>, val tr:Boolean, val pr_tr_list:MutableList<Product>) :
     RecyclerView.Adapter<ProductAdapter.ProductViewHolder>(){
 
 
@@ -58,8 +58,12 @@ class ProductAdapter(val c: Context, val productList: MutableList<Product>) :
           itemView.setOnClickListener(object : View.OnClickListener {
               override fun onClick(v: View?) {
                   val position: Int = adapterPosition
-                    // update
-                  sendProductData(v!!, position)
+                  if (tr==true){
+                      addProductToTransaction(productList, position)
+                  }else{
+                      // update
+                      sendProductData(v!!, position)
+                  }
               }
           })
           itemView.setOnLongClickListener(object : View.OnLongClickListener {
@@ -110,7 +114,7 @@ class ProductAdapter(val c: Context, val productList: MutableList<Product>) :
             }
         }
 
-       private fun removeProd(productList: MutableList<Product>, position: Int){
+        private fun removeProd(productList: MutableList<Product>, position: Int){
             val prdCode:String  = productList.get(position).productCode!!
             val ref = FirebaseDatabase.getInstance().reference
             val applesQuery: Query = ref.child("Products").orderByChild("productCode").equalTo(prdCode)
@@ -131,6 +135,18 @@ class ProductAdapter(val c: Context, val productList: MutableList<Product>) :
                 }
             })
         }
+
+        private fun addProductToTransaction(productList: MutableList<Product>, position: Int){
+            if (position != RecyclerView.NO_POSITION) {
+                Toast.makeText(c, "product added ", Toast.LENGTH_SHORT).show()
+                pr_tr_list.add(productList.get(position))
+                //dialaog specify quantity and price
+                productList.removeAt(position)
+                notifyDataSetChanged()
+            }
+        }
+
+
     }
 
 

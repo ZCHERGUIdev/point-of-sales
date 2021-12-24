@@ -37,6 +37,22 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <EditText
+                android:id="@+id/trDesc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginBottom="8dp"
+                android:hint="add comment ..."
+                fab:layout_constraintBottom_toTopOf="@+id/rvProducts"
+                fab:layout_constraintEnd_toEndOf="parent"
+                fab:layout_constraintStart_toStartOf="parent"
+                fab:layout_constraintTop_toBottomOf="@+id/textInputLayout">
+
+            </EditText>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvProducts"
                 android:layout_width="match_parent"
@@ -47,7 +63,7 @@
                 android:paddingBottom="10dp"
                 fab:layout_constraintEnd_toEndOf="parent"
                 fab:layout_constraintStart_toStartOf="parent"
-                fab:layout_constraintTop_toBottomOf="@+id/textInputLayout"
+                fab:layout_constraintTop_toBottomOf="@+id/trDesc"
                 tools:listitem="@layout/prod_viewcell" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

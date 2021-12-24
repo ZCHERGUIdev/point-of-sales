@@ -82,6 +82,9 @@
         <action
             android:id="@+id/action_productsFragment_to_editFragment"
             app:destination="@id/editFragment" />
+        <action
+            android:id="@+id/action_productsFragment_to_transactionFragment"
+            app:destination="@id/transactionFragment" />
     </fragment>
     <fragment
         android:id="@+id/addFragment"
@@ -202,6 +205,9 @@
         <action
             android:id="@+id/action_transactionFragment_to_dashboardFragment"
             app:destination="@id/dashboardFragment" />
+        <action
+            android:id="@+id/action_transactionFragment_to_productsFragment"
+            app:destination="@id/productsFragment" />
     </fragment>
 
 </navigation>

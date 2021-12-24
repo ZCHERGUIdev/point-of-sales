@@ -5,6 +5,7 @@ import android.app.ProgressDialog
 import android.os.Bundle
 import android.view.*
 import android.widget.SearchView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,29 +16,35 @@ import com.zcdev.pointofsale.R
 
 import com.zcdev.pointofsale.data.models.Product
 import com.zcdev.pointofsale.fragments.Products.Adapters.ProductAdapter
+import kotlinx.android.synthetic.main.fragment_edit.view.*
 import kotlinx.android.synthetic.main.fragment_products.*
 import kotlinx.android.synthetic.main.fragment_products.view.*
 
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class ProductsFragment : Fragment() {
-    var integrator:IntentIntegrator?=null
+    var integrator: IntentIntegrator? = null
     var list_pro: MutableList<Product> = ArrayList<Product>()
     var display_list: MutableList<Product> = ArrayList<Product>()
+    var list_prod_tr: ArrayList<Product> = ArrayList<Product>()
 
     //progressDialog
-     var progdialog: ProgressDialog? = null
+    var progdialog: ProgressDialog? = null
+
+    var tr: Boolean? = false
 
 
-    companion object{
-        var INSTANCE=ProductsFragment()
+    companion object {
+        var INSTANCE = ProductsFragment()
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         //progressDialog setUp
-        progdialog= ProgressDialog(requireContext())
+        progdialog = ProgressDialog(requireContext())
         progdialog?.setMessage("Pleaze Wait...")
 
 
@@ -46,11 +53,15 @@ class ProductsFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        var view= inflater.inflate(R.layout.fragment_products, container, false)
+        var view = inflater.inflate(R.layout.fragment_products, container, false)
+
+        if (arguments?.getString("tr").equals("transaction")) {
+            tr = true
+        }
 
         // Set Menu
         setHasOptionsMenu(true)
@@ -58,8 +69,8 @@ class ProductsFragment : Fragment() {
 
         rvProduct.layoutManager = LinearLayoutManager(context)
         rvProduct.setHasFixedSize(true)
-       // rvProduct.adapter = ProductAdapter(display_list)
-        view.addProd.setOnClickListener{
+        // rvProduct.adapter = ProductAdapter(display_list)
+        view.addProd.setOnClickListener {
             findNavController().navigate(R.id.action_productsFragment_to_addFragment)
         }
 
@@ -67,7 +78,7 @@ class ProductsFragment : Fragment() {
     }
 
 
-    private fun showProducts(){
+    private fun showProducts() {
         var products = ArrayList<Product>()
 
         //get products from firebase
@@ -87,27 +98,28 @@ class ProductsFragment : Fragment() {
                     list_pro.add(prod!!)
                 }
                 display_list.addAll(list_pro)
-                rvProduct.adapter = ProductAdapter(activity!!, display_list)
+                rvProduct.adapter = ProductAdapter(activity!!, display_list, tr!!, list_prod_tr)
                 rvProduct.adapter!!.notifyDataSetChanged()
 
                 checkData(display_list)
             }
+
             override fun onCancelled(databaseError: DatabaseError) {}
         }
         myRef.addListenerForSingleValueEvent(eventListener)
     }
 
-    private fun checkData(list :MutableList<Product>) {
+    private fun checkData(list: MutableList<Product>) {
 
-        if(list.isEmpty()){
-            ivEmptyDoc.visibility=View.VISIBLE
-            tvEmptyDoc.visibility=View.VISIBLE
+        if (list.isEmpty()) {
+            ivEmptyDoc.visibility = View.VISIBLE
+            tvEmptyDoc.visibility = View.VISIBLE
             progdialog!!.hide()
 
 
-        }else{
-            ivEmptyDoc.visibility=View.GONE
-            tvEmptyDoc.visibility=View.GONE
+        } else {
+            ivEmptyDoc.visibility = View.GONE
+            tvEmptyDoc.visibility = View.GONE
             progdialog!!.hide()
 
         }
@@ -115,10 +127,14 @@ class ProductsFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
 
+        if (tr == true) {
+            inflater.inflate(R.menu.add_product_menu, menu)
+        }
+
         inflater.inflate(R.menu.search, menu)
         val menuItem: MenuItem = menu.findItem(R.id.menu_search)
 
-        if (menuItem != null){
+        if (menuItem != null) {
 
             var searchView: SearchView = menuItem.actionView as SearchView
             searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -127,18 +143,17 @@ class ProductsFragment : Fragment() {
                 }
 
                 override fun onQueryTextChange(newText: String?): Boolean {
-                    if (newText!!.isNotEmpty()){
+                    if (newText!!.isNotEmpty()) {
                         display_list.clear()
                         val search = newText.toLowerCase(Locale.getDefault())
                         list_pro.forEach {
-                            if (it.productName!!.toLowerCase(Locale.getDefault()).contains(search)){
+                            if (it.productName!!.toLowerCase(Locale.getDefault()).contains(search)) {
                                 display_list.add(it)
                             }
                         }
 
                         rvProduct.adapter!!.notifyDataSetChanged()
-                    }
-                    else{
+                    } else {
                         display_list.clear()
                         display_list.addAll(list_pro)
                         rvProduct.adapter!!.notifyDataSetChanged()
@@ -151,9 +166,13 @@ class ProductsFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(item.itemId == R.id.menu_add){
-            // to do
+        if (item.itemId == R.id.menu_add) {
+
+            val bundle = Bundle()
+            bundle.putSerializable("prds", list_prod_tr)
+            findNavController().navigate(R.id.action_productsFragment_to_transactionFragment, bundle)
         }
-        return super.onOptionsItemSelected(item)
+        return true
     }
+
 }
