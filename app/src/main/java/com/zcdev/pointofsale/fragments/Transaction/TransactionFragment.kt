@@ -15,13 +15,11 @@ import com.google.firebase.database.ValueEventListener
 import com.zcdev.pointofsale.R
 import com.zcdev.pointofsale.data.models.*
 import com.zcdev.pointofsale.fragments.Fournisseur.Adapters.TransactionAdapter
-import kotlinx.android.synthetic.main.fragment_add.view.*
-import kotlinx.android.synthetic.main.fragment_products.*
-import kotlinx.android.synthetic.main.fragment_products.view.*
 import kotlinx.android.synthetic.main.fragment_transaction.*
 import kotlinx.android.synthetic.main.fragment_transaction.view.*
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class TransactionFragment : Fragment() {
@@ -29,7 +27,7 @@ class TransactionFragment : Fragment() {
     var v:View?=null
     var trType:String?=""
     var arrayAdapter:ArrayAdapter<String>? =null
-    var display_list: ArrayList<Product> = ArrayList<Product>()
+    var display_list: MutableList<Product> = ArrayList<Product>()
 
     override fun onResume() {
         super.onResume()

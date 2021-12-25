@@ -2,6 +2,7 @@ package com.zcdev.pointofsale.fragments.Clients.Adapters
 
 import android.app.AlertDialog
 import android.content.Context
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -52,7 +53,7 @@ class ClientAdapter(val c: Context, val clList: MutableList<Client>) :
           itemView.setOnClickListener(object : View.OnClickListener {
               override fun onClick(v: View?) {
                   val position: Int = adapterPosition
-                    // update
+                    // view details
                   sendClData(v!!, position)
               }
           })
@@ -93,22 +94,23 @@ class ClientAdapter(val c: Context, val clList: MutableList<Client>) :
         private fun sendClData(v:View, position: Int) {
             if (position != RecyclerView.NO_POSITION) {
                 val client = clList.get(position)
-                //send cleint data to edit fragment
+                //view versement client
                 val bundle = bundleOf(
                         "id" to client.Id,
                         "name" to client.Name,
                         "phone" to client.Phone,
                         "adr" to client.Address,
                         "eml" to client.Email,
+                        "role" to client.role,
                         "rdc" to client.reduction)
-                v!!.findNavController().navigate(R.id.action_clientFragment_to_editFragmentCl, bundle)
+                v!!.findNavController().navigate(R.id.action_clientFragment_to_versementFragment, bundle)
             }
         }
 
        private fun removeCl(clList: MutableList<Client>, position: Int){
             val clName:String  = clList.get(position).Name!!
             val ref = FirebaseDatabase.getInstance().reference
-            val applesQuery: Query = ref.child("Clients").orderByChild("clName").equalTo(clName)
+            val applesQuery: Query = ref.child("Clients").orderByChild("name").equalTo(clName)
 
             applesQuery.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {

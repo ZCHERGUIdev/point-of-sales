@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:padding="5dp"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.Transaction.TransactionFragment">
+    tools:context=".fragments.Transaction.VersementFragment">
 
 
 

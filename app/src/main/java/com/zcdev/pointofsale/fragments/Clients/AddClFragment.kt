@@ -8,10 +8,8 @@ import androidx.navigation.fragment.findNavController
 import com.google.firebase.database.FirebaseDatabase
 import com.zcdev.pointofsale.R
 import com.zcdev.pointofsale.data.models.Client
-import com.zcdev.pointofsale.data.models.Fournisseur
 import kotlinx.android.synthetic.main.fragment_add.view.edtName
 import kotlinx.android.synthetic.main.fragment_add_cl.view.*
-import kotlinx.android.synthetic.main.fragment_add_fr.view.*
 import kotlinx.android.synthetic.main.fragment_add_fr.view.edtAddress
 import kotlinx.android.synthetic.main.fragment_add_fr.view.edtEml
 import kotlinx.android.synthetic.main.fragment_add_fr.view.edtPhone
@@ -77,7 +75,7 @@ class AddClFragment : Fragment(){
 
         id=name+phone // id need to be hached !!!
         // create new client
-        var cl = Client(id!!,name,phone,email,address,reduction!!)
+        var cl:Client = Client(id!!,name,phone,email,address,null,"CL",reduction!!)
 
         // get fireabse database instance
         val database = FirebaseDatabase.getInstance()

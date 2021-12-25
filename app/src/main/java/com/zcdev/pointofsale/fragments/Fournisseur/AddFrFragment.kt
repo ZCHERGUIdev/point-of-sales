@@ -71,7 +71,7 @@ class AddFrFragment : Fragment(){
 
         id=name+phone // id need to be hached !!!
         // create new fournisseur
-        var fr = Fournisseur(id!!,name,phone,email,address)
+        var fr = Fournisseur(id!!,name,phone,email,address,null,"FR")
 
         // get fireabse database instance
         val database = FirebaseDatabase.getInstance()

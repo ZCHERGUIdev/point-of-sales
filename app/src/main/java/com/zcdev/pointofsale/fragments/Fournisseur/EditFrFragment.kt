@@ -9,6 +9,7 @@ import androidx.navigation.findNavController
 import com.google.firebase.database.FirebaseDatabase
 import com.zcdev.pointofsale.R
 import com.zcdev.pointofsale.data.models.Fournisseur
+import com.zcdev.pointofsale.data.models.Versement
 import kotlinx.android.synthetic.main.fragment_edit.view.edtNameUpdate
 import kotlinx.android.synthetic.main.fragment_edit_fr.view.*
 
@@ -29,7 +30,7 @@ class EditFrFragment : Fragment() {
 
 
         //receive data
-        id=arguments?.getString("id")
+        id = arguments?.getString("id")
         v!!.edtNameUpdate.setText(arguments?.getString("name"))
         v!!.edtPhoneUpdate.setText(arguments?.getString("phone"))
         v!!.edtEmlUpdate.setText(arguments?.getString("eml"))
@@ -72,22 +73,21 @@ class EditFrFragment : Fragment() {
 
 
 
-        // create new fournisseur
-        var fr = Fournisseur(id!!,name,phone,email,address)
-
         // get fireabse database instance
         val database = FirebaseDatabase.getInstance()
-        val myRef = database.getReference("Fournisseurs")
+        val myRef = database.getReference("Fournisseurs").child(id!!)
 
-        // add fr to firebase
-        myRef.child(id!!).setValue(fr).addOnSuccessListener{
+        // update fr to firebase
+
+        // update cl to firebase
+        myRef.child("name").setValue(name)
+        myRef.child("phone").setValue(phone)
+        myRef.child("address").setValue(address)
+        myRef.child("email").setValue(email)
 
             // navigate to fr list
             v!!.findNavController().navigate(R.id.action_editFragmentFr_to_fournisseurFragment)
 
-            }.addOnFailureListener{
 
-            Toast.makeText(v.context, "Sorry !! item not Updated", Toast.LENGTH_SHORT).show()
-        }
     }
 }

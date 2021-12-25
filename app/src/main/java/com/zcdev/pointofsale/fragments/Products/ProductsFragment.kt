@@ -5,7 +5,6 @@ import android.app.ProgressDialog
 import android.os.Bundle
 import android.view.*
 import android.widget.SearchView
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,7 +15,6 @@ import com.zcdev.pointofsale.R
 
 import com.zcdev.pointofsale.data.models.Product
 import com.zcdev.pointofsale.fragments.Products.Adapters.ProductAdapter
-import kotlinx.android.synthetic.main.fragment_edit.view.*
 import kotlinx.android.synthetic.main.fragment_products.*
 import kotlinx.android.synthetic.main.fragment_products.view.*
 

@@ -9,7 +9,7 @@ import androidx.navigation.findNavController
 import com.google.firebase.database.FirebaseDatabase
 import com.zcdev.pointofsale.R
 import com.zcdev.pointofsale.data.models.Client
-import com.zcdev.pointofsale.data.models.Fournisseur
+import com.zcdev.pointofsale.data.models.Versement
 import kotlinx.android.synthetic.main.fragment_edit.view.edtNameUpdate
 import kotlinx.android.synthetic.main.fragment_edit_cl.view.*
 import kotlinx.android.synthetic.main.fragment_edit_fr.view.*
@@ -78,22 +78,19 @@ class EditClFragment : Fragment() {
 
 
 
-        // create new client
-        var cl = Client(id!!,name,phone,email,address,reduction)
-
         // get fireabse database instance
         val database = FirebaseDatabase.getInstance()
-        val myRef = database.getReference("Clients")
+        val myRef = database.getReference("Clients").child(id!!)
 
-        // add fr to firebase
-        myRef.child(id!!).setValue(cl).addOnSuccessListener{
+        // update cl to firebase
+        myRef.child("name").setValue(name)
+        myRef.child("phone").setValue(phone)
+        myRef.child("address").setValue(address)
+        myRef.child("email").setValue(email)
+        myRef.child("reduction").setValue(reduction)
 
             // navigate to fr list
             v!!.findNavController().navigate(R.id.action_editFragmentCl_to_clientFragment)
 
-            }.addOnFailureListener{
-
-            Toast.makeText(v.context, "Sorry !! item not Updated", Toast.LENGTH_SHORT).show()
-        }
     }
 }

@@ -53,7 +53,7 @@ class FournisseurAdapter(val c: Context, val frList: MutableList<Fournisseur>) :
           itemView.setOnClickListener(object : View.OnClickListener {
               override fun onClick(v: View?) {
                   val position: Int = adapterPosition
-                    // update
+                    // view details
                   sendFrData(v!!, position)
               }
           })
@@ -79,7 +79,7 @@ class FournisseurAdapter(val c: Context, val frList: MutableList<Fournisseur>) :
                         .setIcon(R.drawable.ic_warning)
                         .setMessage("Are you sure you want to remove this Supplier")
                         .setPositiveButton("Yes") { dialog, _ ->
-                            // remove product
+                            // remove fr
                             removeFr(frList, position)
                             dialog.dismiss()
                         }
@@ -94,21 +94,22 @@ class FournisseurAdapter(val c: Context, val frList: MutableList<Fournisseur>) :
         private fun sendFrData(v:View, position: Int) {
             if (position != RecyclerView.NO_POSITION) {
                 val fournisseur = frList.get(position)
-                //send product data to edit fragment
+                //view versement fournisseur
                 val bundle = bundleOf(
                         "id" to fournisseur.Id,
                         "name" to fournisseur.Name,
                         "phone" to fournisseur.Phone,
                         "adr" to fournisseur.Address,
-                        "eml" to fournisseur.Email)
-                v!!.findNavController().navigate(R.id.action_fournisseurFragment_to_editFragmentFr, bundle)
+                        "eml" to fournisseur.Email,
+                        "role" to fournisseur.role)
+                v!!.findNavController().navigate(R.id.action_fournisseurFragment_to_versementFragment, bundle)
             }
         }
 
        private fun removeFr(frList: MutableList<Fournisseur>, position: Int){
             val frName:String  = frList.get(position).Name!!
             val ref = FirebaseDatabase.getInstance().reference
-            val applesQuery: Query = ref.child("Fournisseurs").orderByChild("frName").equalTo(frName)
+            val applesQuery: Query = ref.child("Fournisseurs").orderByChild("name").equalTo(frName)
 
             applesQuery.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {

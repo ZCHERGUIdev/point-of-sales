@@ -143,8 +143,8 @@
             android:id="@+id/action_clientFragment_to_addFragmentCl"
             app:destination="@id/addFragmentCl" />
         <action
-            android:id="@+id/action_clientFragment_to_editFragmentCl"
-            app:destination="@id/editFragmentCl" />
+            android:id="@+id/action_clientFragment_to_versementFragment"
+            app:destination="@id/versementFragment" />
     </fragment>
     <fragment
         android:id="@+id/editFragmentCl"
@@ -176,8 +176,8 @@
             android:id="@+id/action_fournisseurFragment_to_addFragmentFr"
             app:destination="@id/addFragmentFr" />
         <action
-            android:id="@+id/action_fournisseurFragment_to_editFragmentFr"
-            app:destination="@id/editFragmentFr" />
+            android:id="@+id/action_fournisseurFragment_to_versementFragment"
+            app:destination="@id/versementFragment" />
     </fragment>
     <fragment
         android:id="@+id/editFragmentFr"
@@ -208,6 +208,25 @@
         <action
             android:id="@+id/action_transactionFragment_to_productsFragment"
             app:destination="@id/productsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/versementFragment"
+        android:name="com.zcdev.pointofsale.fragments.Versements.VersementFragment"
+        android:label="fragment_versement"
+        tools:layout="@layout/fragment_versement">
+
+        <action
+            android:id="@+id/action_versementFragment_to_clientFragment"
+            app:destination="@id/clientFragment" />
+        <action
+            android:id="@+id/action_versementFragment_to_fournisseurFragment"
+            app:destination="@id/fournisseurFragment" />
+        <action
+            android:id="@+id/action_versementFragment_to_editFragmentFr"
+            app:destination="@id/editFragmentFr" />
+        <action
+            android:id="@+id/action_versementFragment_to_editFragmentCl"
+            app:destination="@id/editFragmentCl" />
     </fragment>
 
 </navigation>
