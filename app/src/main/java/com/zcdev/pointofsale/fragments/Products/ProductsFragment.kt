@@ -32,6 +32,7 @@ class ProductsFragment : Fragment() {
     var progdialog: ProgressDialog? = null
 
     var tr: Boolean? = false
+    var trType:String?=null
 
 
     companion object {
@@ -57,8 +58,9 @@ class ProductsFragment : Fragment() {
         // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.fragment_products, container, false)
 
-        if (arguments?.getString("tr").equals("transaction")) {
+        if (arguments?.getString("src").equals("transaction")) {
             tr = true
+            trType = arguments?.getString("tr")
         }
 
         // Set Menu
@@ -166,8 +168,16 @@ class ProductsFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.menu_add) {
 
+
+            if (trType.equals("Client")){
+                trType = "sortie"
+            }else if (trType.equals("Fournisseur")){
+                trType= "entree"
+            }
+
             val bundle = Bundle()
             bundle.putSerializable("prds", list_prod_tr)
+            bundle.putString("tr",trType)
             findNavController().navigate(R.id.action_productsFragment_to_transactionFragment, bundle)
         }
         return true

@@ -4,13 +4,22 @@ import java.util.ArrayList
 
 class Entree: Transaction {
 
-    var type:String?=" "
-    var fournisseur:String?=" "
 
-    constructor(Id:String, desc:String, list_prod: MutableList<Product>, date:String, fournisseur:String):super(Id,desc,list_prod,date){
+    constructor(desc:String, list_prod: MutableList<Product>, date:String, trader:String)
+            :super(desc,list_prod,date, trader){
         this.type = "Entree"
-        this.fournisseur = fournisseur
+        this.prixTotal = gettotalprice(list_prod)
     }
     constructor()
+
+    fun gettotalprice(list_prod: MutableList<Product>): Double {
+        var total:Double?=0.0
+
+        for (p in list_prod){
+            // prix achat
+            total = total!! + (p.prixAchat!! * p.productQnt!!)
+        }
+        return total!!
+    }
 
 }

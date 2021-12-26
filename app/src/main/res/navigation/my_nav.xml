@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_dashboard" >
         <action
             android:id="@+id/action_dashboardFragment_to_documentsFragment"
-            app:destination="@id/documentsFragment" />
+            app:destination="@id/fragment_doc" />
         <action
             android:id="@+id/action_dashboardFragment_to_expensesFragment"
             app:destination="@id/expensesFragment" />
@@ -42,13 +42,17 @@
             app:destination="@id/transactionFragment" />
     </fragment>
     <fragment
-        android:id="@+id/documentsFragment"
+        android:id="@+id/fragment_doc"
         android:name="com.zcdev.pointofsale.fragments.Documents.DocumentsFragment"
         android:label="Documents"
-        tools:layout="@layout/fragment_documents" >
+        tools:layout="@layout/fragment_doc" >
         <action
             android:id="@+id/action_documentsFragment_to_dashboardFragment"
             app:destination="@id/dashboardFragment" />
+        <action
+            android:id="@+id/action_documentsFragment_to_transactionFragment"
+            app:destination="@id/transactionFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/expensesFragment"

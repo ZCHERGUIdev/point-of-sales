@@ -49,6 +49,8 @@ class EditFragment : Fragment() {
         v!!.edtBarcodeUpdate.setText(arguments?.getString("code"))
         v!!.edtDescUpdate.setText(arguments?.getString("desc"))
         v!!.edtQntUpdate.setText(arguments?.getString("qte"))
+        v!!.edtPrixAUpdate.setText(arguments?.getString("prixA"))
+        v!!.edtPrixVUpdate.setText(arguments?.getString("prixV"))
 
         Picasso.with(requireContext()).load(arguments?.getString("img")).into(v!!.ivPickImageUpdate)
 
@@ -110,16 +112,19 @@ class EditFragment : Fragment() {
         val name: String =  v.edtNameUpdate.text.toString()
         val barcode: String = v.edtBarcodeUpdate.text.toString()
         val desc: String = v.edtDescUpdate.text.toString()
-        val qnt: String = v.edtQntUpdate.text.toString()   // string to int --> Qte
+        val qnt: Int = v.edtQntUpdate.text.toString().toInt()
+        val prixAchat: Double = v.edtPrixAUpdate.text.toString().toDouble()
+        val prixVente: Double = v.edtPrixVUpdate.text.toString().toDouble()
+
 
 
         // add image !!
         var prd:Product
         if(imageLink==null)
         {
-             prd = Product(name,barcode,desc,qnt,arguments?.getString("img")!!)
+             prd = Product(name,barcode,desc,qnt,prixAchat,prixVente,arguments?.getString("img")!!)
         }else{
-             prd = Product(name,barcode,desc,qnt,imageLink!!)
+             prd = Product(name,barcode,desc,qnt,prixAchat,prixVente,imageLink!!)
 
         }
 

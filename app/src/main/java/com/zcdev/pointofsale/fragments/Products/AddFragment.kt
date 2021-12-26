@@ -22,6 +22,8 @@ import com.zcdev.pointofsale.R
 import com.zcdev.pointofsale.activitys.CaptureAct
 import com.zcdev.pointofsale.data.models.Product
 import kotlinx.android.synthetic.main.fragment_add.view.*
+import kotlinx.android.synthetic.main.fragment_add.view.btnTovarBarcode
+import kotlinx.android.synthetic.main.fragment_edit.view.*
 import java.io.ByteArrayOutputStream
 import java.io.FileNotFoundException
 import java.io.InputStream
@@ -121,12 +123,14 @@ class AddFragment : Fragment(){
         val name: String =  v.edtName.text.toString()
         val barcode: String = v.edtBarcode.text.toString()
         val desc: String = v.edDesc.text.toString()
-        val qnt: String = v.edtQnt.text.toString()   // string to int --> Qte
+        val qnt: Int = v.edtQnt.text.toString().toInt()
+        val prixAchat: Double = v.edtPrixA.text.toString().toDouble()
+        val prixVente: Double = v.edtPrixV.text.toString().toDouble()
 
 
 
         // create new product
-        var prd: Product = Product(name,barcode,desc,qnt,imageLink!!)
+        var prd: Product = Product(name,barcode,desc,qnt,prixAchat,prixVente,imageLink!!)
 
         // get fireabse database instance
         val database = FirebaseDatabase.getInstance()

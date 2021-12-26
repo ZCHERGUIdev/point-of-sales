@@ -35,9 +35,9 @@ class ProductAdapter(val c: Context, val productList: MutableList<Product>, val 
         val currentItem = productList[position]
 
         //fetch data when update *use cached view ref !
-        //holder.imageView.setImageResource(currentItem.productImg!!)
         holder.textView1.text = currentItem.productName
         holder.textView2.text = currentItem.productDesc
+        holder.textView3.text = currentItem.productQnt.toString()
         Picasso.with(holder.itemView.context).load(currentItem.productImg).into(holder.img)
 
 
@@ -48,9 +48,9 @@ class ProductAdapter(val c: Context, val productList: MutableList<Product>, val 
 
     inner class ProductViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         //ref view attributes
-        //val imageView: ImageView = itemView.imgProfil
         val textView1: TextView = itemView.prName
         val textView2: TextView = itemView.tvProd
+        val textView3: TextView = itemView.qte
         val img: ImageView = itemView.imgProd
 
 
@@ -108,7 +108,9 @@ class ProductAdapter(val c: Context, val productList: MutableList<Product>, val 
                         "name" to product.productName,
                         "code" to product.productCode,
                         "desc" to product.productDesc,
-                        "qte" to product.productQnt,
+                        "qte" to product.productQnt.toString(),
+                        "prixA" to product.prixAchat.toString(),
+                        "prixV" to product.prixVente.toString(),
                         "img" to product.productImg)
                 v!!.findNavController().navigate(R.id.action_productsFragment_to_editFragment, bundle)
             }

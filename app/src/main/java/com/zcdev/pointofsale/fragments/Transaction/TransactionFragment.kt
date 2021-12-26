@@ -45,7 +45,7 @@ class TransactionFragment : Fragment() {
         if (arguments?.getSerializable("prds")!=null){
             display_list = arguments?.getSerializable("prds") as ArrayList<Product>
         }
-        rvProducts.adapter = TransactionAdapter(requireActivity(), display_list)
+        rvProducts.adapter = TransactionAdapter(requireActivity(), display_list, trType!!)
         rvProducts.adapter!!.notifyDataSetChanged()
 
 
@@ -73,7 +73,8 @@ class TransactionFragment : Fragment() {
 //-----------------------------------------add product to transaction-------------------------------------------
             //send bundel (tr!!) if tr then add product to transaction else list products
             val bundle = bundleOf(
-                    "tr" to "transaction")
+                    "src" to "transaction",
+                    "tr" to trType)
             findNavController().navigate(R.id.action_transactionFragment_to_productsFragment, bundle)
         }
 
@@ -163,19 +164,20 @@ class TransactionFragment : Fragment() {
         // get fireabse database instance
         val database = FirebaseDatabase.getInstance()
         val myRef = database.getReference("Transactions")
-        val id:String= trader+date
 
         if(trType.equals("Fournisseur")){
             // create new Entree
-            var entree = Entree(id,desc,list_prod, formatedDate, trader)
+            var entree = Entree(desc,list_prod, date.toString(), trader)
             // add transaction to firebase
-            myRef.child(id).setValue(entree)
+            myRef.child(date.toString()).setValue(entree)
         }else{
             // create new Sortie
-            var sortie = Sortie(id,desc,list_prod, formatedDate, trader)
+            var sortie = Sortie(desc,list_prod, date.toString(), trader)
             // add transaction to firebase
-            myRef.child(id).setValue(sortie)
+            myRef.child(date.toString()).setValue(sortie)
         }
 
     }
+
+
 }

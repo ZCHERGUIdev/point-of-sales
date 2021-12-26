@@ -127,9 +127,56 @@
                         android:layout_marginTop="5dp"
                         android:selectAllOnFocus="true" />
                 </com.google.android.material.textfield.TextInputLayout>
-
-
             </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/rlPrix"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/ilPrixA"
+                    android:layout_weight="0.5"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:hint="Prix Achat"
+                    app:hintEnabled="true">
+
+                    <EditText
+                        android:id="@+id/edtPrixA"
+                        android:layout_width="match_parent"
+                        android:background="@drawable/custom_input"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:layout_marginTop="5dp"
+                        android:selectAllOnFocus="true" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/ilPrixV"
+                    android:layout_weight="0.5"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:hint="Prix Vente"
+                    app:hintEnabled="true">
+
+                    <EditText
+                        android:id="@+id/edtPrixV"
+                        android:layout_width="match_parent"
+                        android:background="@drawable/custom_input"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+
+                        android:layout_marginTop="5dp"
+                        android:selectAllOnFocus="true" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+            </LinearLayout>
             <ImageView
                 android:id="@+id/ivPickImage"
                 android:layout_width="fill_parent"

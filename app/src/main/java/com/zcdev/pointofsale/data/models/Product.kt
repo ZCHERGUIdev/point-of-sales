@@ -6,26 +6,29 @@ class Product {
     var productName: String?=null
     var productCode: String?=null
     var productDesc: String?=null
-    var productQnt: String?=null
-    //var productPrice:Float?=null
+    var productQnt: Int?=0
+    var prixAchat: Double =0.0
+    var prixVente: Double =0.0
     var productImg: String?=null
 
 
-    constructor(name:String,code:String,desc:String,qnt:String,img:String){
+    constructor(name:String,code:String,desc:String,qnt:Int,prixAchat:Double,prixVente:Double,img:String){
         this.productName=name
         this.productCode=code
         this.productDesc=desc
         this.productQnt=qnt
-        //this.productPrice=price
+        this.prixAchat=prixAchat
+        this.prixVente=prixVente
         this.productImg=img
     }
 
-    constructor(name:String,code:String,desc:String,qnt:String){
+    constructor(name:String,code:String,desc:String,qnt:Int,prixAchat:Double,prixVente:Double){
         this.productName=name
         this.productCode=code
         this.productDesc=desc
         this.productQnt=qnt
-        //this.productPrice=price
+        this.prixAchat=prixAchat
+        this.prixVente=prixVente
     }
     constructor()   // **Add this**
 

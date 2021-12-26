@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.prod_viewcell.view.*
 import kotlinx.android.synthetic.main.prod_viewcelll.view.prName
 
 
-class TransactionAdapter(val c: Context, val productList: MutableList<Product>) :
+class TransactionAdapter(val c: Context, val productList: MutableList<Product>,val trType:String) :
     RecyclerView.Adapter<TransactionAdapter.ProductViewHolder>(){
 
 
@@ -32,8 +32,14 @@ class TransactionAdapter(val c: Context, val productList: MutableList<Product>) 
             //fetch data when update *use cached view ref !
             holder.textView1.text = currentItem.productName
             holder.textView2.text = currentItem.productCode
-            holder.textView3.text = currentItem.productQnt
+            holder.textView3.text = currentItem.productQnt.toString()
 
+            // depends on transaction
+            if (trType.equals("Fournisseur")){
+                holder.textView4.text = currentItem.prixAchat.toString()
+            }else if(trType.equals("Client")){
+                holder.textView4.text = currentItem.prixVente.toString()
+            }
         }
 
         override fun getItemCount() = productList.size
@@ -43,6 +49,7 @@ class TransactionAdapter(val c: Context, val productList: MutableList<Product>) 
             val textView1: TextView = itemView.prName
             val textView2: TextView = itemView.bCodeProd
             val textView3: TextView = itemView.qteProd
+            val textView4: TextView = itemView.prix
 
 
             init {
