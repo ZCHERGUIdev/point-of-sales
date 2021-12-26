@@ -10,17 +10,13 @@ import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.*
 import com.zcdev.pointofsale.R
-import com.zcdev.pointofsale.data.models.Document
-import com.zcdev.pointofsale.data.models.Product
 import com.zcdev.pointofsale.data.models.Transaction
-import com.zcdev.pointofsale.fragments.Products.ProductsFragment
 import kotlinx.android.synthetic.main.doc_viewcell.view.*
-import kotlinx.android.synthetic.main.prod_viewcell.view.*
 import kotlinx.android.synthetic.main.prod_viewcell.view.qteProd
-import kotlinx.android.synthetic.main.prod_viewcelll.view.prName
+import java.text.SimpleDateFormat
 
 
-class DocumentAdapter(val c: Context, val docList: MutableList<Document>) :
+class DocumentAdapter(val c: Context, val docList: MutableList<Transaction>) :
     RecyclerView.Adapter<DocumentAdapter.DocumentViewHolder>(){
 
 
@@ -96,7 +92,7 @@ class DocumentAdapter(val c: Context, val docList: MutableList<Document>) :
                 }
             }
 
-            private fun removeDoc(docList: MutableList<Document>, position: Int){
+            private fun removeDoc(docList: MutableList<Transaction>, position: Int){
                 val docId:String  = docList.get(position).Id!!
                 val ref = FirebaseDatabase.getInstance().reference
                 val applesQuery: Query = ref.child("Transactions").orderByChild("id").equalTo(docId)

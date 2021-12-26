@@ -29,8 +29,8 @@ import kotlin.collections.ArrayList
 
 class DocumentsFragment : Fragment() {
 
-    var list_doc: MutableList<Document> = ArrayList<Document>()
-    var display_list: MutableList<Document> = ArrayList<Document>()
+    var list_doc: MutableList<Transaction> = ArrayList<Transaction>()
+    var display_list: MutableList<Transaction> = ArrayList<Transaction>()
 
     //progressDialog
     var progdialog: ProgressDialog? = null
@@ -48,7 +48,7 @@ class DocumentsFragment : Fragment() {
         progdialog?.setMessage("Pleaze Wait...")
 
 
-       // showDocuments()
+        showDocuments()
 
     }
 
@@ -96,8 +96,7 @@ class DocumentsFragment : Fragment() {
 
                 for (trsnap in dataSnapshot.children) {
                     val tr = trsnap.getValue(Transaction::class.java) as Transaction
-                    var doc:Document?= Document(tr.trader!!,tr.type!!,tr.date!!,tr.qteProd!!,tr.prixTotal!!)
-                    list_doc.add(doc!!)
+                    list_doc.add(tr)
                 }
                 display_list.addAll(list_doc)
                 rvDocument.adapter = DocumentAdapter(activity!!, display_list)
@@ -112,7 +111,7 @@ class DocumentsFragment : Fragment() {
     }
 
 
-    private fun checkData(list: MutableList<Document>) {
+    private fun checkData(list: MutableList<Transaction>) {
 
         if (list.isEmpty()) {
             ivEmpty.visibility = View.VISIBLE
