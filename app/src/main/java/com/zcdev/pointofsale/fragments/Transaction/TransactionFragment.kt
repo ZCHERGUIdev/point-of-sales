@@ -1,22 +1,24 @@
 package com.zcdev.pointofsale.fragments.Transaction
 
+import android.app.AlertDialog
 import android.os.Bundle
+import android.text.InputType
 import android.view.*
-import androidx.fragment.app.Fragment
 import android.widget.ArrayAdapter
+import android.widget.EditText
 import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.zcdev.pointofsale.R
 import com.zcdev.pointofsale.data.models.*
 import com.zcdev.pointofsale.fragments.Fournisseur.Adapters.TransactionAdapter
+import kotlinx.android.synthetic.main.doc_viewcell.*
 import kotlinx.android.synthetic.main.fragment_transaction.*
 import kotlinx.android.synthetic.main.fragment_transaction.view.*
+import kotlinx.android.synthetic.main.fragment_versement.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -34,12 +36,12 @@ class TransactionFragment : Fragment() {
         if (arguments?.getString("tr").equals("entree")){
             trType = "Fournisseur"
             arrayAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item,
-                getFourniseurs())
+                    getFourniseurs())
 
         }else{
             trType = "Client"
             arrayAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item,
-                getClients())
+                    getClients())
         }
 
         if (arguments?.getSerializable("prds")!=null){
@@ -49,7 +51,7 @@ class TransactionFragment : Fragment() {
         rvProducts.adapter!!.notifyDataSetChanged()
 
 
-        v!!.autoCompleteTextView.setText(trType,false)
+        v!!.autoCompleteTextView.setText(trType, false)
         v!!.autoCompleteTextView.setAdapter(arrayAdapter)
     }
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -94,7 +96,12 @@ class TransactionFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(item.itemId == R.id.menu_add){
             // to do
-            addTransaction(display_list,v!!.autoCompleteTextView.text.toString())
+
+                versementDialogue( v!!.autoCompleteTextView.text.toString())
+                // proposer d'ajouter un versement !!
+                    //get trader from trType(client / fournisseur) and name (view)
+                        // add versement to this trader
+            addTransaction(display_list, v!!.autoCompleteTextView.text.toString())
 
             findNavController().navigate(R.id.action_transactionFragment_to_dashboardFragment)
         }
@@ -102,7 +109,96 @@ class TransactionFragment : Fragment() {
     }
 
 
+    private fun versementDialogue(trader: String) {
+        // Set up the input
+        val input = EditText(context)
+        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input.setHint("verser ici ...")
+        input.inputType = InputType.TYPE_CLASS_NUMBER
 
+
+        AlertDialog.Builder(context)
+                .setView(input)
+                .setTitle("add Versement")
+                .setIcon(R.drawable.ic_money)
+                .setPositiveButton("Add") { dialog, _ ->
+                    // add versement
+                    addVersement(input.text.toString().toInt(), trader)
+                    dialog.dismiss()
+                }
+                .setNegativeButton("Cancel") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .create()
+                .show()
+    }
+    private fun addVersement(montant: Int, trader: String){
+
+
+        // get values
+        val date = Calendar.getInstance().time // it's unique (dateTime)
+        val formatter = SimpleDateFormat.getDateTimeInstance() //or use getDateInstance()
+        val formatedDate = formatter.format(date)
+
+        // get fireabse database instance
+        val database = FirebaseDatabase.getInstance()
+        val id:String= date.toString()
+        // create new versement
+        var vrs = Versement(id, formatedDate.toString(), montant)
+
+        if(trType.equals("Fournisseur")){
+            val traderRef = database.getReference("Fournisseurs")
+            // find fournisseur by name
+            traderRef.orderByChild("name").equalTo(trader).addChildEventListener(object : ChildEventListener {
+                override fun onChildAdded(dataSnapshot: DataSnapshot, prevChildKey: String?) {
+                    val fr = dataSnapshot.getValue(Fournisseur::class.java)
+                    val myRef = database.getReference("Fournisseurs/" + fr!!.Id + "/versements")
+                    // add versement to firebase -----------------------------------------------------
+                    myRef.child(id).setValue(vrs)
+                }
+
+                override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+
+                }
+
+                override fun onChildRemoved(snapshot: DataSnapshot) {
+
+                }
+
+                override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+
+                }
+            })
+        }else{
+            // find client by name
+                val traderRef = database.getReference("Clients")
+            // find client by name
+            traderRef.orderByChild("name").equalTo(trader).addChildEventListener(object : ChildEventListener {
+                override fun onChildAdded(dataSnapshot: DataSnapshot, prevChildKey: String?) {
+                    val cl = dataSnapshot.getValue(Client::class.java)
+                    val myRef = database.getReference("Clients/" + cl!!.Id + "/versements")
+                    // add versement to firebase -----------------------------------------------------
+                    myRef.child(id).setValue(vrs)
+                }
+
+                override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+                }
+
+                override fun onChildRemoved(snapshot: DataSnapshot) {
+                }
+
+                override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                }
+            })
+        }
+    }
 
     private fun getFourniseurs():MutableList<String>{
         var list_fr: MutableList<String> = ArrayList<String>()
@@ -153,7 +249,7 @@ class TransactionFragment : Fragment() {
         return list_cl
     }
 
-    private fun addTransaction(list_prod:MutableList<Product>, trader:String){
+    private fun addTransaction(list_prod: MutableList<Product>, trader: String){
         // get values
         val date = Calendar.getInstance().time // it's unique (dateTime)
         val formatter = SimpleDateFormat.getDateTimeInstance() //or use getDateInstance()
@@ -167,12 +263,12 @@ class TransactionFragment : Fragment() {
 
         if(trType.equals("Fournisseur")){
             // create new Entree
-            var entree = Entree(desc,list_prod, date.toString(), trader)
+            var entree = Entree(desc, list_prod, date.toString(), trader)
             // add transaction to firebase
             myRef.child(date.toString()).setValue(entree)
         }else{
             // create new Sortie
-            var sortie = Sortie(desc,list_prod, date.toString(), trader)
+            var sortie = Sortie(desc, list_prod, date.toString(), trader)
             // add transaction to firebase
             myRef.child(date.toString()).setValue(sortie)
         }

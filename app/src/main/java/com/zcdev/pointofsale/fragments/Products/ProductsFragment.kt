@@ -23,7 +23,6 @@ import kotlin.collections.ArrayList
 
 
 class ProductsFragment : Fragment() {
-    var integrator: IntentIntegrator? = null
     var list_pro: MutableList<Product> = ArrayList<Product>()
     var display_list: MutableList<Product> = ArrayList<Product>()
     var list_prod_tr: ArrayList<Product> = ArrayList<Product>()
@@ -32,7 +31,7 @@ class ProductsFragment : Fragment() {
     var progdialog: ProgressDialog? = null
 
     var tr: Boolean? = false
-    var trType:String?=null
+    var trType:String?=" "
 
 
     companion object {
@@ -69,7 +68,6 @@ class ProductsFragment : Fragment() {
 
         rvProduct.layoutManager = LinearLayoutManager(context)
         rvProduct.setHasFixedSize(true)
-        // rvProduct.adapter = ProductAdapter(display_list)
         view.addProd.setOnClickListener {
             findNavController().navigate(R.id.action_productsFragment_to_addFragment)
         }
@@ -98,7 +96,7 @@ class ProductsFragment : Fragment() {
                     list_pro.add(prod!!)
                 }
                 display_list.addAll(list_pro)
-                rvProduct.adapter = ProductAdapter(activity!!, display_list, tr!!, list_prod_tr)
+                rvProduct.adapter = ProductAdapter(activity!!, display_list, tr!!,trType!!, list_prod_tr)
                 rvProduct.adapter!!.notifyDataSetChanged()
 
                 checkData(display_list)

@@ -32,7 +32,6 @@ class VersementFragment : Fragment() {
     var hash_vrs : HashMap<String, Versement> = HashMap<String, Versement>()
     var cl:Client?=null
     var fr:Fournisseur?=null
-    var total:Int?=0
 
     //progressDialog
     var progdialog: ProgressDialog? = null
@@ -63,12 +62,14 @@ class VersementFragment : Fragment() {
 
             rvVersements.adapter = VersementAdapter(requireActivity(), display_list, cl!!)
             rvVersements.adapter!!.notifyDataSetChanged()
+            v!!.currentMoney.setText(cl!!.sommeVrs.toString())
 
         }else if (role.equals("FR")){
             fr = Fournisseur(id,name,phone,email,address,hash_vrs,role)
 
             rvVersements.adapter = VersementAdapter(requireActivity(), display_list, fr!!)
             rvVersements.adapter!!.notifyDataSetChanged()
+            v!!.currentMoney.setText(fr!!.sommeVrs.toString())
 
         }
         showVersements()
@@ -174,23 +175,38 @@ class VersementFragment : Fragment() {
         val id:String= date.toString()
         // create new versement
         var vrs = Versement(id,formatedDate.toString(),montant)
+        display_list.add(vrs)
+        hash_vrs.put(vrs.Id!!,vrs)
 
         if (cl!=null) {
             val myRef = database.getReference("Clients/"+cl!!.Id+"/versements")
+            val clRef = database.getReference("Clients/"+cl!!.Id)
 
             // add versement to firebase
-            myRef!!.child(id).setValue(vrs)
+            myRef.child(id).setValue(vrs)
+            // update client somme vrs
+            cl!!.sommeVrs = cl!!.calculeSV(hash_vrs)
+            clRef.child("sommeVrs").setValue(cl!!.sommeVrs)
+
+            v!!.currentMoney.setText(cl!!.sommeVrs.toString())
+
 
         }else if (fr!=null) {
             val myRef = database.getReference("Fournisseurs/"+fr!!.Id+"/versements")
+            val frRef = database.getReference("Fournisseurs/"+fr!!.Id)
 
             // add versement to firebase
-            myRef!!.child(id).setValue(vrs)
+            myRef.child(id).setValue(vrs)
+            // update fournisseur somme vrs
+
+            fr!!.sommeVrs = fr!!.calculeSV(hash_vrs)
+            frRef.child("sommeVrs").setValue(fr!!.sommeVrs )
+
+            v!!.currentMoney.setText(fr!!.sommeVrs.toString())
         }
-        display_list.add(vrs)
-        hash_vrs.put(vrs.Id!!,vrs)
+
         rvVersements.adapter!!.notifyDataSetChanged()
-        calcul()
+
 
     }
 
@@ -245,16 +261,8 @@ class VersementFragment : Fragment() {
             }
             myRef.addListenerForSingleValueEvent(eventListener)
         }
-        calcul()
     }
 
 
 
-    // calculate sum
-    private fun calcul(){
-        for (i in display_list) {
-            total = total!! + i.montant!!
-        }
-        v!!.currentMoney.setText(total.toString())
-    }
 }

@@ -2,11 +2,13 @@ package com.zcdev.pointofsale.fragments.Products.Adapters
 
 import android.app.AlertDialog
 import android.content.Context
+import android.text.InputType
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import android.widget.LinearLayout
 import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -18,7 +20,7 @@ import kotlinx.android.synthetic.main.prod_viewcelll.view.*
 import java.util.*
 
 
-class ProductAdapter(val c: Context, val productList: MutableList<Product>, val tr:Boolean, val pr_tr_list:MutableList<Product>) :
+class ProductAdapter(val c: Context, val productList: MutableList<Product>, val tr: Boolean,val trType:String, val pr_tr_list: MutableList<Product>) :
     RecyclerView.Adapter<ProductAdapter.ProductViewHolder>(){
 
 
@@ -58,9 +60,9 @@ class ProductAdapter(val c: Context, val productList: MutableList<Product>, val 
           itemView.setOnClickListener(object : View.OnClickListener {
               override fun onClick(v: View?) {
                   val position: Int = adapterPosition
-                  if (tr==true){
+                  if (tr == true) {
                       addProductToTransaction(productList, position)
-                  }else{
+                  } else {
                       // update
                       sendProductData(v!!, position)
                   }
@@ -69,14 +71,14 @@ class ProductAdapter(val c: Context, val productList: MutableList<Product>, val 
           itemView.setOnLongClickListener(object : View.OnLongClickListener {
               override fun onLongClick(p0: View?): Boolean {
                   val position: Int = adapterPosition
-                    // remove
+                  // remove
                   removeAlert(p0!!, position)
                   return true
               }
 
           })
       }
-        private fun removeAlert(p0: View, position: Int, ) {
+        private fun removeAlert(p0: View, position: Int) {
             if (position != RecyclerView.NO_POSITION) {
                 Toast.makeText(c, "item " + productList.get(position).productName, Toast.LENGTH_SHORT).show()
 
@@ -100,7 +102,7 @@ class ProductAdapter(val c: Context, val productList: MutableList<Product>, val 
             }
         }
 
-        private fun sendProductData(v:View, position: Int) {
+        private fun sendProductData(v: View, position: Int) {
             if (position != RecyclerView.NO_POSITION) {
                 val product = productList.get(position)
                 //send product data to edit fragment
@@ -141,11 +143,61 @@ class ProductAdapter(val c: Context, val productList: MutableList<Product>, val 
         private fun addProductToTransaction(productList: MutableList<Product>, position: Int){
             if (position != RecyclerView.NO_POSITION) {
                 Toast.makeText(c, "product added ", Toast.LENGTH_SHORT).show()
-                pr_tr_list.add(productList.get(position))
-                //dialaog specify quantity and price
-                productList.removeAt(position)
-                notifyDataSetChanged()
+                // add qte , price
+                var prd:Product = productList.get(position)
+                showAlert(prd,productList,position)
             }
+        }
+
+        private fun showAlert(prd: Product,prdList: MutableList<Product>,position: Int){
+
+            val layout = LinearLayout(c)
+            layout.orientation = LinearLayout.VERTICAL
+
+            val inputQte = EditText(c)
+            inputQte.setHint("quantite")
+            inputQte.inputType = InputType.TYPE_CLASS_NUMBER
+            layout.addView(inputQte)
+
+            val inputprice = EditText(c)
+
+            // prix achat / vente selon trType------------------------------------------------------
+            if (trType.equals("Client")){
+                inputprice.setText(prd.prixVente.toString())
+            }else if (trType.equals("Fournisseur")){
+                inputprice.setText(prd.prixAchat.toString())
+            }
+
+
+            inputprice.inputType = InputType.TYPE_CLASS_NUMBER
+            layout.addView(inputprice)
+
+
+            AlertDialog.Builder(c)
+                    .setView(layout)
+                    .setTitle("add Product")
+                    .setIcon(R.drawable.ic_main_menu_goods)
+                    .setPositiveButton("Add") { dialog, _ ->
+
+                        prd.productQnt = inputQte.text.toString().toInt()
+                        // update price Achat/vente depends on trType
+                        if (trType.equals("Client")){
+                            prd.prixVente = inputprice.text.toString().toDouble()
+                        }else if (trType.equals("Fournisseur")){
+                            prd.prixAchat = inputprice.text.toString().toDouble()
+                        }
+                        // add product to transaction
+                        pr_tr_list.add(prd)
+                        prdList.removeAt(position)
+                        notifyDataSetChanged()
+
+                        dialog.dismiss()
+                    }
+                    .setNegativeButton("Cancel") { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                    .create()
+                    .show()
         }
 
 

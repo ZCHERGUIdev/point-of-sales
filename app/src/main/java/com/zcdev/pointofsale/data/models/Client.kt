@@ -10,6 +10,9 @@ class Client: Trader {
     constructor(Id:String, Name:String, Phone:String, Email:String, Address:String, versements: HashMap<String,Versement>?, role:String, reduction:String)
             :super(Id,Name,Phone,Email,Address,versements,role){
         this.reduction = reduction
+        if (versements!=null){
+            this.sommeVrs = calculeSV(versements)
+        }
     }
 
     constructor(Id:String, Name:String, Phone:String, Email:String, Address:String, reduction:String)
@@ -17,6 +20,14 @@ class Client: Trader {
         this.reduction = reduction
     }
     constructor()
+
+    fun calculeSV(list_vrs: HashMap<String,Versement>): Int {
+        var sum:Int?=0
+        for ((key, value) in list_vrs) {
+            sum = sum!! + value.montant!!
+        }
+        return sum!!
+    }
 
 
 }

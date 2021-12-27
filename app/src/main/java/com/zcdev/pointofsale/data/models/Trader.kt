@@ -10,6 +10,7 @@ open class Trader {
     var Address: String?=null
     var versements:HashMap<String,Versement>?=null
     var role:String?=" "
+    var sommeVrs:Int?=0
 
 
     constructor(Id:String, Name:String, Phone:String, Email:String, Address:String, versements: HashMap<String,Versement>?, role:String){
@@ -31,5 +32,7 @@ open class Trader {
     }
 
     constructor()   // **Add this**
+
+
 
 }

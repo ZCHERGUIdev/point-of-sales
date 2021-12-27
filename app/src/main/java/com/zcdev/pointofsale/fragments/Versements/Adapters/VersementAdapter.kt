@@ -92,6 +92,7 @@ class VersementAdapter(val c: Context, val versementList: MutableList<Versement>
                 val ref = FirebaseDatabase.getInstance().reference
                 var applesQuery:Query?=null
 
+                // get trader , update somme versement
                 // remove versement from client or fournisseur versements list
                 if (trader.role.equals("CL")){
                     applesQuery = ref.child("Clients/"+trader.Id+"/versements").orderByChild("id").equalTo(idVrs)
