@@ -15,10 +15,8 @@ import com.google.firebase.database.*
 import com.zcdev.pointofsale.R
 import com.zcdev.pointofsale.data.models.*
 import com.zcdev.pointofsale.fragments.Fournisseur.Adapters.TransactionAdapter
-import kotlinx.android.synthetic.main.doc_viewcell.*
 import kotlinx.android.synthetic.main.fragment_transaction.*
 import kotlinx.android.synthetic.main.fragment_transaction.view.*
-import kotlinx.android.synthetic.main.fragment_versement.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -30,6 +28,7 @@ class TransactionFragment : Fragment() {
     var trType:String?=""
     var arrayAdapter:ArrayAdapter<String>? =null
     var display_list: MutableList<Product> = ArrayList<Product>()
+    var ttprice:Double?=0.0
 
     override fun onResume() {
         super.onResume()
@@ -37,16 +36,25 @@ class TransactionFragment : Fragment() {
             trType = "Fournisseur"
             arrayAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item,
                     getFourniseurs())
+            if (arguments?.getSerializable("prds")!=null){
+                display_list = arguments?.getSerializable("prds") as ArrayList<Product>
+                var entree = Entree()
+                ttprice = entree.gettotalprice(display_list)
+            }
 
         }else{
             trType = "Client"
             arrayAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item,
                     getClients())
+            if (arguments?.getSerializable("prds")!=null){
+                display_list = arguments?.getSerializable("prds") as ArrayList<Product>
+                var sortie = Sortie()
+                ttprice = sortie.gettotalprice(display_list)
+            }
         }
+        v!!.totalprice.setText(ttprice.toString())
 
-        if (arguments?.getSerializable("prds")!=null){
-            display_list = arguments?.getSerializable("prds") as ArrayList<Product>
-        }
+
         rvProducts.adapter = TransactionAdapter(requireActivity(), display_list, trType!!)
         rvProducts.adapter!!.notifyDataSetChanged()
 
@@ -259,20 +267,57 @@ class TransactionFragment : Fragment() {
 
         // get fireabse database instance
         val database = FirebaseDatabase.getInstance()
-        val myRef = database.getReference("Transactions")
+        var myRef = database.getReference("Transactions")
 
         if(trType.equals("Fournisseur")){
             // create new Entree
-            var entree = Entree(desc, list_prod, date.toString(), trader)
+            val entree = Entree(desc, list_prod, date.toString(), trader)
             // add transaction to firebase
             myRef.child(date.toString()).setValue(entree)
         }else{
             // create new Sortie
-            var sortie = Sortie(desc, list_prod, date.toString(), trader)
+            val sortie = Sortie(desc, list_prod, date.toString(), trader)
             // add transaction to firebase
             myRef.child(date.toString()).setValue(sortie)
         }
 
+        // update Qte products
+        // get fireabse database instance
+        myRef = database.getReference("Products")
+        for(p in list_prod){
+
+            // find p by barcode
+            myRef.orderByChild("productCode").equalTo(p.productCode).addChildEventListener(object : ChildEventListener {
+                override fun onChildAdded(dataSnapshot: DataSnapshot, prevChildKey: String?) {
+                    val prd = dataSnapshot.getValue(Product::class.java)
+                    val qte:Int
+                    if(trType.equals("Fournisseur")){
+                        qte = prd!!.productQnt!! + p.productQnt!!
+                    }else{
+                        qte = prd!!.productQnt!! - p.productQnt!!
+                    }
+
+                    val prdRef = database.getReference("Products/"+prd.productCode)
+                    prdRef.child("productQnt").setValue(qte)
+                }
+
+                override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+
+                }
+
+                override fun onChildRemoved(snapshot: DataSnapshot) {
+
+                }
+
+                override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+
+                }
+            })
+        }
     }
 
 

@@ -142,10 +142,10 @@ class ProductAdapter(val c: Context, val productList: MutableList<Product>, val 
 
         private fun addProductToTransaction(productList: MutableList<Product>, position: Int){
             if (position != RecyclerView.NO_POSITION) {
-                Toast.makeText(c, "product added ", Toast.LENGTH_SHORT).show()
                 // add qte , price
                 var prd:Product = productList.get(position)
                 showAlert(prd,productList,position)
+                Toast.makeText(c, "product added ", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -179,19 +179,28 @@ class ProductAdapter(val c: Context, val productList: MutableList<Product>, val 
                     .setIcon(R.drawable.ic_main_menu_goods)
                     .setPositiveButton("Add") { dialog, _ ->
 
-                        prd.productQnt = inputQte.text.toString().toInt()
-                        // update price Achat/vente depends on trType
-                        if (trType.equals("Client")){
-                            prd.prixVente = inputprice.text.toString().toDouble()
-                        }else if (trType.equals("Fournisseur")){
-                            prd.prixAchat = inputprice.text.toString().toDouble()
-                        }
-                        // add product to transaction
-                        pr_tr_list.add(prd)
-                        prdList.removeAt(position)
-                        notifyDataSetChanged()
+                        var qte:Int = inputQte.text.toString().toInt()
 
-                        dialog.dismiss()
+
+                            // update price Achat/vente depends on trType
+                            if (trType.equals("Client")){
+                                prd.prixVente = inputprice.text.toString().toDouble()
+                                if (prd.productQnt!! < qte) {
+                                    // prd not available
+                                    inputQte.setText(" ")
+                                    Toast.makeText(c, "quantity not available ", Toast.LENGTH_SHORT).show()
+                                    return@setPositiveButton
+                                }
+                            }else if (trType.equals("Fournisseur")){
+                                prd.prixAchat = inputprice.text.toString().toDouble()
+                            }
+                            // add product to transaction
+                            prd.productQnt = qte
+                            pr_tr_list.add(prd)
+                            prdList.removeAt(position)
+                            notifyDataSetChanged()
+
+                            dialog.dismiss()
                     }
                     .setNegativeButton("Cancel") { dialog, _ ->
                         dialog.dismiss()
