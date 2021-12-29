@@ -13,12 +13,14 @@ class Fournisseur: Trader {
             :super(Id,Name,Phone,Email,Address){}
     constructor()
 
-    fun calculeSV(list_vrs: HashMap<String,Versement>): Int {
-        var sum:Int?=0
+    fun calculeSV(list_vrs: HashMap<String,Versement>): Double {
+        var sum:Double?=0.0
         for ((key, value) in list_vrs) {
             sum = sum!! + value.montant!!
         }
         return sum!!
     }
+
+
 
 }

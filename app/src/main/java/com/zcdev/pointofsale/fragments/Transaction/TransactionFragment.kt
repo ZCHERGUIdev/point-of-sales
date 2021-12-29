@@ -131,7 +131,7 @@ class TransactionFragment : Fragment() {
                 .setIcon(R.drawable.ic_money)
                 .setPositiveButton("Add") { dialog, _ ->
                     // add versement
-                    addVersement(input.text.toString().toInt(), trader)
+                    addVersement(input.text.toString().toDouble(), trader)
                     dialog.dismiss()
                 }
                 .setNegativeButton("Cancel") { dialog, _ ->
@@ -140,7 +140,7 @@ class TransactionFragment : Fragment() {
                 .create()
                 .show()
     }
-    private fun addVersement(montant: Int, trader: String){
+    private fun addVersement(montant: Double, trader: String){
 
 
         // get values
@@ -151,6 +151,7 @@ class TransactionFragment : Fragment() {
         // get fireabse database instance
         val database = FirebaseDatabase.getInstance()
         val id:String= date.toString()
+        var balance:Double?
         // create new versement
         var vrs = Versement(id, formatedDate.toString(), montant)
 
@@ -163,23 +164,19 @@ class TransactionFragment : Fragment() {
                     val myRef = database.getReference("Fournisseurs/" + fr!!.Id + "/versements")
                     // add versement to firebase -----------------------------------------------------
                     myRef.child(id).setValue(vrs)
+
+                    // calculate balance
+                    balance  = fr!!.balance!! + vrs.montant!!
+
+                    val frRef = database.getReference("Fournisseurs/" + fr!!.Id)
+                    //// update balance of trader -----------------------------------------------------
+                    frRef.child("balance").setValue(balance)
                 }
 
-                override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-
-                }
-
-                override fun onChildRemoved(snapshot: DataSnapshot) {
-
-                }
-
-                override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-
-                }
+                override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {}
+                override fun onChildRemoved(snapshot: DataSnapshot) {}
+                override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
+                override fun onCancelled(error: DatabaseError) {}
             })
         }else{
             // find client by name
@@ -191,19 +188,19 @@ class TransactionFragment : Fragment() {
                     val myRef = database.getReference("Clients/" + cl!!.Id + "/versements")
                     // add versement to firebase -----------------------------------------------------
                     myRef.child(id).setValue(vrs)
+
+                    // calculate balance
+                    balance  = cl!!.balance!! + vrs.montant!!
+
+                    val clRef = database.getReference("Clients/" + cl!!.Id)
+                    //// update balance of trader -----------------------------------------------------
+                    clRef.child("balance").setValue(balance)
                 }
 
-                override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-                }
-
-                override fun onChildRemoved(snapshot: DataSnapshot) {
-                }
-
-                override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                }
+                override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {}
+                override fun onChildRemoved(snapshot: DataSnapshot) {}
+                override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
+                override fun onCancelled(error: DatabaseError) {}
             })
         }
     }
@@ -274,11 +271,63 @@ class TransactionFragment : Fragment() {
             val entree = Entree(desc, list_prod, date.toString(), trader)
             // add transaction to firebase
             myRef.child(date.toString()).setValue(entree)
+
+            val traderRef = database.getReference("Fournisseurs")
+            // find fournisseur by name
+            traderRef.orderByChild("name").equalTo(trader).addChildEventListener(object : ChildEventListener {
+                override fun onChildAdded(dataSnapshot: DataSnapshot, prevChildKey: String?) {
+                    val fr = dataSnapshot.getValue(Fournisseur::class.java)
+                    // calculate balance
+                    var balance:Double  = fr!!.balance!! - entree.prixTotal!!
+
+                    val myRef = database.getReference("Fournisseurs/" + fr!!.Id)
+                    //// update balance of trader -----------------------------------------------------
+                    myRef.child("balance").setValue(balance)
+                }
+                override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+
+                }
+                override fun onChildRemoved(snapshot: DataSnapshot) {
+
+                }
+                override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+
+                }
+                override fun onCancelled(error: DatabaseError) {
+
+                }
+            })
         }else{
             // create new Sortie
             val sortie = Sortie(desc, list_prod, date.toString(), trader)
             // add transaction to firebase
             myRef.child(date.toString()).setValue(sortie)
+
+            val traderRef = database.getReference("Clients")
+            // find fournisseur by name
+            traderRef.orderByChild("name").equalTo(trader).addChildEventListener(object : ChildEventListener {
+                override fun onChildAdded(dataSnapshot: DataSnapshot, prevChildKey: String?) {
+                    val cl = dataSnapshot.getValue(Client::class.java)
+                    // calculate balance
+                    var balance:Double  = cl!!.balance!! - sortie.prixTotal!!
+
+                    val myRef = database.getReference("Clients/" + cl!!.Id)
+                    //// update balance of trader -----------------------------------------------------
+                    myRef.child("balance").setValue(balance)
+                }
+                override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+
+                }
+                override fun onChildRemoved(snapshot: DataSnapshot) {
+
+                }
+                override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+
+                }
+                override fun onCancelled(error: DatabaseError) {
+
+                }
+            })
         }
 
         // update Qte products
@@ -301,21 +350,10 @@ class TransactionFragment : Fragment() {
                     prdRef.child("productQnt").setValue(qte)
                 }
 
-                override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-
-                }
-
-                override fun onChildRemoved(snapshot: DataSnapshot) {
-
-                }
-
-                override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-
-                }
+                override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {}
+                override fun onChildRemoved(snapshot: DataSnapshot) {}
+                override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
+                override fun onCancelled(error: DatabaseError) {}
             })
         }
     }

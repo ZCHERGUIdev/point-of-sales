@@ -33,10 +33,9 @@ class FournisseurAdapter(val c: Context, val frList: MutableList<Fournisseur>) :
         val currentItem = frList[position]
 
         //fetch data when update *use cached view ref !
-        //holder.imageView.setImageResource(currentItem.productImg!!)
         holder.textView1.text = currentItem.Name
         holder.textView2.text = currentItem.Phone
-
+        holder.textView3.text = currentItem.balance.toString()
 
 
     }
@@ -47,6 +46,7 @@ class FournisseurAdapter(val c: Context, val frList: MutableList<Fournisseur>) :
         //ref view attributes
         val textView1: TextView = itemView.frName
         val textView2: TextView = itemView.frPhone
+        val textView3: TextView = itemView.balance
 
 
       init {
@@ -94,6 +94,7 @@ class FournisseurAdapter(val c: Context, val frList: MutableList<Fournisseur>) :
         private fun sendFrData(v:View, position: Int) {
             if (position != RecyclerView.NO_POSITION) {
                 val fournisseur = frList.get(position)
+                if (fournisseur.versements==null) fournisseur.versements = HashMap()
                 //view versement fournisseur
                 val bundle = bundleOf(
                         "id" to fournisseur.Id,
@@ -101,7 +102,9 @@ class FournisseurAdapter(val c: Context, val frList: MutableList<Fournisseur>) :
                         "phone" to fournisseur.Phone,
                         "adr" to fournisseur.Address,
                         "eml" to fournisseur.Email,
-                        "role" to fournisseur.role)
+                        "role" to fournisseur.role,
+                        "balance" to fournisseur.balance.toString(),
+                        "vrsHash" to fournisseur.versements)
                 v!!.findNavController().navigate(R.id.action_fournisseurFragment_to_versementFragment, bundle)
             }
         }

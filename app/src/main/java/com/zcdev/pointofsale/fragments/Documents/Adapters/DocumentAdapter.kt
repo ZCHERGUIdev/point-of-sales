@@ -10,6 +10,8 @@ import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.*
 import com.zcdev.pointofsale.R
+import com.zcdev.pointofsale.data.models.Client
+import com.zcdev.pointofsale.data.models.Fournisseur
 import com.zcdev.pointofsale.data.models.Transaction
 import kotlinx.android.synthetic.main.doc_viewcell.view.*
 import kotlinx.android.synthetic.main.prod_viewcell.view.qteProd
@@ -93,15 +95,60 @@ class DocumentAdapter(val c: Context, val docList: MutableList<Transaction>) :
             }
 
             private fun removeDoc(docList: MutableList<Transaction>, position: Int){
-                val docId:String  = docList.get(position).Id!!
+                val tr = docList.get(position)
+                var balance:Double?
                 val ref = FirebaseDatabase.getInstance().reference
-                val applesQuery: Query = ref.child("Transactions").orderByChild("id").equalTo(docId)
+                val database = FirebaseDatabase.getInstance()
+                val applesQuery: Query = ref.child("Transactions").orderByChild("id").equalTo(tr.Id)
 
                 applesQuery.addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         for (appleSnapshot in dataSnapshot.children) {
                             appleSnapshot.ref.removeValue()
                             docList.removeAt(position)
+
+                            // update balance
+                            if(tr.type.equals("Entree")){
+                                val traderRef = database.getReference("Fournisseurs")
+                                // find fournisseur by name
+                                traderRef.orderByChild("name").equalTo(tr.trader).addChildEventListener(object : ChildEventListener {
+                                    override fun onChildAdded(dataSnapshot: DataSnapshot, prevChildKey: String?) {
+                                        val fr = dataSnapshot.getValue(Fournisseur::class.java)
+
+                                        // calculate balance
+                                        balance  = fr!!.balance!! + tr.prixTotal!!
+
+                                        val frRef = database.getReference("Fournisseurs/" + fr!!.Id)
+                                        //// update balance of trader -----------------------------------------------------
+                                        frRef.child("balance").setValue(balance)
+                                    }
+
+                                    override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {}
+                                    override fun onChildRemoved(snapshot: DataSnapshot) {}
+                                    override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
+                                    override fun onCancelled(error: DatabaseError) {}
+                                })
+                            }else if(tr.type.equals("Sortie")){
+                                val traderRef = database.getReference("Clients")
+                                // find Clients by name
+                                traderRef.orderByChild("name").equalTo(tr.trader).addChildEventListener(object : ChildEventListener {
+                                    override fun onChildAdded(dataSnapshot: DataSnapshot, prevChildKey: String?) {
+                                        val cl = dataSnapshot.getValue(Client::class.java)
+
+                                        // calculate balance
+                                        balance  = cl!!.balance!! + tr.prixTotal!!
+
+                                        val clRef = database.getReference("Clients/" + cl!!.Id)
+                                        //// update balance of trader -----------------------------------------------------
+                                        clRef.child("balance").setValue(balance)
+                                    }
+
+                                    override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {}
+                                    override fun onChildRemoved(snapshot: DataSnapshot) {}
+                                    override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
+                                    override fun onCancelled(error: DatabaseError) {}
+                                })
+                            }
 
                             notifyDataSetChanged()
                             Toast.makeText(itemView.context, "item deleted", Toast.LENGTH_SHORT).show()

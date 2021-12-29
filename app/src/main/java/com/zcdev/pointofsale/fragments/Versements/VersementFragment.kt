@@ -49,6 +49,8 @@ class VersementFragment : Fragment() {
         val phone = arguments?.getString("phone")!!
         val email = arguments?.getString("eml")!!
         val address = arguments?.getString("adr")!!
+        hash_vrs = arguments?.getSerializable("vrsHash")!! as HashMap<String, Versement>
+        val balance = arguments?.getString("balance")!!
 
         val role = arguments?.getString("role")!!
         var reduction:String?=" "
@@ -59,15 +61,18 @@ class VersementFragment : Fragment() {
         if (role.equals("CL")){
 
             cl = Client(id,name,phone,email,address,hash_vrs,role,reduction!!)
-
-            rvVersements.adapter = VersementAdapter(requireActivity(), display_list, cl!!)
+            cl!!.sommeVrs = cl!!.calculeSV(hash_vrs)
+            cl!!.balance = balance.toDouble()
+            rvVersements.adapter = VersementAdapter(requireActivity(), display_list, cl!!,v!!)
             rvVersements.adapter!!.notifyDataSetChanged()
             v!!.currentMoney.setText(cl!!.sommeVrs.toString())
 
         }else if (role.equals("FR")){
             fr = Fournisseur(id,name,phone,email,address,hash_vrs,role)
+            fr!!.sommeVrs = fr!!.calculeSV(hash_vrs)
+            fr!!.balance = balance.toDouble()
 
-            rvVersements.adapter = VersementAdapter(requireActivity(), display_list, fr!!)
+            rvVersements.adapter = VersementAdapter(requireActivity(), display_list, fr!!,v!!)
             rvVersements.adapter!!.notifyDataSetChanged()
             v!!.currentMoney.setText(fr!!.sommeVrs.toString())
 
@@ -153,7 +158,7 @@ class VersementFragment : Fragment() {
                     .setIcon(R.drawable.ic_money)
                     .setPositiveButton("Add") { dialog, _ ->
                         // add versement
-                        addVersement(input.text.toString().toInt())
+                        addVersement(input.text.toString().toDouble())
                         dialog.dismiss()
                     }
                     .setNegativeButton("Cancel") { dialog, _ ->
@@ -163,7 +168,7 @@ class VersementFragment : Fragment() {
                     .show()
         }
 
-    private fun addVersement(montant:Int){
+    private fun addVersement(montant:Double){
 
         // get values
         val date = Calendar.getInstance().time // it's unique (dateTime)
@@ -173,6 +178,7 @@ class VersementFragment : Fragment() {
         // get fireabse database instance
         val database = FirebaseDatabase.getInstance()
         val id:String= date.toString()
+        var balance:Double?
         // create new versement
         var vrs = Versement(id,formatedDate.toString(),montant)
         display_list.add(vrs)
@@ -184,9 +190,18 @@ class VersementFragment : Fragment() {
 
             // add versement to firebase
             myRef.child(id).setValue(vrs)
-            // update client somme vrs
+
+            // update client somme vrs and vrsHash
+            cl!!.versements!!.putAll(hash_vrs)
             cl!!.sommeVrs = cl!!.calculeSV(hash_vrs)
             clRef.child("sommeVrs").setValue(cl!!.sommeVrs)
+            clRef.child("versements").setValue(cl!!.versements)
+
+            // calculate balance
+            balance  = cl!!.balance!! + vrs.montant!!
+            cl!!.balance = balance
+            // update balance of trader -----------------------------------------------------
+            clRef.child("balance").setValue(balance)
 
             v!!.currentMoney.setText(cl!!.sommeVrs.toString())
 
@@ -199,8 +214,17 @@ class VersementFragment : Fragment() {
             myRef.child(id).setValue(vrs)
             // update fournisseur somme vrs
 
+            // update client somme vrs and vrsHash
+            fr!!.versements!!.putAll(hash_vrs)
             fr!!.sommeVrs = fr!!.calculeSV(hash_vrs)
-            frRef.child("sommeVrs").setValue(fr!!.sommeVrs )
+            frRef.child("sommeVrs").setValue(fr!!.sommeVrs)
+            frRef.child("versements").setValue(fr!!.versements)
+
+            // calculate balance
+            balance  = fr!!.balance!! + vrs.montant!!
+            fr!!.balance = balance
+            // update balance of trader -----------------------------------------------------
+            frRef.child("balance").setValue(balance)
 
             v!!.currentMoney.setText(fr!!.sommeVrs.toString())
         }
@@ -211,58 +235,20 @@ class VersementFragment : Fragment() {
     }
 
     private fun showVersements(){
-        var list_vrs = ArrayList<Versement>()
 
-        //get verements from firebase
-        // read from db firebase ------------------------------------------------------------------
-        val database = FirebaseDatabase.getInstance()
-        //Get datasnapshot at your "versements" root node
-
-        progdialog!!.show()
-
-
-        if (cl!=null) {
-            val myRef = database.getReference("Clients/"+cl!!.Id+"/versements")
-            val eventListener: ValueEventListener = object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    //Get map of vrs in datasnapshot
-
-                    for (vrssnap in dataSnapshot.children) {
-                        val vrs = vrssnap.getValue(Versement::class.java)
-                        list_vrs.add(vrs!!)
-                    }
-                    display_list.addAll(list_vrs)
-                    rvVersements.adapter = VersementAdapter(activity!!, display_list,cl!!)
-                    rvVersements.adapter!!.notifyDataSetChanged()
-
-                    progdialog!!.hide()
-                }
-                override fun onCancelled(databaseError: DatabaseError) {}
-            }
-            myRef.addListenerForSingleValueEvent(eventListener)
-
-        }else if (fr!=null) {
-            val myRef = database.getReference("Fournisseurs/"+fr!!.Id+"/versements")
-            val eventListener: ValueEventListener = object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    //Get map of vrs in datasnapshot
-
-                    for (vrssnap in dataSnapshot.children) {
-                        val vrs = vrssnap.getValue(Versement::class.java)
-                        list_vrs.add(vrs!!)
-                    }
-                    display_list.addAll(list_vrs)
-                    rvVersements.adapter = VersementAdapter(activity!!, display_list,fr!!)
-                    rvVersements.adapter!!.notifyDataSetChanged()
-
-                    progdialog!!.hide()
-                }
-                override fun onCancelled(databaseError: DatabaseError) {}
-            }
-            myRef.addListenerForSingleValueEvent(eventListener)
-        }
+        if (cl!=null) {getVersements(cl!!)
+        }else if (fr!=null) { getVersements(fr!!) }
     }
 
+    private fun getVersements(trader:Trader){
+        progdialog!!.show()
 
+        for(v in trader.versements!!){
+            display_list.add(v.value)
+        }
+        rvVersements.adapter = VersementAdapter(requireActivity(), display_list,trader,v!!)
+        rvVersements.adapter!!.notifyDataSetChanged()
 
+        progdialog!!.hide()
+    }
 }

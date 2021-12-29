@@ -36,6 +36,7 @@ class ClientAdapter(val c: Context, val clList: MutableList<Client>) :
         //fetch data when update *use cached view ref !
         holder.textView1.text = currentItem.Name
         holder.textView2.text = currentItem.Phone
+        holder.textView3.text = currentItem.balance.toString()
 
 
 
@@ -47,6 +48,7 @@ class ClientAdapter(val c: Context, val clList: MutableList<Client>) :
         //ref view attributes
         val textView1: TextView = itemView.clName
         val textView2: TextView = itemView.clPhone
+        val textView3: TextView = itemView.balance
 
 
       init {
@@ -94,6 +96,7 @@ class ClientAdapter(val c: Context, val clList: MutableList<Client>) :
         private fun sendClData(v:View, position: Int) {
             if (position != RecyclerView.NO_POSITION) {
                 val client = clList.get(position)
+                if (client.versements==null) client.versements = HashMap()
                 //view versement client
                 val bundle = bundleOf(
                         "id" to client.Id,
@@ -102,7 +105,9 @@ class ClientAdapter(val c: Context, val clList: MutableList<Client>) :
                         "adr" to client.Address,
                         "eml" to client.Email,
                         "role" to client.role,
-                        "rdc" to client.reduction)
+                        "rdc" to client.reduction,
+                        "balance" to client.balance.toString(),
+                        "vrsHash" to client.versements)
                 v!!.findNavController().navigate(R.id.action_clientFragment_to_versementFragment, bundle)
             }
         }
