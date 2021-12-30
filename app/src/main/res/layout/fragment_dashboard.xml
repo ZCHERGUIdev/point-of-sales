@@ -86,13 +86,14 @@
                         android:textSize="@dimen/main_menu_font_size" />
 
                     <TextView
-                        android:id="@+id/tvMenuTovarsDesc"
+                        android:id="@+id/tvnbPrd"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:gravity="center"
                         android:maxLines="1"
-                        android:text="0/0.00"
+                        android:textStyle="bold"
+                        android:text="0"
                         android:textColor="@color/white"
                         android:textSize="@dimen/main_menu_small_font_size" />
                 </LinearLayout>
@@ -131,12 +132,13 @@
                         android:textSize="@dimen/main_menu_font_size" />
 
                     <TextView
-                        android:id="@+id/tvMenuDocsDesc"
+                        android:id="@+id/tvnbDoc"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:gravity="center"
                         android:maxLines="1"
+                        android:textStyle="bold"
                         android:text="0"
                         android:textColor="@color/white"
                         android:textSize="@dimen/main_menu_small_font_size" />
@@ -431,6 +433,249 @@
                         android:text="Reports"
                         android:textColor="@color/white"
                         android:textSize="@dimen/main_menu_font_size" />
+                </LinearLayout>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/main_menu_button_height"
+                android:weightSum="1.0">
+
+                <LinearLayout
+                    android:id="@+id/llStat"
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:padding="15dp"
+                    android:layout_marginStart="@dimen/main_menu_margin"
+                    android:layout_marginTop="@dimen/main_menu_margin"
+                    android:layout_marginEnd="@dimen/main_menu_margin_small"
+                    android:layout_marginBottom="@dimen/main_menu_margin_small"
+                    android:background="@drawable/button_menu2"
+                    android:gravity="center"
+                    android:minHeight="@dimen/main_menu_button_height"
+                    android:orientation="vertical"
+                    android:weightSum="1.0">
+
+                    <ImageView
+                        android:id="@+id/ivMenuToStat1"
+                        android:layout_width="@dimen/main_menu_image_size"
+                        android:layout_height="@dimen/main_menu_image_size"
+                        android:contentDescription="content_description"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/ic_money_white" />
+
+                    <TextView
+                        android:id="@+id/tvMenuToStat1"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:paddingTop="4dp"
+                        android:text="Stock Esitmation"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/main_menu_font_size" />
+
+                    <LinearLayout
+                        android:id="@+id/stocklayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:padding="4dp"
+                            android:id="@+id/tvStock"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:textStyle="bold"
+                            android:text="0"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/main_menu_small_font_size" />
+
+
+                        <TextView
+                            android:id="@+id/unite"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="15dp"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="DZD"
+                            android:textStyle="bold"
+                            android:textColor="@color/white"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tvMenuToStat12"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:text="In Sell Price"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/main_menu_font_size" />
+
+                    <LinearLayout
+                        android:id="@+id/splayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:padding="4dp"
+                            android:id="@+id/tvSP"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:textStyle="bold"
+                            android:text="0"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/main_menu_small_font_size" />
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="15dp"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="DZD"
+                            android:textStyle="bold"
+                            android:textColor="@color/white"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llCredit"
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:padding="15dp"
+                    android:layout_marginStart="@dimen/main_menu_margin"
+                    android:layout_marginTop="@dimen/main_menu_margin"
+                    android:layout_marginEnd="@dimen/main_menu_margin_small"
+                    android:layout_marginBottom="@dimen/main_menu_margin_small"
+                    android:background="@drawable/button_menu3"
+                    android:gravity="center"
+                    android:minHeight="@dimen/main_menu_button_height"
+                    android:orientation="vertical"
+                    android:weightSum="1.0">
+
+                    <ImageView
+                        android:id="@+id/ivMenuToCredit1"
+                        android:layout_width="@dimen/main_menu_image_size"
+                        android:layout_height="@dimen/main_menu_image_size"
+                        android:contentDescription="content_description"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/ic_credit" />
+
+                    <TextView
+                        android:id="@+id/tvMenuToCredit1"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:text="Credit Fournisseurs"
+                        android:paddingTop="4dp"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/main_menu_font_size" />
+
+                    <LinearLayout
+                        android:id="@+id/creditFlayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:padding="4dp"
+                            android:id="@+id/tvCreditF"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:textStyle="bold"
+                            android:text="0"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/main_menu_small_font_size" />
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="15dp"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="DZD"
+                            android:textStyle="bold"
+                            android:textColor="@color/white"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tvMenuToCredit2"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:text="Credit Clients"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/main_menu_font_size" />
+
+
+                <LinearLayout
+                    android:id="@+id/cClayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:padding="4dp"
+                        android:id="@+id/tvCreditC"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:textStyle="bold"
+                        android:text="0"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/main_menu_small_font_size" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="15dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="DZD"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </LinearLayout>
                 </LinearLayout>
             </TableRow>
         </TableLayout>
