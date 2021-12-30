@@ -45,7 +45,7 @@
                         android:textSize="20sp"
                         android:textColor="@android:color/black"
                         android:layout_marginEnd="10dp"
-                        android:text="Genral" />
+                        android:text="@string/genral" />
 
 
                 </LinearLayout>
@@ -86,7 +86,7 @@
                         android:textSize="20sp"
                         android:textColor="@android:color/black"
                         android:layout_marginEnd="10dp"
-                        android:text="About" />
+                        android:text="@string/about" />
 
 
                 </LinearLayout>
@@ -97,6 +97,7 @@
                 android:layout_height="0.5dp"
                 android:background="@android:color/darker_gray"/>
             <RelativeLayout
+                android:id="@+id/rlLang"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -119,6 +120,7 @@
                     android:layout_alignBottom="@id/icLanguage"
                     android:layout_gravity="center_vertical">
                     <TextView
+                        android:id="@+id/txtLanguage"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -127,7 +129,7 @@
                         android:textSize="20sp"
                         android:textColor="@android:color/black"
                         android:layout_marginEnd="10dp"
-                        android:text="Language" />
+                        android:text="@string/language" />
 
 
                 </LinearLayout>
@@ -168,7 +170,7 @@
                         android:textSize="20sp"
                         android:textColor="@android:color/black"
                         android:layout_marginEnd="10dp"
-                        android:text="Share" />
+                        android:text="@string/share" />
 
 
                 </LinearLayout>

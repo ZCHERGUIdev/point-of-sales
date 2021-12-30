@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">pointofsale</string>
+    <string name="products">المنتجات</string>
+    <string name="documents">الملفات</string>
+    <string name="expenses">ضرائب</string>
+    <string name="entreprise_name">إسم الشركة</string>
+    <string name="reports">التقارير</string>
+    <string name="about">حول</string>
+    <string name="language">"اللغة "</string>
+    <string name="share">"شارك "</string>
+    <string name="genral">بشكل عام</string>
+</resources>

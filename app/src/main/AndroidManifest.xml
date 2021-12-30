@@ -35,13 +35,15 @@
         </provider>
 
         <activity android:name=".activitys.SplachActivity">
+
+        </activity>
+        <activity android:name=".activitys.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activitys.MainActivity" />
         <activity
             android:name=".activitys.CaptureAct"
             android:screenOrientation="fullSensor"

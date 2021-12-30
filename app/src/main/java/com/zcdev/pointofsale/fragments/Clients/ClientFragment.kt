@@ -54,7 +54,7 @@ class ClientFragment : Fragment() {
         // Set Menu
         setHasOptionsMenu(true)
 
-        setRecyclerFr(view, requireContext())
+        setRecyclerFr(view)
         return view
     }
 
@@ -82,7 +82,6 @@ class ClientFragment : Fragment() {
                     list_cl.add(cl!!)
                 }
                 display_list.addAll(list_cl)
-                rvClient.adapter = ClientAdapter(activity!!, display_list)
                 rvClient.adapter!!.notifyDataSetChanged()
 
                 progdialog!!.hide()
@@ -136,16 +135,15 @@ class ClientFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
-    fun setRecyclerFr(v:View, c: Context):RecyclerView{
+    fun setRecyclerFr(v:View):RecyclerView{
 
-        val rvClient: RecyclerView = v.rvClient
-
-        rvClient.layoutManager = LinearLayoutManager(c)
-        rvClient.setHasFixedSize(true)
+       v.rvClient.layoutManager = LinearLayoutManager(requireContext())
+        v.rvClient.adapter = ClientAdapter(requireContext(), display_list)
+        v.rvClient.setHasFixedSize(true)
         v.addClients.setOnClickListener{
             v!!.findNavController().navigate(R.id.action_clientFragment_to_addFragmentCl)
         }
-        return rvClient
+        return v.rvClient
     }
 
 

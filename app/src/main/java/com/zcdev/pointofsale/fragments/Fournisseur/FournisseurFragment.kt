@@ -51,12 +51,8 @@ class FournisseurFragment : Fragment() {
         var view=  inflater.inflate(R.layout.fragment_fournisseur, container, false)
         // Set Menu
         setHasOptionsMenu(true)
-        val rvFournisseur: RecyclerView = view.rvFournisseur
 
-
-
-        rvFournisseur.layoutManager = LinearLayoutManager(context)
-        rvFournisseur.setHasFixedSize(true)
+        setUpRecylerView(view)
         view.addFournisseur.setOnClickListener{
             view!!.findNavController().navigate(R.id.action_fournisseurFragment_to_addFragmentFr)
         }
@@ -64,8 +60,12 @@ class FournisseurFragment : Fragment() {
         return view
     }
 
+    private fun setUpRecylerView(view: View) {
 
-
+       view.rvFournisseur.layoutManager = LinearLayoutManager(requireContext())
+       view.rvFournisseur.adapter = FournisseurAdapter(requireContext(), display_list)
+        view.rvFournisseur.setHasFixedSize(true)
+    }
 
 
     private fun showFourniseurs(){
@@ -88,7 +88,6 @@ class FournisseurFragment : Fragment() {
                     list_fr.add(fr!!)
                 }
                 display_list.addAll(list_fr)
-                rvFournisseur.adapter = FournisseurAdapter(activity!!, display_list)
                 rvFournisseur.adapter!!.notifyDataSetChanged()
 
                 progdialog!!.hide()

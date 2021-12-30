@@ -3,6 +3,7 @@ package com.zcdev.pointofsale.fragments.Products
 
 import android.app.ProgressDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
@@ -44,11 +45,14 @@ class ProductsFragment : Fragment() {
         //progressDialog setUp
         progdialog = ProgressDialog(requireContext())
         progdialog?.setMessage("Pleaze Wait...")
-
-
         showProducts()
 
+
+
     }
+
+
+
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -57,6 +61,7 @@ class ProductsFragment : Fragment() {
         // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.fragment_products, container, false)
 
+
         if (arguments?.getString("src").equals("transaction")) {
             tr = true
             trType = arguments?.getString("tr")
@@ -64,21 +69,24 @@ class ProductsFragment : Fragment() {
 
         // Set Menu
         setHasOptionsMenu(true)
-        val rvProduct: RecyclerView = view.rvProduct
+        setUpRecyclerView(view)
 
-        rvProduct.layoutManager = LinearLayoutManager(context)
-        rvProduct.setHasFixedSize(true)
         view.addProd.setOnClickListener {
             findNavController().navigate(R.id.action_productsFragment_to_addFragment)
         }
-
         return view
+    }
+
+    private fun setUpRecyclerView(v:View) {
+        v.rvProduct.layoutManager = LinearLayoutManager(requireContext())
+        v.rvProduct.adapter = ProductAdapter(requireContext(), display_list, tr!!,trType!!, list_prod_tr)
+        v.rvProduct.setHasFixedSize(true)
     }
 
 
     private fun showProducts() {
         var products = ArrayList<Product>()
-
+        Log.d("show prod","Hello")
         //get products from firebase
         // read from db firebase ------------------------------------------------------------------
         val database = FirebaseDatabase.getInstance()
@@ -96,9 +104,7 @@ class ProductsFragment : Fragment() {
                     list_pro.add(prod!!)
                 }
                 display_list.addAll(list_pro)
-                rvProduct.adapter = ProductAdapter(activity!!, display_list, tr!!,trType!!, list_prod_tr)
                 rvProduct.adapter!!.notifyDataSetChanged()
-
                 checkData(display_list)
             }
 

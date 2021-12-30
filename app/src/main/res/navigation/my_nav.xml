@@ -98,6 +98,9 @@
         <action
             android:id="@+id/action_addFragment_to_productsFragment"
             app:destination="@id/productsFragment" />
+        <action
+            android:id="@+id/action_addFragment_to_productsFragment2"
+            app:destination="@id/productsFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -133,6 +136,9 @@
         tools:layout="@layout/fragment_edit" >
         <action
             android:id="@+id/action_editFragment_to_productsFragment"
+            app:destination="@id/productsFragment" />
+        <action
+            android:id="@+id/action_editFragment_to_productsFragment2"
             app:destination="@id/productsFragment" />
     </fragment>
     <fragment

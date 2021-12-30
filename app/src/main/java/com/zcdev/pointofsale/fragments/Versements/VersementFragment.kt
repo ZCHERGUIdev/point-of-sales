@@ -17,6 +17,7 @@ import com.zcdev.pointofsale.data.models.*
 import com.zcdev.pointofsale.fragments.Clients.Adapters.ClientAdapter
 import com.zcdev.pointofsale.fragments.Clients.ClientFragment
 import com.zcdev.pointofsale.fragments.Versements.Adapters.VersementAdapter
+import kotlinx.android.synthetic.main.doc_viewcell.*
 import kotlinx.android.synthetic.main.fragment_client.*
 import kotlinx.android.synthetic.main.fragment_versement.*
 import kotlinx.android.synthetic.main.fragment_versement.view.*
@@ -43,6 +44,33 @@ class VersementFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        //progressDialog setUp
+        progdialog= ProgressDialog(requireContext())
+        progdialog?.setMessage("Pleaze Wait...")
+
+
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        // Inflate the layout for this fragment
+       var view =  inflater.inflate(R.layout.fragment_versement, container, false)
+
+        // Set Menu
+        setHasOptionsMenu(true)
+        setupRecycler(view)
+
+
+        view!!.addVrs.setOnClickListener{
+            //---------------add Versement to Client Or Fournisseur-------
+            versementDialogue(view)
+        }
+
         //receive data
         val id = arguments?.getString("id")!!
         val name = arguments?.getString("name")!!
@@ -63,50 +91,31 @@ class VersementFragment : Fragment() {
             cl = Client(id,name,phone,email,address,hash_vrs,role,reduction!!)
             cl!!.sommeVrs = cl!!.calculeSV(hash_vrs)
             cl!!.balance = balance.toDouble()
-            rvVersements.adapter = VersementAdapter(requireActivity(), display_list, cl!!,v!!)
-            rvVersements.adapter!!.notifyDataSetChanged()
-            v!!.currentMoney.setText(cl!!.sommeVrs.toString())
+            view.rvVersements.adapter = VersementAdapter(requireActivity(), display_list, cl!!,view!!)
+            view.rvVersements.adapter!!.notifyDataSetChanged()
+            view!!.currentMoney.setText(cl!!.sommeVrs.toString())
 
         }else if (role.equals("FR")){
             fr = Fournisseur(id,name,phone,email,address,hash_vrs,role)
             fr!!.sommeVrs = fr!!.calculeSV(hash_vrs)
             fr!!.balance = balance.toDouble()
 
-            rvVersements.adapter = VersementAdapter(requireActivity(), display_list, fr!!,v!!)
-            rvVersements.adapter!!.notifyDataSetChanged()
-            v!!.currentMoney.setText(fr!!.sommeVrs.toString())
+            view.rvVersements.adapter = VersementAdapter(requireActivity(), display_list, fr!!,view!!)
+            view.rvVersements.adapter!!.notifyDataSetChanged()
+            view!!.currentMoney.setText(fr!!.sommeVrs.toString())
 
         }
-        showVersements()
+        showVersements(view)
+
+
+        return view
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        //progressDialog setUp
-        progdialog= ProgressDialog(requireContext())
-        progdialog?.setMessage("Pleaze Wait...")
+    private fun setupRecycler(view: View) {
+        var trader=Trader()
+        view.rvVersements.layoutManager = LinearLayoutManager(requireContext())
+        view.rvVersements.setHasFixedSize(true)
 
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        v =  inflater.inflate(R.layout.fragment_versement, container, false)
-
-        // Set Menu
-        setHasOptionsMenu(true)
-        val rvVersements: RecyclerView = v!!.rvVersements
-
-        rvVersements.layoutManager = LinearLayoutManager(context)
-        rvVersements.setHasFixedSize(true)
-
-
-        v!!.addVrs.setOnClickListener{
-            //---------------add Versement to Client Or Fournisseur-------
-            versementDialogue()
-        }
-
-        return v
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -144,7 +153,7 @@ class VersementFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun versementDialogue() {
+    private fun versementDialogue(view:View) {
         // Set up the input
         val input = EditText(context)
         // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
@@ -158,7 +167,7 @@ class VersementFragment : Fragment() {
                     .setIcon(R.drawable.ic_money)
                     .setPositiveButton("Add") { dialog, _ ->
                         // add versement
-                        addVersement(input.text.toString().toDouble())
+                        addVersement(input.text.toString().toDouble(),view)
                         dialog.dismiss()
                     }
                     .setNegativeButton("Cancel") { dialog, _ ->
@@ -168,7 +177,7 @@ class VersementFragment : Fragment() {
                     .show()
         }
 
-    private fun addVersement(montant:Double){
+    private fun addVersement(montant:Double,view: View){
 
         // get values
         val date = Calendar.getInstance().time // it's unique (dateTime)
@@ -203,7 +212,7 @@ class VersementFragment : Fragment() {
             // update balance of trader -----------------------------------------------------
             clRef.child("balance").setValue(balance)
 
-            v!!.currentMoney.setText(cl!!.sommeVrs.toString())
+            view.currentMoney.setText(cl!!.sommeVrs.toString())
 
 
         }else if (fr!=null) {
@@ -226,7 +235,7 @@ class VersementFragment : Fragment() {
             // update balance of trader -----------------------------------------------------
             frRef.child("balance").setValue(balance)
 
-            v!!.currentMoney.setText(fr!!.sommeVrs.toString())
+            view.currentMoney.setText(fr!!.sommeVrs.toString())
         }
 
         rvVersements.adapter!!.notifyDataSetChanged()
@@ -234,20 +243,20 @@ class VersementFragment : Fragment() {
 
     }
 
-    private fun showVersements(){
+    private fun showVersements(view: View){
 
-        if (cl!=null) {getVersements(cl!!)
-        }else if (fr!=null) { getVersements(fr!!) }
+        if (cl!=null) {getVersements(cl!!,view)
+        }else if (fr!=null) { getVersements(fr!!,view) }
     }
 
-    private fun getVersements(trader:Trader){
+    private fun getVersements(trader:Trader,view: View){
         progdialog!!.show()
 
         for(v in trader.versements!!){
             display_list.add(v.value)
         }
-        rvVersements.adapter = VersementAdapter(requireActivity(), display_list,trader,v!!)
-        rvVersements.adapter!!.notifyDataSetChanged()
+        view.rvVersements.adapter = VersementAdapter(requireContext(), display_list,trader,view)
+        view.rvVersements.adapter!!.notifyDataSetChanged()
 
         progdialog!!.hide()
     }

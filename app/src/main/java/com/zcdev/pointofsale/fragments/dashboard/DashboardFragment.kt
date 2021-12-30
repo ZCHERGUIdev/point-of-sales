@@ -19,6 +19,7 @@ import com.zcdev.pointofsale.data.models.Product
 import com.zcdev.pointofsale.data.models.Versement
 import com.zcdev.pointofsale.fragments.Products.Adapters.ProductAdapter
 import com.zcdev.pointofsale.fragments.Versements.Adapters.VersementAdapter
+import kotlinx.android.synthetic.main.fragment_dashboard.*
 import kotlinx.android.synthetic.main.fragment_dashboard.view.*
 import kotlinx.android.synthetic.main.fragment_products.*
 import kotlinx.android.synthetic.main.fragment_versement.*
@@ -27,7 +28,8 @@ import kotlinx.android.synthetic.main.prod_viewcelll.view.*
 
 
 class dashboardFragment : Fragment() {
-
+    //progressDialog
+    var progdialog: ProgressDialog? = null
 
     var stock:Double?=0.0
     var sp:Double?=0.0 // stock in sell price
@@ -36,13 +38,14 @@ class dashboardFragment : Fragment() {
     var nbprod:Int?=0
     var nbdocs:Int?=0
     var v:View?=null
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        //progressDialog setUp
+        progdialog = ProgressDialog(requireContext())
+        progdialog?.setMessage("Pleaze Wait...")
 
-
-    override fun onResume() {
-        super.onResume()
-
-        getStat()
     }
+
 
 
     override fun onCreateView(
@@ -52,7 +55,7 @@ class dashboardFragment : Fragment() {
 
         // Inflate the layout for this fragment
 
-        v= inflater.inflate(R.layout.fragment_dashboard, container, false)
+       var v= inflater.inflate(R.layout.fragment_dashboard, container, false)
 
 
 
@@ -96,6 +99,9 @@ class dashboardFragment : Fragment() {
                     "tr" to "sortie")
             findNavController().navigate(R.id.action_dashboardFragment_to_transactionFragment, bundle)
         }
+        progdialog!!.show()
+        getStat(v)
+
 
         return v
     }
@@ -189,17 +195,17 @@ class dashboardFragment : Fragment() {
         myRef.addListenerForSingleValueEvent(eventListener)
     }
 
-    private fun getStat(){
+    private fun getStat(v: View){
         getStock()
         getDebt()
         getDocs()
-
-        v!!.tvStock.setText(stock.toString())
-        v!!.tvSP.setText(sp.toString())
-        v!!.tvCreditF.setText(fDebt.toString())
-        v!!.tvCreditC.setText(cDebt.toString())
-        v!!.tvnbDoc.setText(nbdocs.toString())
-        v!!.tvnbPrd.setText(nbprod.toString())
+        progdialog!!.hide()
+        v.tvStock.setText(stock.toString())
+        v.tvSP.setText(sp.toString())
+        v.tvCreditF.setText(fDebt.toString())
+        v.tvCreditC.setText(cDebt.toString())
+        v.tvnbDoc.setText(nbdocs.toString())
+        v.tvnbPrd.setText(nbprod.toString())
     }
 
     }
