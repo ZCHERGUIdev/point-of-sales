@@ -64,9 +64,7 @@ class DocumentsFragment : Fragment() {
         setHasOptionsMenu(true)
 
 
-        val rvDocument: RecyclerView = view!!.rvDocument
-        rvDocument.layoutManager = LinearLayoutManager(context)
-        rvDocument.setHasFixedSize(true)
+setUpRecyclerView(view)
 
         view.addDocument.setOnClickListener {
 
@@ -77,6 +75,12 @@ class DocumentsFragment : Fragment() {
         }
 
         return view
+    }
+
+    private fun setUpRecyclerView(view: View) {
+        view.rvDocument.layoutManager = LinearLayoutManager(requireContext())
+        view.rvDocument.adapter = DocumentAdapter(requireContext(), display_list)
+        view.rvDocument.setHasFixedSize(true)
     }
 
 
@@ -99,7 +103,6 @@ class DocumentsFragment : Fragment() {
                     list_doc.add(tr)
                 }
                 display_list.addAll(list_doc)
-                rvDocument.adapter = DocumentAdapter(activity!!, display_list)
                 rvDocument.adapter!!.notifyDataSetChanged()
 
                 checkData(display_list)

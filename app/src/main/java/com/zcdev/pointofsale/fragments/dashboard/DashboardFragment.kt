@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.database.DataSnapshot
@@ -25,6 +26,7 @@ import kotlinx.android.synthetic.main.fragment_products.*
 import kotlinx.android.synthetic.main.fragment_versement.*
 import kotlinx.android.synthetic.main.fragment_versement.view.*
 import kotlinx.android.synthetic.main.prod_viewcelll.view.*
+import kotlin.properties.Delegates
 
 
 class dashboardFragment : Fragment() {
@@ -37,12 +39,18 @@ class dashboardFragment : Fragment() {
     var cDebt:Double?=0.0
     var nbprod:Int?=0
     var nbdocs:Int?=0
+
+   /* by Delegates.observable(nbdocs){
+            property, oldValue, newValue ->
+        Toast.makeText(requireContext(), "new value"+newValue, Toast.LENGTH_SHORT).show()
+    }*/
     var v:View?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //progressDialog setUp
-        progdialog = ProgressDialog(requireContext())
+        progdialog = ProgressDialog(this.requireContext())
         progdialog?.setMessage("Pleaze Wait...")
+        Toast.makeText(requireContext(), "Hello", Toast.LENGTH_SHORT).show()
 
     }
 
@@ -100,19 +108,21 @@ class dashboardFragment : Fragment() {
             findNavController().navigate(R.id.action_dashboardFragment_to_transactionFragment, bundle)
         }
         progdialog!!.show()
-        getStat(v)
+        getStock(v)
+        getDebt(v)
+        getDocs(v)
 
 
         return v
     }
 
-    private fun getStock(){
+    private fun getStock(v: View){
         //get products from firebase
         val database = FirebaseDatabase.getInstance()
         val myRef = database.getReference("Products")
         var ttStockByProd = 0.0 // stock estimation
         var ttSPByProd = 0.0   // stock by sell price estimation
-
+        progdialog?.show()
         //Get datasnapshot at your "products" root node
         val eventListener: ValueEventListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -123,8 +133,14 @@ class dashboardFragment : Fragment() {
                     ttSPByProd = ttSPByProd + prod!!.prixVente * prod!!.productQnt!!
                 }
                 nbprod = dataSnapshot.childrenCount.toInt()
+                v.tvnbPrd.setText(nbprod.toString())
+
                 stock = ttStockByProd
+                progdialog!!.hide()
+                v.tvStock.setText(stock.toString())
                 sp = ttSPByProd
+                v.tvSP.setText(sp.toString())
+
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
@@ -132,7 +148,7 @@ class dashboardFragment : Fragment() {
         myRef.addListenerForSingleValueEvent(eventListener)
     }
 
-    private fun getDebt() {
+    private fun getDebt(v: View) {
 
         var debtCL:Double?=0.0
         var debtFR:Double?=0.0
@@ -141,7 +157,7 @@ class dashboardFragment : Fragment() {
             val database = FirebaseDatabase.getInstance()
             val frRef = database.getReference("Fournisseurs")
             val clRef = database.getReference("Clients")
-
+             progdialog?.show()
 
             //Get datasnapshot at your "Fournisseurs" root node
             val eventListenerFR: ValueEventListener = object : ValueEventListener {
@@ -153,6 +169,7 @@ class dashboardFragment : Fragment() {
                         debtFR = debtFR!! + fr!!.balance!!
                     }
                     fDebt = debtFR
+                    v.tvCreditF.setText(fDebt.toString())
                 }
                 override fun onCancelled(databaseError: DatabaseError) {}
             }
@@ -166,6 +183,9 @@ class dashboardFragment : Fragment() {
                         debtCL = debtCL!! + cl!!.balance!!
                     }
                     cDebt = debtCL
+                    v.tvCreditC.setText(cDebt.toString())
+
+
                 }
                 override fun onCancelled(databaseError: DatabaseError) {}
             }
@@ -176,17 +196,19 @@ class dashboardFragment : Fragment() {
 
         }
 
-    private fun getDocs(){
+    private fun getDocs(v: View){
         //get docs from firebase
         val database = FirebaseDatabase.getInstance()
         val myRef = database.getReference("Transactions")
 
-
+        progdialog?.show()
         //Get datasnapshot at your "transactions" root node
         val eventListener: ValueEventListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 
                 nbdocs = dataSnapshot.childrenCount.toInt()
+                v.tvnbDoc.setText(nbdocs.toString())
+
 
             }
 
@@ -195,17 +217,6 @@ class dashboardFragment : Fragment() {
         myRef.addListenerForSingleValueEvent(eventListener)
     }
 
-    private fun getStat(v: View){
-        getStock()
-        getDebt()
-        getDocs()
-        progdialog!!.hide()
-        v.tvStock.setText(stock.toString())
-        v.tvSP.setText(sp.toString())
-        v.tvCreditF.setText(fDebt.toString())
-        v.tvCreditC.setText(cDebt.toString())
-        v.tvnbDoc.setText(nbdocs.toString())
-        v.tvnbPrd.setText(nbprod.toString())
-    }
+
 
     }
