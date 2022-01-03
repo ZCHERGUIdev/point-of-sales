@@ -64,7 +64,7 @@ class DocumentsFragment : Fragment() {
         setHasOptionsMenu(true)
 
 
-setUpRecyclerView(view)
+        setUpRecyclerView(view)
 
         view.addDocument.setOnClickListener {
 

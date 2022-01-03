@@ -2,6 +2,7 @@ package com.zcdev.pointofsale.fragments.Documents.Adapters
 
 import android.app.AlertDialog
 import android.content.Context
+import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -32,6 +33,14 @@ class DocumentAdapter(val c: Context, val docList: MutableList<Transaction>) :
 
         override fun onBindViewHolder(holder: DocumentViewHolder, position: Int) {
             val currentItem = docList[position]
+
+            if (currentItem.type=="Entree"){
+                holder.textView1.setTextColor(Color.parseColor( "#008000"))
+                holder.textView2.setTextColor(Color.parseColor( "#008000"))
+            }else if (currentItem.type=="Sortie"){
+                holder.textView1.setTextColor(Color.parseColor( "#FF0000"))
+                holder.textView2.setTextColor(Color.parseColor( "#FF0000"))
+            }
 
             //fetch data when update *use cached view ref !
             holder.textView1.text = currentItem.type
