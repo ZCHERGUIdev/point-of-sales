@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -21,6 +22,7 @@ import com.vansuita.pickimage.listeners.IPickResult
 import com.zcdev.pointofsale.R
 import com.zcdev.pointofsale.activitys.CaptureAct
 import com.zcdev.pointofsale.data.models.Product
+import kotlinx.android.synthetic.main.fragment_add.*
 import kotlinx.android.synthetic.main.fragment_add.view.*
 import kotlinx.android.synthetic.main.fragment_add.view.btnTovarBarcode
 import kotlinx.android.synthetic.main.fragment_edit.view.*
@@ -37,6 +39,7 @@ class AddFragment : Fragment(){
     var imageLink:String?=null
     lateinit var postImage: ByteArray
     var progdialog: ProgressDialog? = null
+    var qrCodeVal: String? = null
 
 
 
@@ -52,6 +55,8 @@ class AddFragment : Fragment(){
         //progressDialog setUp
         progdialog= ProgressDialog(requireContext())
         progdialog?.setMessage("Pleaze Wait...")
+
+
     }
 
 
@@ -67,6 +72,12 @@ class AddFragment : Fragment(){
          v!!.btnTovarBarcode.setOnClickListener {
            initQrCode()
          }
+
+
+        if(qrCodeVal!=null){
+
+        }
+
         //Pick Image from galery
         v!!.ivPickImage.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
@@ -94,7 +105,7 @@ class AddFragment : Fragment(){
     }
 
    private fun initQrCode() {
-        integrator= IntentIntegrator(activity)
+        integrator= IntentIntegrator.forSupportFragment(this)
         integrator!!.setCaptureActivity(CaptureAct::class.java)
         integrator!!.setOrientationLocked(false)
         integrator!!.setDesiredBarcodeFormats()
@@ -148,11 +159,21 @@ class AddFragment : Fragment(){
 
 
 
+
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
         if (result != null) {
             if (result.contents != null) {
-                Toast.makeText(requireContext(), "code :"+result.contents, Toast.LENGTH_SHORT).show()
+                qrCodeVal=result.contents.toString()
+                Toast.makeText(requireContext(), "code :"+result.contents.toString(), Toast.LENGTH_SHORT).show()
+                Log.d("qrcode: ",result.contents.toString())
+                edtBarcode.setText(qrCodeVal)
+              /*  var intent = Intent(
+                    android.content.Intent.ACTION_VIEW,
+                    Uri.parse(result.contents)
+                )
+                startActivity(intent)*/
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data)

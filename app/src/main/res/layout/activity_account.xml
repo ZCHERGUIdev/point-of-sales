@@ -18,7 +18,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:adjustViewBounds="true"
-            app:srcCompat="@drawable/logoo" />
+            app:srcCompat="@drawable/logo" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/ilEmail"
@@ -82,7 +82,7 @@
             android:layout_below="@id/btnSignupLogin"
             android:layout_marginTop="20sp"
             android:gravity="center"
-            android:textColor="@android:color/black"
+            android:textColor="#000000"
             android:text="Sign Up"
             android:enabled="false"
             android:textAlignment="center"
