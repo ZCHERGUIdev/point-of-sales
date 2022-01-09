@@ -70,9 +70,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/ilPassword"
         android:layout_marginTop="10dp"
-        android:background="@color/ColorBrand2"
-        android:onClick="login"
+        android:backgroundTint="@color/ColorBrand2"
         android:text="LogIn"
+        android:onClick="login"
+        android:textColor="@color/white"
         android:textSize="20sp" />
 
         <TextView
@@ -82,9 +83,10 @@
             android:layout_below="@id/btnSignupLogin"
             android:layout_marginTop="20sp"
             android:gravity="center"
-            android:textColor="#000000"
+            android:textColor="@color/ColorBrandTxtColor"
             android:text="Sign Up"
             android:enabled="false"
+            android:onClick="signUp"
             android:textAlignment="center"
              />
 

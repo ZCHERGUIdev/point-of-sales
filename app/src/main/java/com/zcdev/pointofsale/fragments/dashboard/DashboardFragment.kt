@@ -2,13 +2,15 @@ package com.zcdev.pointofsale.fragments.dashboard
 
 import android.app.ProgressDialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -17,21 +19,18 @@ import com.zcdev.pointofsale.R
 import com.zcdev.pointofsale.data.models.Client
 import com.zcdev.pointofsale.data.models.Fournisseur
 import com.zcdev.pointofsale.data.models.Product
-import com.zcdev.pointofsale.data.models.Versement
-import com.zcdev.pointofsale.fragments.Products.Adapters.ProductAdapter
-import com.zcdev.pointofsale.fragments.Versements.Adapters.VersementAdapter
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 import kotlinx.android.synthetic.main.fragment_dashboard.view.*
 import kotlinx.android.synthetic.main.fragment_products.*
 import kotlinx.android.synthetic.main.fragment_versement.*
 import kotlinx.android.synthetic.main.fragment_versement.view.*
 import kotlinx.android.synthetic.main.prod_viewcelll.view.*
-import kotlin.properties.Delegates
 
 
 class dashboardFragment : Fragment() {
     //progressDialog
     var progdialog: ProgressDialog? = null
+ //   var  mSwipeRefreshLayout : SwipeRefreshLayout?=null
 
     var stock:Double?=0.0
     var sp:Double?=0.0 // stock in sell price
@@ -40,10 +39,7 @@ class dashboardFragment : Fragment() {
     var nbprod:Int?=0
     var nbdocs:Int?=0
 
-   /* by Delegates.observable(nbdocs){
-            property, oldValue, newValue ->
-        Toast.makeText(requireContext(), "new value"+newValue, Toast.LENGTH_SHORT).show()
-    }*/
+
     var v:View?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +47,7 @@ class dashboardFragment : Fragment() {
         progdialog = ProgressDialog(this.requireContext())
         progdialog?.setMessage("Pleaze Wait...")
         Toast.makeText(requireContext(), "Hello", Toast.LENGTH_SHORT).show()
+       // mSwipeRefreshLayout!!.setOnRefreshListener(this)
 
     }
 
@@ -64,6 +61,8 @@ class dashboardFragment : Fragment() {
         // Inflate the layout for this fragment
 
        var v= inflater.inflate(R.layout.fragment_dashboard, container, false)
+      // mSwipeRefreshLayout= v.splayout as SwipeRefreshLayout?
+
 
 
 
@@ -78,6 +77,13 @@ class dashboardFragment : Fragment() {
         }
         v!!.llMenuExpenses.setOnClickListener {
             findNavController().navigate(R.id.action_dashboardFragment_to_expensesFragment)
+            Toast.makeText(requireContext(), "لم يتم إيضافة هذه الخاصية بعد !", Toast.LENGTH_SHORT).show()
+
+        }
+        v!!.llMenuFeedback.setOnClickListener {
+           // findNavController().navigate(R.id.action_dashboardFragment_to_expensesFragment)
+            Toast.makeText(requireContext(), "هذاالخيار معطل حاليا  !", Toast.LENGTH_SHORT).show()
+
         }
         v!!.llMenuSettings.setOnClickListener {
             findNavController().navigate(R.id.action_dashboardFragment_to_settingsFragment)
@@ -107,6 +113,8 @@ class dashboardFragment : Fragment() {
                     "tr" to "sortie")
             findNavController().navigate(R.id.action_dashboardFragment_to_transactionFragment, bundle)
         }
+
+
         progdialog!!.show()
         getStock(v)
         getDebt(v)
@@ -217,6 +225,10 @@ class dashboardFragment : Fragment() {
         myRef.addListenerForSingleValueEvent(eventListener)
     }
 
+   /* override fun onRefresh() {
+        Toast.makeText(requireContext(), "Refresh", Toast.LENGTH_SHORT).show()
+        Handler().postDelayed(Runnable { mSwipeRefreshLayout!!.isRefreshing = false }, 2000)
+    }*/
 
 
-    }
+}

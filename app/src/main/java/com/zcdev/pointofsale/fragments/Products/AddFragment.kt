@@ -120,7 +120,11 @@ class AddFragment : Fragment(){
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(item.itemId == R.id.menu_add){
             // to do
-                addProduct(v!!)
+                if (!checkData(v!!)){
+                    addProduct(v!!)
+                }else{
+                    Toast.makeText(requireContext(), "Please enter all the data", Toast.LENGTH_SHORT).show()
+                }
             // navigate to product list
             findNavController().navigate(R.id.action_addFragment_to_productsFragment)
         }
@@ -214,6 +218,14 @@ class AddFragment : Fragment(){
             }
         }.addOnFailureListener {}
         return imageLink.toString()
+    }
+
+
+    fun checkData(v:View):Boolean{
+        if(v.edtName.text.isEmpty() ||v.edtBarcode.text.isEmpty()||v.edDesc.text.isEmpty()||v.edtQnt.text.isEmpty()||v.edtPrixA.text.isEmpty()||v.edtPrixV.text.isEmpty()){
+            return true
+        }
+        return false
     }
 
 }

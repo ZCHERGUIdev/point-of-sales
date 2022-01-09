@@ -99,7 +99,11 @@ class EditFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(item.itemId == R.id.menu_add){
             // to do
-            editProduct(v!!)
+            if (!checkData(v!!)){
+                editProduct(v!!)
+            }else{
+                Toast.makeText(requireContext(), "Please enter all the data", Toast.LENGTH_SHORT).show()
+            }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -179,6 +183,14 @@ class EditFragment : Fragment() {
             }
         }.addOnFailureListener {}
         return imageLink.toString()
+    }
+
+
+    fun checkData(v:View):Boolean{
+ if(v.edtNameUpdate.text.isEmpty() ||v.edtBarcodeUpdate.text.isEmpty()||v.edtDescUpdate.text.isEmpty()||v.edtQntUpdate.text.isEmpty()||v.edtPrixAUpdate.text.isEmpty()||v.edtPrixVUpdate.text.isEmpty()){
+            return true
+        }
+        return false
     }
 
 

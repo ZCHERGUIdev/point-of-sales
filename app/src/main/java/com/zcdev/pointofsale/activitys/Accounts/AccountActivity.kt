@@ -3,6 +3,7 @@ package com.zcdev.pointofsale.activitys.Accounts
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
@@ -14,17 +15,20 @@ class AccountActivity : AppCompatActivity() {
     // Creating firebaseAuth object
     lateinit var auth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_account)
 
         supportActionBar!!.hide()
         // initialising Firebase auth object
         auth = FirebaseAuth.getInstance()
-
-
+        var user =auth.currentUser
+        if (checkLoggedIn()){
+            startActivity(Intent(this,MainActivity::class.java))
+        }
     }
 
-    fun login(view:View) {
+    fun login(view: View) {
         val email = textEmail.text.toString()
         val pass = textPassword.text.toString()
         if (email.isBlank() || pass.isBlank()) {
@@ -38,6 +42,20 @@ class AccountActivity : AppCompatActivity() {
             } else
                 Toast.makeText(this, "Log In failed ", Toast.LENGTH_SHORT).show()
         }
+    }
+    fun signUp(view:View) {
+        Toast.makeText(this, "للحصول على حساب فعال قم بلإشتراك معنا ", Toast.LENGTH_SHORT).show()
+    }
+
+    fun checkLoggedIn() :Boolean{
+        if (auth.currentUser!=null){
+            Log.i("Appp"," usr${auth.currentUser} signed in succesfully")
+            return true
+        }else{
+            Log.i("Appp","usr is not signin")
+            return false
+        }
+        return false
     }
 
 

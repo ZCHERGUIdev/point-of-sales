@@ -10,4 +10,9 @@
     <string name="language">"اللغة "</string>
     <string name="share">"شارك "</string>
     <string name="genral">بشكل عام</string>
+    <string name="_0_0_00">0/0.00</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add">أضف</string>
+    <string name="search">بحث</string>
+    <string name="edit">تعديل</string>
 </resources>

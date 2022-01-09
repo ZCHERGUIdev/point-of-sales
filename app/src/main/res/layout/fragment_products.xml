@@ -62,8 +62,10 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="20dp"
         fab:fabSize="normal"
+        fab:borderWidth="0dp"
         android:layout_marginBottom="20dp"
         android:src="@drawable/ic_baseline_add_24"
+        android:background="@color/ColorBrand2"
         android:backgroundTint="@color/ColorBrand2"
 
         />

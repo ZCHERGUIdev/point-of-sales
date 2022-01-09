@@ -8,9 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import com.zcdev.pointofsale.R
+import kotlinx.android.synthetic.main.fragment_dashboard.view.*
 import kotlinx.android.synthetic.main.fragment_settings.view.*
 
 
@@ -26,6 +28,15 @@ class SettingsFragment : Fragment() {
        //support Multiple Language
         v.rlLang.setOnClickListener {
             languageDialogue()
+        }
+        v!!.general.setOnClickListener {
+            Toast.makeText(requireContext(), "هذاالخيار معطل حاليا  !", Toast.LENGTH_SHORT).show()
+        }
+        v!!.about.setOnClickListener {
+            Toast.makeText(requireContext(), "هذاالخيار معطل حاليا  !", Toast.LENGTH_SHORT).show()
+        }
+        v!!.share.setOnClickListener {
+            Toast.makeText(requireContext(), "هذاالخيار معطل حاليا  !", Toast.LENGTH_SHORT).show()
         }
 
 
