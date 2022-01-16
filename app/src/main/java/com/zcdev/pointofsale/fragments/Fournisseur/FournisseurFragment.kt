@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -23,6 +24,7 @@ import java.util.*
 class FournisseurFragment : Fragment() {
     var list_fr: MutableList<Fournisseur> = ArrayList<Fournisseur>()
     var display_list: MutableList<Fournisseur> = ArrayList<Fournisseur>()
+    lateinit var auth: FirebaseAuth
 
     //progressDialog
     var progdialog: ProgressDialog? = null
@@ -37,6 +39,7 @@ class FournisseurFragment : Fragment() {
         //progressDialog setUp
         progdialog= ProgressDialog(requireContext())
         progdialog?.setMessage("Pleaze Wait...")
+        auth = FirebaseAuth.getInstance()
 
 
         showFourniseurs()
@@ -63,7 +66,7 @@ class FournisseurFragment : Fragment() {
     private fun setUpRecylerView(view: View) {
 
        view.rvFournisseur.layoutManager = LinearLayoutManager(requireContext())
-       view.rvFournisseur.adapter = FournisseurAdapter(requireContext(), display_list)
+       view.rvFournisseur.adapter = FournisseurAdapter(requireContext(), display_list,auth)
         view.rvFournisseur.setHasFixedSize(true)
     }
 
@@ -73,8 +76,9 @@ class FournisseurFragment : Fragment() {
 
         //get fournisseurs from firebase
         // read from db firebase ------------------------------------------------------------------
+        val currentUser =auth.currentUser
         val database = FirebaseDatabase.getInstance()
-        val myRef = database.getReference("Fournisseurs")
+        val myRef = database.getReference("Users/"+ currentUser!!.uid +"/Fournisseurs")
 
         //First retrieve your users datasnapshot.
         //Get datasnapshot at your "Fournisseurs" root node

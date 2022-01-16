@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.zcdev.pointofsale.R
 import com.zcdev.pointofsale.data.models.*
@@ -29,9 +30,11 @@ class TransactionFragment : Fragment() {
     var arrayAdapter:ArrayAdapter<String>? =null
     var display_list: MutableList<Product> = ArrayList<Product>()
     var ttprice:Double?=0.0
+    lateinit var auth: FirebaseAuth
 
     override fun onResume() {
         super.onResume()
+        auth = FirebaseAuth.getInstance()
         if (arguments?.getString("tr").equals("entree")){
             trType = "Fournisseur"
             arrayAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item,
@@ -149,6 +152,7 @@ class TransactionFragment : Fragment() {
         val formatedDate = formatter.format(date)
 
         // get fireabse database instance
+        val currentUser =auth.currentUser
         val database = FirebaseDatabase.getInstance()
         val id:String= date.toString()
         var balance:Double?
@@ -156,19 +160,19 @@ class TransactionFragment : Fragment() {
         var vrs = Versement(id, formatedDate.toString(), montant)
 
         if(trType.equals("Fournisseur")){
-            val traderRef = database.getReference("Fournisseurs")
+            val traderRef = database.getReference("Users/"+ currentUser!!.uid +"/Fournisseurs")
             // find fournisseur by name
             traderRef.orderByChild("name").equalTo(trader).addChildEventListener(object : ChildEventListener {
                 override fun onChildAdded(dataSnapshot: DataSnapshot, prevChildKey: String?) {
                     val fr = dataSnapshot.getValue(Fournisseur::class.java)
-                    val myRef = database.getReference("Fournisseurs/" + fr!!.Id + "/versements")
+                    val myRef = database.getReference("Users/"+ currentUser!!.uid +"/Fournisseurs/" + fr!!.Id + "/versements")
                     // add versement to firebase -----------------------------------------------------
                     myRef.child(id).setValue(vrs)
 
                     // calculate balance
                     balance  = fr!!.balance!! + vrs.montant!!
 
-                    val frRef = database.getReference("Fournisseurs/" + fr!!.Id)
+                    val frRef = database.getReference("Users/"+ currentUser!!.uid +"/Fournisseurs/" + fr!!.Id)
                     //// update balance of trader -----------------------------------------------------
                     frRef.child("balance").setValue(balance)
                 }
@@ -180,19 +184,19 @@ class TransactionFragment : Fragment() {
             })
         }else{
             // find client by name
-                val traderRef = database.getReference("Clients")
+                val traderRef = database.getReference("Users/"+ currentUser!!.uid +"/Clients")
             // find client by name
             traderRef.orderByChild("name").equalTo(trader).addChildEventListener(object : ChildEventListener {
                 override fun onChildAdded(dataSnapshot: DataSnapshot, prevChildKey: String?) {
                     val cl = dataSnapshot.getValue(Client::class.java)
-                    val myRef = database.getReference("Clients/" + cl!!.Id + "/versements")
+                    val myRef = database.getReference("Users/"+ currentUser!!.uid +"/Clients/" + cl!!.Id + "/versements")
                     // add versement to firebase -----------------------------------------------------
                     myRef.child(id).setValue(vrs)
 
                     // calculate balance
                     balance  = cl!!.balance!! + vrs.montant!!
 
-                    val clRef = database.getReference("Clients/" + cl!!.Id)
+                    val clRef = database.getReference("Users/"+ currentUser!!.uid +"/Clients/" + cl!!.Id)
                     //// update balance of trader -----------------------------------------------------
                     clRef.child("balance").setValue(balance)
                 }
@@ -210,8 +214,9 @@ class TransactionFragment : Fragment() {
 
         //get fournisseurs from firebase
         // read from db firebase ------------------------------------------------------------------
+        val currentUser =auth.currentUser
         val database = FirebaseDatabase.getInstance()
-        val myRef = database.getReference("Fournisseurs")
+        val myRef = database.getReference("Users/"+ currentUser!!.uid +"/Fournisseurs")
 
         //First retrieve your users datasnapshot.
         //Get datasnapshot at your "Fournisseurs" root node
@@ -234,8 +239,9 @@ class TransactionFragment : Fragment() {
 
         //get Clients from firebase
         // read from db firebase ------------------------------------------------------------------
+        val currentUser =auth.currentUser
         val database = FirebaseDatabase.getInstance()
-        val myRef = database.getReference("Clients")
+        val myRef = database.getReference("Users/"+ currentUser!!.uid +"/Clients")
 
         //First retrieve your users datasnapshot.
         //Get datasnapshot at your "Clients" root node
@@ -263,8 +269,9 @@ class TransactionFragment : Fragment() {
 
 
         // get fireabse database instance
+        val currentUser =auth.currentUser
         val database = FirebaseDatabase.getInstance()
-        var myRef = database.getReference("Transactions")
+        var myRef = database.getReference("Users/"+ currentUser!!.uid +"/Transactions")
 
         if(trType.equals("Fournisseur")){
             // create new Entree
@@ -272,7 +279,7 @@ class TransactionFragment : Fragment() {
             // add transaction to firebase
             myRef.child(date.toString()).setValue(entree)
 
-            val traderRef = database.getReference("Fournisseurs")
+            val traderRef = database.getReference("Users/"+ currentUser!!.uid +"/Fournisseurs")
             // find fournisseur by name
             traderRef.orderByChild("name").equalTo(trader).addChildEventListener(object : ChildEventListener {
                 override fun onChildAdded(dataSnapshot: DataSnapshot, prevChildKey: String?) {
@@ -280,7 +287,7 @@ class TransactionFragment : Fragment() {
                     // calculate balance
                     var balance:Double  = fr!!.balance!! - entree.prixTotal!!
 
-                    val myRef = database.getReference("Fournisseurs/" + fr!!.Id)
+                    val myRef = database.getReference("Users/"+ currentUser!!.uid +"/Fournisseurs/" + fr!!.Id)
                     //// update balance of trader -----------------------------------------------------
                     myRef.child("balance").setValue(balance)
                 }
@@ -303,7 +310,7 @@ class TransactionFragment : Fragment() {
             // add transaction to firebase
             myRef.child(date.toString()).setValue(sortie)
 
-            val traderRef = database.getReference("Clients")
+            val traderRef = database.getReference("Users/"+ currentUser!!.uid +"/Clients")
             // find fournisseur by name
             traderRef.orderByChild("name").equalTo(trader).addChildEventListener(object : ChildEventListener {
                 override fun onChildAdded(dataSnapshot: DataSnapshot, prevChildKey: String?) {
@@ -311,7 +318,7 @@ class TransactionFragment : Fragment() {
                     // calculate balance
                     var balance:Double  = cl!!.balance!! - sortie.prixTotal!!
 
-                    val myRef = database.getReference("Clients/" + cl!!.Id)
+                    val myRef = database.getReference("Users/"+ currentUser!!.uid +"/Clients/" + cl!!.Id)
                     //// update balance of trader -----------------------------------------------------
                     myRef.child("balance").setValue(balance)
                 }
@@ -332,7 +339,7 @@ class TransactionFragment : Fragment() {
 
         // update Qte products
         // get fireabse database instance
-        myRef = database.getReference("Products")
+        myRef = database.getReference("Users/"+ currentUser!!.uid +"/Products")
         for(p in list_prod){
 
             // find p by barcode
@@ -346,7 +353,7 @@ class TransactionFragment : Fragment() {
                         qte = prd!!.productQnt!! - p.productQnt!!
                     }
 
-                    val prdRef = database.getReference("Products/"+prd.productCode)
+                    val prdRef = database.getReference("Users/"+ currentUser!!.uid +"/Products/"+prd.productCode)
                     prdRef.child("productQnt").setValue(qte)
                 }
 

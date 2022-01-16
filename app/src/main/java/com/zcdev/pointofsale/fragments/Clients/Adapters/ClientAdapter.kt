@@ -11,13 +11,14 @@ import android.widget.*
 import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.zcdev.pointofsale.R
 import com.zcdev.pointofsale.data.models.Client
 import kotlinx.android.synthetic.main.cl_viewcell.view.*
 
 
-class ClientAdapter(val c: Context, val clList: MutableList<Client>) :
+class ClientAdapter(val c: Context, val clList: MutableList<Client>,var auth: FirebaseAuth) :
     RecyclerView.Adapter<ClientAdapter.ClientViewHolder>(){
 
 
@@ -113,9 +114,10 @@ class ClientAdapter(val c: Context, val clList: MutableList<Client>) :
         }
 
        private fun removeCl(clList: MutableList<Client>, position: Int){
+            val currentUser =auth.currentUser
             val clName:String  = clList.get(position).Name!!
             val ref = FirebaseDatabase.getInstance().reference
-            val applesQuery: Query = ref.child("Clients").orderByChild("name").equalTo(clName)
+            val applesQuery: Query = ref.child("Users/"+ currentUser!!.uid +"/Clients").orderByChild("name").equalTo(clName)
 
             applesQuery.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {

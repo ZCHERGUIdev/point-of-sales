@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.zcdev.pointofsale.R
 import com.zcdev.pointofsale.data.models.Client
@@ -19,7 +20,7 @@ import kotlinx.android.synthetic.main.prod_viewcell.view.qteProd
 import java.text.SimpleDateFormat
 
 
-class DocumentAdapter(val c: Context, val docList: MutableList<Transaction>) :
+class DocumentAdapter(val c: Context, val docList: MutableList<Transaction>,var auth:FirebaseAuth) :
     RecyclerView.Adapter<DocumentAdapter.DocumentViewHolder>(){
 
 
@@ -106,9 +107,10 @@ class DocumentAdapter(val c: Context, val docList: MutableList<Transaction>) :
             private fun removeDoc(docList: MutableList<Transaction>, position: Int){
                 val tr = docList.get(position)
                 var balance:Double?
+                val currentUser =auth.currentUser
                 val ref = FirebaseDatabase.getInstance().reference
                 val database = FirebaseDatabase.getInstance()
-                val applesQuery: Query = ref.child("Transactions").orderByChild("id").equalTo(tr.Id)
+                val applesQuery: Query = ref.child("Users/"+ currentUser!!.uid +"/Transactions").orderByChild("id").equalTo(tr.Id)
 
                 applesQuery.addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -118,7 +120,7 @@ class DocumentAdapter(val c: Context, val docList: MutableList<Transaction>) :
 
                             // update balance
                             if(tr.type.equals("Entree")){
-                                val traderRef = database.getReference("Fournisseurs")
+                                val traderRef = database.getReference("Users/"+ currentUser!!.uid +"/Fournisseurs")
                                 // find fournisseur by name
                                 traderRef.orderByChild("name").equalTo(tr.trader).addChildEventListener(object : ChildEventListener {
                                     override fun onChildAdded(dataSnapshot: DataSnapshot, prevChildKey: String?) {
@@ -127,7 +129,7 @@ class DocumentAdapter(val c: Context, val docList: MutableList<Transaction>) :
                                         // calculate balance
                                         balance  = fr!!.balance!! + tr.prixTotal!!
 
-                                        val frRef = database.getReference("Fournisseurs/" + fr!!.Id)
+                                        val frRef = database.getReference("Users/"+ currentUser!!.uid +"/Fournisseurs/" + fr!!.Id)
                                         //// update balance of trader -----------------------------------------------------
                                         frRef.child("balance").setValue(balance)
                                     }
@@ -138,7 +140,7 @@ class DocumentAdapter(val c: Context, val docList: MutableList<Transaction>) :
                                     override fun onCancelled(error: DatabaseError) {}
                                 })
                             }else if(tr.type.equals("Sortie")){
-                                val traderRef = database.getReference("Clients")
+                                val traderRef = database.getReference("Users/"+ currentUser!!.uid +"/Clients")
                                 // find Clients by name
                                 traderRef.orderByChild("name").equalTo(tr.trader).addChildEventListener(object : ChildEventListener {
                                     override fun onChildAdded(dataSnapshot: DataSnapshot, prevChildKey: String?) {
@@ -147,7 +149,7 @@ class DocumentAdapter(val c: Context, val docList: MutableList<Transaction>) :
                                         // calculate balance
                                         balance  = cl!!.balance!! + tr.prixTotal!!
 
-                                        val clRef = database.getReference("Clients/" + cl!!.Id)
+                                        val clRef = database.getReference("Users/"+ currentUser!!.uid +"/Clients/" + cl!!.Id)
                                         //// update balance of trader -----------------------------------------------------
                                         clRef.child("balance").setValue(balance)
                                     }

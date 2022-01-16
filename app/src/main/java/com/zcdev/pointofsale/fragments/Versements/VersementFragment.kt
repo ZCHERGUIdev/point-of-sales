@@ -11,6 +11,7 @@ import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.zcdev.pointofsale.R
 import com.zcdev.pointofsale.data.models.*
@@ -34,6 +35,8 @@ class VersementFragment : Fragment() {
     var cl:Client?=null
     var fr:Fournisseur?=null
 
+    lateinit var auth: FirebaseAuth
+
     //progressDialog
     var progdialog: ProgressDialog? = null
 
@@ -45,6 +48,8 @@ class VersementFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
+        auth = FirebaseAuth.getInstance()
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,6 +57,7 @@ class VersementFragment : Fragment() {
         //progressDialog setUp
         progdialog= ProgressDialog(requireContext())
         progdialog?.setMessage("Pleaze Wait...")
+        auth = FirebaseAuth.getInstance()
 
 
     }
@@ -91,7 +97,7 @@ class VersementFragment : Fragment() {
             cl = Client(id,name,phone,email,address,hash_vrs,role,reduction!!)
             cl!!.sommeVrs = cl!!.calculeSV(hash_vrs)
             cl!!.balance = balance.toDouble()
-            view.rvVersements.adapter = VersementAdapter(requireActivity(), display_list, cl!!,view!!)
+            view.rvVersements.adapter = VersementAdapter(requireActivity(), display_list, cl!!,view!!,auth)
             view.rvVersements.adapter!!.notifyDataSetChanged()
             view!!.currentMoney.setText(cl!!.sommeVrs.toString())
 
@@ -100,7 +106,7 @@ class VersementFragment : Fragment() {
             fr!!.sommeVrs = fr!!.calculeSV(hash_vrs)
             fr!!.balance = balance.toDouble()
 
-            view.rvVersements.adapter = VersementAdapter(requireActivity(), display_list, fr!!,view!!)
+            view.rvVersements.adapter = VersementAdapter(requireActivity(), display_list, fr!!,view!!,auth)
             view.rvVersements.adapter!!.notifyDataSetChanged()
             view!!.currentMoney.setText(fr!!.sommeVrs.toString())
 
@@ -185,6 +191,7 @@ class VersementFragment : Fragment() {
         val formatedDate = formatter.format(date)
 
         // get fireabse database instance
+        val currentUser =auth.currentUser
         val database = FirebaseDatabase.getInstance()
         val id:String= date.toString()
         var balance:Double?
@@ -194,8 +201,8 @@ class VersementFragment : Fragment() {
         hash_vrs.put(vrs.Id!!,vrs)
 
         if (cl!=null) {
-            val myRef = database.getReference("Clients/"+cl!!.Id+"/versements")
-            val clRef = database.getReference("Clients/"+cl!!.Id)
+            val myRef = database.getReference("Users/"+ currentUser!!.uid +"/Clients/"+cl!!.Id+"/versements")
+            val clRef = database.getReference("Users/"+ currentUser!!.uid +"/Clients/"+cl!!.Id)
 
             // add versement to firebase
             myRef.child(id).setValue(vrs)
@@ -216,8 +223,8 @@ class VersementFragment : Fragment() {
 
 
         }else if (fr!=null) {
-            val myRef = database.getReference("Fournisseurs/"+fr!!.Id+"/versements")
-            val frRef = database.getReference("Fournisseurs/"+fr!!.Id)
+            val myRef = database.getReference("Users/"+ currentUser!!.uid +"/Fournisseurs/"+fr!!.Id+"/versements")
+            val frRef = database.getReference("Users/"+ currentUser!!.uid +"/Fournisseurs/"+fr!!.Id)
 
             // add versement to firebase
             myRef.child(id).setValue(vrs)
@@ -255,7 +262,7 @@ class VersementFragment : Fragment() {
         for(v in trader.versements!!){
             display_list.add(v.value)
         }
-        view.rvVersements.adapter = VersementAdapter(requireContext(), display_list,trader,view)
+        view.rvVersements.adapter = VersementAdapter(requireContext(), display_list,trader,view,auth)
         view.rvVersements.adapter!!.notifyDataSetChanged()
 
         progdialog!!.hide()

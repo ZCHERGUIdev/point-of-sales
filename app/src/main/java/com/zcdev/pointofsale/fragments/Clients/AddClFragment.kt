@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.zcdev.pointofsale.R
 import com.zcdev.pointofsale.data.models.Client
@@ -21,6 +22,8 @@ class AddClFragment : Fragment(){
     var v:View?=null
     var id:String?=null
 
+    lateinit var auth: FirebaseAuth
+
     companion object{
         var INSTANCE=AddClFragment()
     }
@@ -31,6 +34,7 @@ class AddClFragment : Fragment(){
         //progressDialog setUp
         progdialog= ProgressDialog(requireContext())
         progdialog?.setMessage("Pleaze Wait...")
+        auth = FirebaseAuth.getInstance()
     }
 
 
@@ -75,11 +79,12 @@ class AddClFragment : Fragment(){
 
         id=name+phone // id need to be hached !!!
         // create new client
-        var cl:Client = Client(id!!,name,phone,email,address,null,"CL",reduction!!)
+        var cl = Client(id!!,name,phone,email,address,null,"CL",reduction!!)
 
         // get fireabse database instance
+        val currentUser =auth.currentUser
         val database = FirebaseDatabase.getInstance()
-        val myRef = database.getReference("Clients")
+        val myRef = database.getReference("Users/"+ currentUser!!.uid +"/Clients")
 
         // add client to firebase
         myRef.child(id!!).setValue(cl)

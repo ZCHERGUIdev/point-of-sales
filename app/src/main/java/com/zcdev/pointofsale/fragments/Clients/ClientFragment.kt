@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -28,6 +29,7 @@ class ClientFragment : Fragment() {
     var display_list: MutableList<Client> = ArrayList<Client>()
     //progressDialog
     var progdialog: ProgressDialog? = null
+    lateinit var auth: FirebaseAuth
 
     companion object{
         var INSTANCE= ClientFragment()
@@ -39,6 +41,7 @@ class ClientFragment : Fragment() {
         //progressDialog setUp
         progdialog= ProgressDialog(requireContext())
         progdialog?.setMessage("Pleaze Wait...")
+        auth = FirebaseAuth.getInstance()
 
 
         showClient()
@@ -67,8 +70,9 @@ class ClientFragment : Fragment() {
 
         //get clinets from firebase
         // read from db firebase ------------------------------------------------------------------
+        val currentUser =auth.currentUser
         val database = FirebaseDatabase.getInstance()
-        val myRef = database.getReference("Clients")
+        val myRef = database.getReference("Users/"+ currentUser!!.uid +"/Clients")
 
         //First retrieve your users datasnapshot.
         //Get datasnapshot at your "Clients" root node
@@ -138,7 +142,7 @@ class ClientFragment : Fragment() {
     fun setRecyclerFr(v:View):RecyclerView{
 
        v.rvClient.layoutManager = LinearLayoutManager(requireContext())
-        v.rvClient.adapter = ClientAdapter(requireContext(), display_list)
+        v.rvClient.adapter = ClientAdapter(requireContext(), display_list,auth)
         v.rvClient.setHasFixedSize(true)
         v.addClients.setOnClickListener{
             v!!.findNavController().navigate(R.id.action_clientFragment_to_addFragmentCl)

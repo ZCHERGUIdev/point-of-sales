@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.zcdev.pointofsale.R
 import com.zcdev.pointofsale.data.models.Fournisseur
@@ -17,6 +18,7 @@ class AddFrFragment : Fragment(){
     var progdialog: ProgressDialog? = null
     var v:View?=null
     var id:String?=null
+    lateinit var auth: FirebaseAuth
 
     companion object{
         var INSTANCE=AddFrFragment()
@@ -28,6 +30,8 @@ class AddFrFragment : Fragment(){
         //progressDialog setUp
         progdialog= ProgressDialog(requireContext())
         progdialog?.setMessage("Pleaze Wait...")
+
+        auth = FirebaseAuth.getInstance()
     }
 
 
@@ -74,8 +78,10 @@ class AddFrFragment : Fragment(){
         var fr = Fournisseur(id!!,name,phone,email,address,null,"FR")
 
         // get fireabse database instance
+
+        val currentUser =auth.currentUser
         val database = FirebaseDatabase.getInstance()
-        val myRef = database.getReference("Fournisseurs")
+        val myRef = database.getReference("Users/"+ currentUser!!.uid +"/Fournisseurs")
 
         // add product to firebase
         myRef.child(id!!).setValue(fr)

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.zcdev.pointofsale.R
 import com.zcdev.pointofsale.data.models.Client
@@ -18,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_versement.view.*
 import kotlinx.android.synthetic.main.vrs_viewcell.view.*
 
 
-class VersementAdapter(val c: Context, val versementList: MutableList<Versement>, val trader:Trader,val v:View) :
+class VersementAdapter(val c: Context, val versementList: MutableList<Versement>, val trader:Trader,val v:View, var auth:FirebaseAuth) :
     RecyclerView.Adapter<VersementAdapter.VersementViewHolder>(){
 
 
@@ -95,6 +96,7 @@ class VersementAdapter(val c: Context, val versementList: MutableList<Versement>
                 val vrs:Double? = versementList.get(position).montant
                 val newVrs:Double?= trader.sommeVrs!! - vrs!!
                 val balance:Double? = trader.balance!! - vrs
+                val currentUser =auth.currentUser
                 val ref = FirebaseDatabase.getInstance().reference
                 val database = FirebaseDatabase.getInstance()
                 var applesQuery:Query?=null
@@ -106,8 +108,8 @@ class VersementAdapter(val c: Context, val versementList: MutableList<Versement>
                 v.currentMoney.setText(trader.sommeVrs.toString())
 
                 if (trader.role.equals("CL")){
-                    applesQuery = ref.child("Clients/"+trader.Id+"/versements").orderByChild("id").equalTo(idVrs)
-                    val clRef = database.getReference("Clients/"+trader.Id)
+                    applesQuery = ref.child("Users/"+ currentUser!!.uid +"/Clients/"+trader.Id+"/versements").orderByChild("id").equalTo(idVrs)
+                    val clRef = database.getReference("Users/"+ currentUser!!.uid +"/Clients/"+trader.Id)
 
                     // update client somme vrs and vrsHash
                     clRef.child("sommeVrs").setValue(newVrs)
@@ -115,8 +117,8 @@ class VersementAdapter(val c: Context, val versementList: MutableList<Versement>
                     // update balance
                     clRef.child("balance").setValue(balance)
                 }else if(trader.role.equals("FR")){
-                    applesQuery = ref.child("Fournisseurs/"+trader.Id+"/versements").orderByChild("id").equalTo(idVrs)
-                    val frRef = database.getReference("Fournisseurs/"+trader.Id)
+                    applesQuery = ref.child("Users/"+ currentUser!!.uid +"/Fournisseurs/"+trader.Id+"/versements").orderByChild("id").equalTo(idVrs)
+                    val frRef = database.getReference("Users/"+ currentUser!!.uid +"/Fournisseurs/"+trader.Id)
 
                     // update fr somme vrs and vrsHash
                     frRef.child("sommeVrs").setValue(newVrs)

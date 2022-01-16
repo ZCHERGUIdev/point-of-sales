@@ -11,6 +11,7 @@ import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.zxing.integration.android.IntentIntegrator
@@ -44,6 +45,7 @@ class AddFragment : Fragment(){
 
 
     var v:View?=null
+    lateinit var auth: FirebaseAuth
 
     companion object{
         var INSTANCE=AddFragment()
@@ -55,6 +57,7 @@ class AddFragment : Fragment(){
         //progressDialog setUp
         progdialog= ProgressDialog(requireContext())
         progdialog?.setMessage("Pleaze Wait...")
+        auth = FirebaseAuth.getInstance()
 
 
     }
@@ -148,8 +151,9 @@ class AddFragment : Fragment(){
         var prd: Product = Product(name,barcode,desc,qnt,prixAchat,prixVente,imageLink!!)
 
         // get fireabse database instance
+        val currentUser =auth.currentUser
         val database = FirebaseDatabase.getInstance()
-        val myRef = database.getReference("Products")
+        val myRef = database.getReference("Users/"+ currentUser!!.uid +"/Products")
 
         // add product to firebase
         myRef.child(barcode).setValue(prd)

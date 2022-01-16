@@ -7,9 +7,13 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import com.zcdev.pointofsale.R
 import com.zcdev.pointofsale.activitys.MainActivity
+import com.zcdev.pointofsale.data.models.Product
+import com.zcdev.pointofsale.data.models.User
 import kotlinx.android.synthetic.main.activity_account.*
+import kotlinx.android.synthetic.main.fragment_add.view.*
 
 class AccountActivity : AppCompatActivity() {
     // Creating firebaseAuth object
@@ -22,8 +26,8 @@ class AccountActivity : AppCompatActivity() {
         supportActionBar!!.hide()
         // initialising Firebase auth object
         auth = FirebaseAuth.getInstance()
-        var user =auth.currentUser
         if (checkLoggedIn()){
+            writeUserData()
             startActivity(Intent(this,MainActivity::class.java))
         }
     }
@@ -57,6 +61,33 @@ class AccountActivity : AppCompatActivity() {
         }
         return false
     }
+
+    fun writeUserData() {
+        var currentUser =auth.currentUser
+
+        val name:String? = currentUser!!.displayName
+        val email:String? = currentUser!!.email
+
+
+        // The user's ID, unique to the Firebase project. Do NOT use this value to
+        // authenticate with your backend server, if you have one. Use
+        // FirebaseUser.getToken() instead.
+        val uid:String? = currentUser.uid
+
+        // create new user
+        var user = User(name!!,email!!,uid!!)
+
+        // get fireabse database instance
+        val database = FirebaseDatabase.getInstance()
+        val myRef = database.getReference("Users").child(currentUser!!.uid)
+
+
+        // add product to firebase
+        myRef.child("uid").setValue(user.uid!!)
+        myRef.child("email").setValue(user.email!!)
+    }
+
+
 
 
 }

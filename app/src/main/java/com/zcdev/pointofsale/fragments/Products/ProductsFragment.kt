@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.zxing.integration.android.IntentIntegrator
 import com.zcdev.pointofsale.R
@@ -34,6 +35,8 @@ class ProductsFragment : Fragment() {
     var tr: Boolean? = false
     var trType:String?=" "
 
+    lateinit var auth: FirebaseAuth
+
 
     companion object {
         var INSTANCE = ProductsFragment()
@@ -45,6 +48,8 @@ class ProductsFragment : Fragment() {
         //progressDialog setUp
         progdialog = ProgressDialog(requireContext())
         progdialog?.setMessage("Pleaze Wait...")
+
+        auth = FirebaseAuth.getInstance()
         showProducts()
 
 
@@ -79,7 +84,7 @@ class ProductsFragment : Fragment() {
 
     private fun setUpRecyclerView(v:View) {
         v.rvProduct.layoutManager = LinearLayoutManager(requireContext())
-        v.rvProduct.adapter = ProductAdapter(requireContext(), display_list, tr!!,trType!!, list_prod_tr)
+        v.rvProduct.adapter = ProductAdapter(requireContext(), display_list, tr!!,trType!!, list_prod_tr, auth)
         v.rvProduct.setHasFixedSize(true)
     }
 
@@ -89,8 +94,9 @@ class ProductsFragment : Fragment() {
         Log.d("show prod","Hello")
         //get products from firebase
         // read from db firebase ------------------------------------------------------------------
+        val currentUser =auth.currentUser
         val database = FirebaseDatabase.getInstance()
-        val myRef = database.getReference("Products")
+        val myRef = database.getReference("Users/"+ currentUser!!.uid +"/Products")
 
         //First retrieve your users datasnapshot.
         //Get datasnapshot at your "products" root node

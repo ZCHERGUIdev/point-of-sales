@@ -6,6 +6,7 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.Toast
 import androidx.navigation.findNavController
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.zcdev.pointofsale.R
 import com.zcdev.pointofsale.data.models.Client
@@ -23,6 +24,7 @@ class EditClFragment : Fragment() {
     var progdialog: ProgressDialog? = null
     var v:View?=null
     var id:String?=null
+    lateinit var auth : FirebaseAuth
 
 
     override fun onCreateView(
@@ -31,6 +33,7 @@ class EditClFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         v= inflater.inflate(R.layout.fragment_edit_cl, container, false)
+        auth = FirebaseAuth.getInstance()
 
 
         //receive data
@@ -79,8 +82,9 @@ class EditClFragment : Fragment() {
 
 
         // get fireabse database instance
+        val currentUser =auth.currentUser
         val database = FirebaseDatabase.getInstance()
-        val myRef = database.getReference("Clients").child(id!!)
+        val myRef = database.getReference("Users/"+ currentUser!!.uid +"/Clients").child(id!!)
 
         // update cl to firebase
         myRef.child("name").setValue(name)

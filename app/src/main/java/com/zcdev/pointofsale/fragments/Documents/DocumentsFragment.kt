@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.zcdev.pointofsale.R
 import com.zcdev.pointofsale.data.models.Transaction
@@ -35,6 +36,8 @@ class DocumentsFragment : Fragment() {
     //progressDialog
     var progdialog: ProgressDialog? = null
 
+    lateinit var auth: FirebaseAuth
+
 
     companion object {
         var INSTANCE = DocumentsFragment()
@@ -47,6 +50,7 @@ class DocumentsFragment : Fragment() {
         progdialog = ProgressDialog(requireContext())
         progdialog?.setMessage("Pleaze Wait...")
 
+        auth = FirebaseAuth.getInstance()
 
         showDocuments()
 
@@ -79,7 +83,7 @@ class DocumentsFragment : Fragment() {
 
     private fun setUpRecyclerView(view: View) {
         view.rvDocument.layoutManager = LinearLayoutManager(requireContext())
-        view.rvDocument.adapter = DocumentAdapter(requireContext(), display_list)
+        view.rvDocument.adapter = DocumentAdapter(requireContext(), display_list,auth)
         view.rvDocument.setHasFixedSize(true)
     }
 
@@ -88,8 +92,10 @@ class DocumentsFragment : Fragment() {
 
         //get products from firebase
         // read from db firebase ------------------------------------------------------------------
+
+        val currentUser =auth.currentUser
         val database = FirebaseDatabase.getInstance()
-        val myRef = database.getReference("Transactions")
+        val myRef = database.getReference("Users/"+ currentUser!!.uid +"/Transactions")
 
         //First retrieve your users datasnapshot.
         //Get datasnapshot at your "transactions" root node

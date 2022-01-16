@@ -10,13 +10,14 @@ import android.widget.*
 import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.zcdev.pointofsale.R
 import com.zcdev.pointofsale.data.models.Fournisseur
 import kotlinx.android.synthetic.main.fr_viewcell.view.*
 
 
-class FournisseurAdapter(val c: Context, val frList: MutableList<Fournisseur>) :
+class FournisseurAdapter(val c: Context, val frList: MutableList<Fournisseur>,var auth: FirebaseAuth) :
     RecyclerView.Adapter<FournisseurAdapter.FournisseurViewHolder>(){
 
 
@@ -110,9 +111,10 @@ class FournisseurAdapter(val c: Context, val frList: MutableList<Fournisseur>) :
         }
 
        private fun removeFr(frList: MutableList<Fournisseur>, position: Int){
+           val currentUser =auth.currentUser
             val frName:String  = frList.get(position).Name!!
             val ref = FirebaseDatabase.getInstance().reference
-            val applesQuery: Query = ref.child("Fournisseurs").orderByChild("name").equalTo(frName)
+            val applesQuery: Query = ref.child("Users/"+ currentUser!!.uid +"/Fournisseurs").orderByChild("name").equalTo(frName)
 
             applesQuery.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {

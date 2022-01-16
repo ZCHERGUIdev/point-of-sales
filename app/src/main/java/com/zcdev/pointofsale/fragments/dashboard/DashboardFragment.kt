@@ -11,6 +11,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -38,6 +39,7 @@ class dashboardFragment : Fragment() {
     var cDebt:Double?=0.0
     var nbprod:Int?=0
     var nbdocs:Int?=0
+    lateinit var auth: FirebaseAuth
 
 
     var v:View?=null
@@ -48,6 +50,7 @@ class dashboardFragment : Fragment() {
         progdialog?.setMessage("Pleaze Wait...")
         Toast.makeText(requireContext(), "Hello", Toast.LENGTH_SHORT).show()
        // mSwipeRefreshLayout!!.setOnRefreshListener(this)
+        auth = FirebaseAuth.getInstance()
 
     }
 
@@ -126,8 +129,9 @@ class dashboardFragment : Fragment() {
 
     private fun getStock(v: View){
         //get products from firebase
+        val currentUser =auth.currentUser
         val database = FirebaseDatabase.getInstance()
-        val myRef = database.getReference("Products")
+        val myRef = database.getReference("Users/"+ currentUser!!.uid +"/Products")
         var ttStockByProd = 0.0 // stock estimation
         var ttSPByProd = 0.0   // stock by sell price estimation
         progdialog?.show()
@@ -162,9 +166,10 @@ class dashboardFragment : Fragment() {
         var debtFR:Double?=0.0
 
             //get fournisseurs/clients from firebase
+            val currentUser =auth.currentUser
             val database = FirebaseDatabase.getInstance()
-            val frRef = database.getReference("Fournisseurs")
-            val clRef = database.getReference("Clients")
+            val frRef = database.getReference("Users/"+ currentUser!!.uid +"/Fournisseurs")
+            val clRef = database.getReference("Users/"+ currentUser!!.uid +"/Clients")
              progdialog?.show()
 
             //Get datasnapshot at your "Fournisseurs" root node
@@ -206,8 +211,9 @@ class dashboardFragment : Fragment() {
 
     private fun getDocs(v: View){
         //get docs from firebase
+        val currentUser =auth.currentUser
         val database = FirebaseDatabase.getInstance()
-        val myRef = database.getReference("Transactions")
+        val myRef = database.getReference("Users/"+ currentUser!!.uid +"/Transactions")
 
         progdialog?.show()
         //Get datasnapshot at your "transactions" root node

@@ -9,6 +9,7 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.Toast
 import androidx.navigation.findNavController
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
@@ -34,6 +35,8 @@ class EditFragment : Fragment() {
     var progdialog: ProgressDialog? = null
     var v:View?=null
 
+    lateinit var auth: FirebaseAuth
+
 
 
 
@@ -43,6 +46,9 @@ class EditFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         v= inflater.inflate(R.layout.fragment_edit, container, false)
+
+
+        auth = FirebaseAuth.getInstance()
 
         //receive data
         v!!.edtNameUpdate.setText(arguments?.getString("name"))
@@ -134,8 +140,11 @@ class EditFragment : Fragment() {
 
 
         // get fireabse database instance
+
+        val currentUser =auth.currentUser
         val database = FirebaseDatabase.getInstance()
-        val myRef = database.getReference("Products")
+        val myRef = database.getReference(
+                "Users/"+ currentUser!!.uid +"/Products")
 
         // update product in firebase
         myRef.child(barcode).setValue(prd).addOnSuccessListener{

@@ -12,6 +12,7 @@ import android.widget.LinearLayout
 import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
 import com.zcdev.pointofsale.R
@@ -20,7 +21,7 @@ import kotlinx.android.synthetic.main.prod_viewcelll.view.*
 import java.util.*
 
 
-class ProductAdapter(val c: Context, val productList: MutableList<Product>, val tr: Boolean,val trType:String, val pr_tr_list: MutableList<Product>) :
+class ProductAdapter(val c: Context, val productList: MutableList<Product>, val tr: Boolean,val trType:String, val pr_tr_list: MutableList<Product>,var auth:FirebaseAuth) :
     RecyclerView.Adapter<ProductAdapter.ProductViewHolder>(){
 
 
@@ -119,9 +120,10 @@ class ProductAdapter(val c: Context, val productList: MutableList<Product>, val 
         }
 
         private fun removeProd(productList: MutableList<Product>, position: Int){
+            val currentUser =auth.currentUser
             val prdCode:String  = productList.get(position).productCode!!
             val ref = FirebaseDatabase.getInstance().reference
-            val applesQuery: Query = ref.child("Products").orderByChild("productCode").equalTo(prdCode)
+            val applesQuery: Query = ref.child("Users/"+ currentUser!!.uid +"/Products").orderByChild("productCode").equalTo(prdCode)
 
             applesQuery.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
