@@ -1,11 +1,21 @@
 package com.zcdev.pointofsale.fragments.Transaction
 
 import android.app.AlertDialog
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
+import android.print.PrintAttributes
 import android.text.InputType
+import android.util.Log
 import android.view.*
 import android.widget.ArrayAdapter
 import android.widget.EditText
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -13,20 +23,26 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.uttampanchasara.pdfgenerator.CreatePdf
 import com.zcdev.pointofsale.R
 import com.zcdev.pointofsale.data.models.*
 import com.zcdev.pointofsale.fragments.Fournisseur.Adapters.TransactionAdapter
 import kotlinx.android.synthetic.main.fragment_transaction.*
 import kotlinx.android.synthetic.main.fragment_transaction.view.*
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
 
 class TransactionFragment : Fragment() {
+    private val ACCESS_EXTERNAL_STORAGE_PERMISSION_ID = 222
+    var permissionCheckReadExternalStorage = PackageManager.PERMISSION_DENIED
+    var permissionCheckWriteExternalStorage = PackageManager.PERMISSION_DENIED
 
     var v:View?=null
     var trType:String?=""
+    var totalPrice:String?=""
     var arrayAdapter:ArrayAdapter<String>? =null
     var display_list: MutableList<Product> = ArrayList<Product>()
     var ttprice:Double?=0.0
@@ -67,6 +83,7 @@ class TransactionFragment : Fragment() {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestStoragePermissions()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -80,7 +97,7 @@ class TransactionFragment : Fragment() {
 
         rvProducts.layoutManager = LinearLayoutManager(context)
         rvProducts.setHasFixedSize(true)
-
+         totalPrice=v!!.totalprice.text.toString()
         v!!.addProduct.setOnClickListener{
 
 //-----------------------------------------add product to transaction-------------------------------------------
@@ -115,9 +132,63 @@ class TransactionFragment : Fragment() {
             addTransaction(display_list, v!!.autoCompleteTextView.text.toString())
 
             findNavController().navigate(R.id.action_transactionFragment_to_dashboardFragment)
+        }else if (item.itemId == R.id.iprint){
+            Toast.makeText(this.context, "done ", Toast.LENGTH_SHORT).show()
+            doPrint()
         }
         return super.onOptionsItemSelected(item)
     }
+
+    private fun doPrint() {
+        var num=(0..1000).random()
+        CreatePdf(requireContext())
+            .setPdfName("Ticket"+num.toString())
+            .setContentBaseUrl("")
+            .setPageSize(PrintAttributes.MediaSize.ISO_A6)
+            .setFilePath(Environment.getExternalStorageDirectory().absolutePath + "/Tickets")
+            .setContent(
+           """" <center class="ticket">
+        <img
+         src="https://firebasestorage.googleapis.com/v0/b/gstock-6e8e2.appspot.com/o/logo.png?alt=media&token=7270e439-f710-4436-94a0-6e72abb3181e" alt="Logo"  width="90" 
+     height="90">
+       <table>
+        <thead>
+        <tr>
+        <th class="quantity">Q.</th>
+        <th class="description">Description</th>
+        <th class="price">DA</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+        <td class="quantity">${display_list[0].productQnt}</td>
+        <td class="description">${display_list[0].productDesc}</td>
+        <td class="price">${display_list[0].prixVente} DA</td>
+        </tr>
+        <tr>
+        <td class="quantity">${display_list.size}</td>
+        <td class="description">TOTAL</td>
+        <td class="price">${totalprice.text} DZD</td>
+        </tr>
+        </tbody>
+        </table>
+        <p class="centered">Thanks ${autoCompleteTextView.text} for your purchase!
+        <br>Stock Genius</p>
+        </center>"""
+            )
+            .setCallbackListener(object : CreatePdf.PdfCallbackListener {
+                override fun onFailure(errorMsg: String) {
+                    Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onSuccess(filePath: String) {
+                    Toast.makeText(requireContext(), "Pdf Saved at: $filePath", Toast.LENGTH_SHORT).show()
+                }
+            })
+            .create()
+    }
+
+
 
 
     private fun versementDialogue(trader: String) {
@@ -319,8 +390,10 @@ class TransactionFragment : Fragment() {
                     var balance:Double  = cl!!.balance!! - sortie.prixTotal!!
 
                     val myRef = database.getReference("Users/"+ currentUser!!.uid +"/Clients/" + cl!!.Id)
+
                     //// update balance of trader -----------------------------------------------------
                     myRef.child("balance").setValue(balance)
+
                 }
                 override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
 
@@ -362,6 +435,42 @@ class TransactionFragment : Fragment() {
                 override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
                 override fun onCancelled(error: DatabaseError) {}
             })
+        }
+    }
+
+
+
+    private fun requestStoragePermissions() {
+        permissionCheckWriteExternalStorage =
+            ActivityCompat.checkSelfPermission(requireContext(),android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        permissionCheckReadExternalStorage =
+            ActivityCompat.checkSelfPermission(requireContext(),android.Manifest.permission.READ_EXTERNAL_STORAGE)
+        if (permissionCheckWriteExternalStorage != PackageManager.PERMISSION_GRANTED
+            || permissionCheckReadExternalStorage != PackageManager.PERMISSION_GRANTED
+        ) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    requireActivity(),
+                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+                )
+                || ActivityCompat.shouldShowRequestPermissionRationale(
+                    requireActivity(),
+                    android.Manifest.permission.READ_EXTERNAL_STORAGE
+                )
+            ) {
+                Toast.makeText(
+                    requireContext(),
+                    "Please provide permission to access the external storage... I need to save the contacts photos",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(
+                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    android.Manifest.permission.READ_EXTERNAL_STORAGE
+                ),
+                ACCESS_EXTERNAL_STORAGE_PERMISSION_ID
+            )
         }
     }
 

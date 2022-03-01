@@ -8,5 +8,11 @@
         android:icon="@drawable/ic_check"
         android:iconTint="@color/white"
         app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/iprint"
+        android:title="@string/add"
+        android:icon="@drawable/ic_baseline_print_24"
+        android:iconTint="@color/white"
+        app:showAsAction="ifRoom"/>
 
 </menu>

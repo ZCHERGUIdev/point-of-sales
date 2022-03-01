@@ -98,6 +98,9 @@ dependencies {
     //picasso load img from url
     implementation 'com.squareup.picasso:picasso:2.5.2'
 
+    //pdf creator
+    implementation 'com.uttampanchasara.pdfgenerator:pdfgenerator:1.3'
+
 
 
 
