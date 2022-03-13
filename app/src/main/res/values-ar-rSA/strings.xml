@@ -15,4 +15,49 @@
     <string name="add">أضف</string>
     <string name="search">بحث</string>
     <string name="edit">تعديل</string>
+    <string name="stock_esitmation">تقدير المخزون</string>
+    <string name="in_sell_price">في سعر البيع</string>
+    <string name="credit_fournisseurs">موردي الائتمان</string>
+    <string name="credit_clients">ائتمان العميل</string>
+    <string name="email">البريد الإلكتروني</string>
+    <string name="password">كلمة المرور</string>
+    <string name="login">تسجيل الدخول</string>
+    <string name="sign_up">تسجيل</string>
+    <string name="name">الاسم</string>
+    <string name="barcode">الرمز الشريطي</string>
+    <string name="desciption">الوصف</string>
+    <string name="quantit">الكمية</string>
+    <string name="prix_achat">سعر الشراء</string>
+    <string name="prix_vente">سعر البيع</string>
+    <string name="Phone_number">رقم الهاتف</string>
+    <string name="address">العنوان</string>
+    <string name="email_address">البريد الالكنروني</string>
+    <string name="reduction">Reduction %</string>
+    <string name="version">الإصدار</string>
+    <string name="who_we_are">من نحن?</string>
+    <string name="why_we_do">ماذا نفعل?</string>
+    <string name="dzd">دج</string>
+    <string name="add_expenses">أضف المصاريف</string>
+     <string name="add_products">اضف منتج</string>
+    <string name="clinet_fournisseur">مزود/العميل</string>
+    <string name="dashboard">لوحة التحكم</string>
+    <string name="documnets">المستندات</string>
+    <string name="fragment_settings">الإعدادات</string>
+    <string name="fragment_help">مساعدة</string>
+    <string name="fragment_contact">جهة اتصال</string>
+    <string name="Edit_Product">تعديل على المنتج</string>
+    <string name="fragment_client">العميل</string>
+    <string name="editCl">تعديل</string>
+    <string name="AddCl">إضافة</string>
+    <string name="fragment_forni">مورد</string>
+    <string name="editFr">تعديل</string>
+    <string name="AddFr">إضافة</string>
+    <string name="fragment_transaction">المعاملات</string>
+    <string name="fragment_versement">دفع</string>
+
+
+
+
+
+
 </resources>

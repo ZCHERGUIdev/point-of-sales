@@ -34,7 +34,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:hint="Name"
+                    android:hint="@string/name"
                     app:hintEnabled="true">
                     <EditText
                         android:id="@+id/edtNameUpdate"
@@ -60,7 +60,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:hint="Phone number"
+                        android:hint="@string/Phone_number"
                         app:hintEnabled="true">
 
                         <EditText
@@ -88,7 +88,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:layout_centerVertical="true"
-                    android:hint="Address"
+                    android:hint="@string/address"
                     app:hintEnabled="true">
 
                     <EditText
@@ -112,7 +112,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:hint="Email Address"
+                        android:hint="@string/email_address"
                         app:hintEnabled="true">
 
                         <EditText

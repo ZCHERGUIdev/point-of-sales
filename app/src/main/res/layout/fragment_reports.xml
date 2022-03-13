@@ -47,7 +47,7 @@
                         android:textSize="20sp"
                         android:textColor="@android:color/black"
                         android:layout_marginEnd="10dp"
-                        android:text="Credit Fournisseurs" />
+                        android:text="@string/credit_fournisseurs" />
 
 
                 </LinearLayout>
@@ -89,7 +89,7 @@
                         android:textSize="20sp"
                         android:textColor="@android:color/black"
                         android:layout_marginEnd="10dp"
-                        android:text="Stock Estimation" />
+                        android:text="@string/stock_esitmation" />
 
 
                 </LinearLayout>
@@ -113,26 +113,28 @@
                     android:padding="4dp"
                     android:src="@drawable/ic_credit_no"
                     />
+
                 <LinearLayout
                     android:id="@+id/llLanguage"
-                    android:layout_toEndOf="@id/icLanguage"
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="10dp"
                     android:layout_alignBottom="@id/icLanguage"
-                    android:layout_gravity="center_vertical">
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@id/icLanguage"
+                    android:orientation="horizontal">
+
                     <TextView
                         android:id="@+id/txtCreditClient"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="10dp"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
-                        android:layout_gravity="center_vertical"
-                        android:textSize="20sp"
+                        android:text="@string/credit_clients"
                         android:textColor="@android:color/black"
-                        android:layout_marginEnd="10dp"
-                        android:text="Credit Client" />
+                        android:textSize="20sp" />
 
 
                 </LinearLayout>

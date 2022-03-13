@@ -66,7 +66,7 @@
                         android:ellipsize="end"
                         android:gravity="center"
                         android:maxLines="1"
-                        android:text="Products"
+                        android:text="@string/products"
                         android:textColor="@color/white"
                         android:textSize="@dimen/main_menu_font_size" />
 
@@ -112,7 +112,7 @@
                         android:ellipsize="end"
                         android:gravity="center"
                         android:maxLines="1"
-                        android:text="Documents"
+                        android:text="@string/documents"
                         android:textColor="@color/white"
                         android:textSize="@dimen/main_menu_font_size" />
 
@@ -270,7 +270,7 @@
                         android:ellipsize="end"
                         android:gravity="center"
                         android:maxLines="1"
-                        android:text="Expenses"
+                        android:text="@string/expenses"
                         android:textColor="@color/white"
                         android:textSize="@dimen/main_menu_font_size" />
                 </LinearLayout>
@@ -415,7 +415,7 @@
                         android:ellipsize="end"
                         android:gravity="center"
                         android:maxLines="1"
-                        android:text="Reports"
+                        android:text="@string/reports"
                         android:textColor="@color/white"
                         android:textSize="@dimen/main_menu_font_size" />
                 </LinearLayout>
@@ -458,7 +458,7 @@
                         android:gravity="center"
                         android:maxLines="1"
                         android:paddingTop="4dp"
-                        android:text="Stock Esitmation"
+                        android:text="@string/stock_esitmation"
                         android:textColor="@color/white"
                         android:textSize="@dimen/main_menu_font_size" />
 
@@ -491,7 +491,7 @@
                             android:layout_marginRight="15dp"
                             android:ellipsize="end"
                             android:maxLines="1"
-                            android:text="DZD"
+                            android:text="@string/dzd"
                             android:textStyle="bold"
                             android:textColor="@color/white"
                             app:layout_constraintStart_toStartOf="parent"
@@ -505,7 +505,7 @@
                         android:ellipsize="end"
                         android:gravity="center"
                         android:maxLines="1"
-                        android:text="In Sell Price"
+                        android:text="@string/in_sell_price"
                         android:textColor="@color/white"
                         android:textSize="@dimen/main_menu_font_size" />
 
@@ -537,7 +537,7 @@
                             android:layout_marginRight="15dp"
                             android:ellipsize="end"
                             android:maxLines="1"
-                            android:text="DZD"
+                            android:text="@string/dzd"
                             android:textStyle="bold"
                             android:textColor="@color/white"
                             app:layout_constraintStart_toStartOf="parent"
@@ -575,7 +575,7 @@
                         android:ellipsize="end"
                         android:gravity="center"
                         android:maxLines="1"
-                        android:text="Credit Fournisseurs"
+                        android:text="@string/credit_fournisseurs"
                         android:paddingTop="4dp"
                         android:textColor="@color/white"
                         android:textSize="@dimen/main_menu_font_size" />
@@ -608,7 +608,7 @@
                             android:layout_marginRight="15dp"
                             android:ellipsize="end"
                             android:maxLines="1"
-                            android:text="DZD"
+                            android:text="@string/dzd"
                             android:textStyle="bold"
                             android:textColor="@color/white"
                             app:layout_constraintStart_toStartOf="parent"
@@ -622,7 +622,7 @@
                         android:ellipsize="end"
                         android:gravity="center"
                         android:maxLines="1"
-                        android:text="Credit Clients"
+                        android:text="@string/credit_clients"
                         android:textColor="@color/white"
                         android:textSize="@dimen/main_menu_font_size" />
 
@@ -655,7 +655,7 @@
                         android:layout_marginRight="15dp"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:text="DZD"
+                        android:text="@string/dzd"
                         android:textStyle="bold"
                         android:textColor="@color/white"
                         app:layout_constraintStart_toStartOf="parent"

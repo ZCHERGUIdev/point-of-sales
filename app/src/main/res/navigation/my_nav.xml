@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/dashboardFragment"
         android:name="com.zcdev.pointofsale.fragments.dashboard.dashboardFragment"
-        android:label="Dashboard"
+        android:label="@string/dashboard"
         tools:layout="@layout/fragment_dashboard" >
         <action
             android:id="@+id/action_dashboardFragment_to_documentsFragment"
@@ -44,7 +44,7 @@
     <fragment
         android:id="@+id/fragment_doc"
         android:name="com.zcdev.pointofsale.fragments.Documents.DocumentsFragment"
-        android:label="Documents"
+        android:label="@string/documnets"
         tools:layout="@layout/fragment_doc" >
         <action
             android:id="@+id/action_documentsFragment_to_dashboardFragment"
@@ -57,7 +57,7 @@
     <fragment
         android:id="@+id/expensesFragment"
         android:name="com.zcdev.pointofsale.fragments.Expenses.ExpensesFragment"
-        android:label="Expenses"
+        android:label="@string/expenses"
         tools:layout="@layout/fragment_expenses" >
         <action
             android:id="@+id/action_expensesFragment_to_dashboardFragment"
@@ -66,7 +66,7 @@
     <fragment
         android:id="@+id/reportsFragment"
         android:name="com.zcdev.pointofsale.fragments.Reports.ReportsFragment"
-        android:label="Reports"
+        android:label="@string/reports"
         tools:layout="@layout/fragment_reports" >
         <action
             android:id="@+id/action_reportsFragment_to_dashboardFragment"
@@ -75,7 +75,7 @@
     <fragment
         android:id="@+id/productsFragment"
         android:name="com.zcdev.pointofsale.fragments.Products.ProductsFragment"
-        android:label="Products"
+        android:label="@string/products"
         tools:layout="@layout/fragment_products" >
         <action
             android:id="@+id/action_productsFragment_to_dashboardFragment"
@@ -93,7 +93,7 @@
     <fragment
         android:id="@+id/addFragment"
         android:name="com.zcdev.pointofsale.fragments.Products.AddFragment"
-        android:label="Add Product"
+        android:label="@string/add_products"
         tools:layout="@layout/fragment_add" >
         <action
             android:id="@+id/action_addFragment_to_productsFragment"
@@ -105,7 +105,7 @@
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.zcdev.pointofsale.fragments.Settings.SettingsFragment"
-        android:label="fragment_settings"
+        android:label="@string/fragment_settings"
         tools:layout="@layout/fragment_settings" >
         <action
             android:id="@+id/action_settingsFragment_to_dashboardFragment"
@@ -114,7 +114,7 @@
     <fragment
         android:id="@+id/helpFragment"
         android:name="com.zcdev.pointofsale.fragments.help.HelpFragment"
-        android:label="fragment_help"
+        android:label="@string/fragment_help"
         tools:layout="@layout/fragment_help" >
         <action
             android:id="@+id/action_helpFragment_to_dashboardFragment"
@@ -123,7 +123,7 @@
     <fragment
         android:id="@+id/contactFragment"
         android:name="com.zcdev.pointofsale.fragments.contact.ContactFragment"
-        android:label="fragment_contact"
+        android:label="@string/fragment_contact"
         tools:layout="@layout/fragment_contact" >
         <action
             android:id="@+id/action_contactFragment_to_dashboardFragment"
@@ -132,7 +132,7 @@
     <fragment
         android:id="@+id/editFragment"
         android:name="com.zcdev.pointofsale.fragments.Products.EditFragment"
-        android:label="Edit Product"
+        android:label="@string/Edit_Product"
         tools:layout="@layout/fragment_edit" >
         <action
             android:id="@+id/action_editFragment_to_productsFragment"
@@ -144,7 +144,7 @@
     <fragment
         android:id="@+id/clientFragment"
         android:name="com.zcdev.pointofsale.fragments.Clients.ClientFragment"
-        android:label="fragment_client"
+        android:label="@string/fragment_client"
         tools:layout="@layout/fragment_client" >
         <action
             android:id="@+id/action_clientFragment_to_dashboardFragment"
@@ -159,7 +159,7 @@
     <fragment
         android:id="@+id/editFragmentCl"
         android:name="com.zcdev.pointofsale.fragments.Clients.EditClFragment"
-        android:label="editCl"
+        android:label="@string/editCl"
         tools:layout="@layout/fragment_edit_cl" >
         <action
             android:id="@+id/action_editFragmentCl_to_clientFragment"
@@ -168,7 +168,7 @@
     <fragment
         android:id="@+id/addFragmentCl"
         android:name="com.zcdev.pointofsale.fragments.Clients.AddClFragment"
-        android:label="AddCl"
+        android:label="@string/AddCl"
         tools:layout="@layout/fragment_add_cl" >
         <action
             android:id="@+id/action_addFragmentCl_to_clientsFragment"
@@ -177,7 +177,7 @@
     <fragment
         android:id="@+id/fournisseurFragment"
         android:name="com.zcdev.pointofsale.fragments.Fournisseur.FournisseurFragment"
-        android:label="fragment_forni"
+        android:label="@string/fragment_forni"
         tools:layout="@layout/fragment_fournisseur">
         <action
             android:id="@+id/action_customersFragment_to_dashboardFragment"
@@ -192,7 +192,7 @@
     <fragment
         android:id="@+id/editFragmentFr"
         android:name="com.zcdev.pointofsale.fragments.Fournisseur.EditFrFragment"
-        android:label="editFr"
+        android:label="@string/editFr"
         tools:layout="@layout/fragment_edit_fr" >
         <action
             android:id="@+id/action_editFragmentFr_to_fournisseurFragment"
@@ -201,7 +201,7 @@
     <fragment
         android:id="@+id/addFragmentFr"
         android:name="com.zcdev.pointofsale.fragments.Fournisseur.AddFrFragment"
-        android:label="AddFr"
+        android:label="@string/AddFr"
         tools:layout="@layout/fragment_add_fr" >
         <action
             android:id="@+id/action_addFragmentFr_to_fournisseurFragment"
@@ -210,7 +210,7 @@
     <fragment
         android:id="@+id/transactionFragment"
         android:name="com.zcdev.pointofsale.fragments.Transaction.TransactionFragment"
-        android:label="fragment_transaction"
+        android:label="@string/fragment_transaction"
         tools:layout="@layout/fragment_transaction">
         <action
             android:id="@+id/action_transactionFragment_to_dashboardFragment"
@@ -222,7 +222,7 @@
     <fragment
         android:id="@+id/versementFragment"
         android:name="com.zcdev.pointofsale.fragments.Versements.VersementFragment"
-        android:label="fragment_versement"
+        android:label="@string/fragment_versement"
         tools:layout="@layout/fragment_versement">
 
         <action

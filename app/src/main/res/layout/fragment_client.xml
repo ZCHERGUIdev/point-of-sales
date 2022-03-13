@@ -15,7 +15,6 @@
         android:clipToPadding="false"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-
         tools:listitem="@layout/cl_viewcell"
         />
 

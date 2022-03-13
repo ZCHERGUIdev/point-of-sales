@@ -3,9 +3,32 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/ADMIN/Desktop/clone/point-of-sales/app/src/main/res/layout/activity_account.xml" value="0.175" />
+        <entry key="..\:/Users/ADMIN/Desktop/clone/point-of-sales/app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="..\:/Users/ADMIN/Desktop/clone/point-of-sales/app/src/main/res/layout/activity_splach.xml" value="0.1" />
+        <entry key="..\:/Users/ADMIN/Desktop/clone/point-of-sales/app/src/main/res/layout/activity_user_type.xml" value="0.1" />
+        <entry key="..\:/Users/ADMIN/Desktop/clone/point-of-sales/app/src/main/res/layout/cl_viewcell.xml" value="0.1" />
+        <entry key="..\:/Users/ADMIN/Desktop/clone/point-of-sales/app/src/main/res/layout/doc_viewcell.xml" value="0.175" />
+        <entry key="..\:/Users/ADMIN/Desktop/clone/point-of-sales/app/src/main/res/layout/document_view_cell.xml" value="0.175" />
+        <entry key="..\:/Users/ADMIN/Desktop/clone/point-of-sales/app/src/main/res/layout/dropdown_item.xml" value="0.1" />
+        <entry key="..\:/Users/ADMIN/Desktop/clone/point-of-sales/app/src/main/res/layout/fragment_add.xml" value="0.175" />
+        <entry key="..\:/Users/ADMIN/Desktop/clone/point-of-sales/app/src/main/res/layout/fragment_add_cl.xml" value="0.209375" />
+        <entry key="..\:/Users/ADMIN/Desktop/clone/point-of-sales/app/src/main/res/layout/fragment_add_fr.xml" value="0.209375" />
+        <entry key="..\:/Users/ADMIN/Desktop/clone/point-of-sales/app/src/main/res/layout/fragment_client.xml" value="0.175" />
+        <entry key="..\:/Users/ADMIN/Desktop/clone/point-of-sales/app/src/main/res/layout/fragment_contact.xml" value="0.25" />
         <entry key="..\:/Users/ADMIN/Desktop/clone/point-of-sales/app/src/main/res/layout/fragment_dashboard.xml" value="0.209375" />
-        <entry key="..\:/Users/ADMIN/Desktop/clone/point-of-sales/app/src/main/res/layout/fragment_transaction.xml" value="0.33" />
+        <entry key="..\:/Users/ADMIN/Desktop/clone/point-of-sales/app/src/main/res/layout/fragment_doc.xml" value="0.175" />
+        <entry key="..\:/Users/ADMIN/Desktop/clone/point-of-sales/app/src/main/res/layout/fragment_edit.xml" value="0.175" />
+        <entry key="..\:/Users/ADMIN/Desktop/clone/point-of-sales/app/src/main/res/layout/fragment_edit_cl.xml" value="0.175" />
+        <entry key="..\:/Users/ADMIN/Desktop/clone/point-of-sales/app/src/main/res/layout/fragment_edit_fr.xml" value="0.209375" />
+        <entry key="..\:/Users/ADMIN/Desktop/clone/point-of-sales/app/src/main/res/layout/fragment_expenses.xml" value="0.175" />
+        <entry key="..\:/Users/ADMIN/Desktop/clone/point-of-sales/app/src/main/res/layout/fragment_fournisseur.xml" value="0.175" />
+        <entry key="..\:/Users/ADMIN/Desktop/clone/point-of-sales/app/src/main/res/layout/fragment_help.xml" value="0.175" />
+        <entry key="..\:/Users/ADMIN/Desktop/clone/point-of-sales/app/src/main/res/layout/fragment_products.xml" value="0.175" />
+        <entry key="..\:/Users/ADMIN/Desktop/clone/point-of-sales/app/src/main/res/layout/fragment_reports.xml" value="0.175" />
+        <entry key="..\:/Users/ADMIN/Desktop/clone/point-of-sales/app/src/main/res/layout/fragment_settings.xml" value="0.16574074074074074" />
+        <entry key="..\:/Users/ADMIN/Desktop/clone/point-of-sales/app/src/main/res/layout/fragment_transaction.xml" value="0.22" />
+        <entry key="..\:/Users/ADMIN/Desktop/clone/point-of-sales/app/src/main/res/layout/fragment_versement.xml" value="0.175" />
         <entry key="..\:/Users/ADMIN/Desktop/clone/point-of-sales/app/src/main/res/menu/add_product_menu.xml" value="0.209375" />
       </map>
     </option>

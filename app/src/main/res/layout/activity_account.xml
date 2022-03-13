@@ -24,7 +24,7 @@
         android:id="@+id/ilEmail"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:hint="Email"
+        android:hint="@string/email"
         android:layout_below="@+id/imageLoginLogo"
         app:hintEnabled="true">
         <EditText
@@ -43,7 +43,7 @@
         android:id="@+id/ilPassword"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:hint="Password"
+        android:hint="@string/password"
         android:layout_below="@+id/ilEmail"
         app:hintEnabled="true">
 
@@ -71,8 +71,8 @@
         android:layout_below="@id/ilPassword"
         android:layout_marginTop="10dp"
         android:backgroundTint="@color/ColorBrand2"
-        android:text="LogIn"
         android:onClick="login"
+        android:text="@string/login"
         android:textColor="@color/white"
         android:textSize="20sp" />
 
@@ -84,7 +84,7 @@
             android:layout_marginTop="20sp"
             android:gravity="center"
             android:textColor="@color/ColorBrandTxtColor"
-            android:text="Sign Up"
+            android:text="@string/sign_up"
             android:enabled="false"
             android:onClick="signUp"
             android:textAlignment="center"

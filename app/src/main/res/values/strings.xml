@@ -15,4 +15,48 @@
     <string name="about">About</string>
     <string name="language">Language</string>
     <string name="share">Share</string>
+    <string name="stock_esitmation">Stock Esitmation</string>
+    <string name="in_sell_price">In Sell Price</string>
+    <string name="credit_fournisseurs">Credit Fournisseurs</string>
+    <string name="credit_clients">Credit Clients</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">LogIn</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="name">Name</string>
+    <string name="barcode">Barcode</string>
+    <string name="desciption">Desciption</string>
+    <string name="quantit">Amount</string>
+    <string name="prix_achat">Buying price</string>
+    <string name="prix_vente">Sell price</string>
+    <string name="Phone_number">Phone number</string>
+    <string name="address">Address</string>
+    <string name="email_address">Email Address</string>
+    <string name="reduction">Reduction %</string>
+    <string name="version">Version</string>
+    <string name="who_we_are">Who we are?</string>
+    <string name="why_we_do">Why we do?</string>
+    <string name="dzd">DZD</string>
+    <string name="add_expenses">Add expenses</string>
+    <string name="add_products">Add Products</string>
+    <string name="clinet_fournisseur">Clinet/Fournisseur</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="documnets">Documents</string>
+    <string name="fragment_settings">Settings</string>
+    <string name="fragment_help">Help</string>
+    <string name="fragment_contact">Contact</string>
+    <string name="Edit_Product">Edit Product</string>
+    <string name="fragment_client">Client</string>
+    <string name="editCl">edit Cl</string>
+    <string name="AddCl">Add Cl</string>
+    <string name="fragment_forni">fournisseur</string>
+    <string name="editFr">edit Fr</string>
+    <string name="AddFr">Add Fr</string>
+    <string name="fragment_transaction">Transaction</string>
+    <string name="fragment_versement">Payment</string>
+
+
+
+
+
 </resources>

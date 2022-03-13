@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toStartOf="@id/btnTovarBarcode"
-                android:hint="Name"
+                android:hint="@string/name"
                 app:hintEnabled="true">
                 <EditText
                     android:id="@+id/edtName"
@@ -61,7 +61,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toStartOf="@id/btnTovarBarcode"
-                    android:hint="Barcode"
+                    android:hint="@string/barcode"
                     app:hintEnabled="true">
 
                     <EditText
@@ -91,7 +91,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_centerVertical="true"
                 android:layout_toStartOf="@id/btnTovarBarcode"
-                android:hint="Desciption"
+                android:hint="@string/desciption"
                 app:hintEnabled="true">
 
                 <EditText
@@ -115,7 +115,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:hint="Quantité"
+                    android:hint="@string/quantit"
                     app:hintEnabled="true">
 
                     <EditText
@@ -142,7 +142,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:hint="Prix Achat"
+                    android:hint="@string/prix_achat"
                     app:hintEnabled="true">
 
                     <EditText
@@ -161,7 +161,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:hint="Prix Vente"
+                    android:hint="@string/prix_vente"
                     app:hintEnabled="true">
 
                     <EditText

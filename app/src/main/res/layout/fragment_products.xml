@@ -47,7 +47,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Add Products"
+                android:text="@string/add_products"
                 android:visibility="gone"
                 android:textAppearance="?android:textAppearanceLarge"
                 android:textColor="@color/black" />
